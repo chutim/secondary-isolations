@@ -1,23 +1,24 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import logo from "./logo.svg";
+import "./App.css";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+    <div className="home">
+      <header className="home-header">
+        <h3>Secondary Isolations Calculations Tool</h3>
+        <h5>
+          For{" "}
+          <a
+            className="miltenyi-link"
+            href="https://www.miltenyibiotec.com/US-en/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Miltenyi Biotec
+          </a>{" "}
+          Kits
+        </h5>
       </header>
     </div>
   );
