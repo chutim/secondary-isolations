@@ -29,7 +29,9 @@ class Home extends Component {
         </header>
         <div className="home-container-species-buttons">
           {this.state.buttons.map(button => (
-            <button className="species-button">{button}</button>
+            <LinkButton to="/kits" className="species-button">
+              {button}
+            </LinkButton>
           ))}
         </div>
 

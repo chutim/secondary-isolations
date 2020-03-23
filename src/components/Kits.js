@@ -1,5 +1,6 @@
-//the Kits component lists all positive & negative kits for the selected species, and allows user to add kits to the Table, to edit/create kits, and to go to the Table. the number of kits currently in the Table is displayed.
+//the Kits component lists all positive & negative kits for the selected species, and allows user to add kits to the Table, to edit/create kits, to go Home, and to go to the Table. the number of kits currently in the Table is displayed.
 import React, { Component } from "react";
+import LinkButton from "./LinkButton.jsx";
 import "./Kits.css";
 
 class Kits extends Component {
@@ -21,6 +22,9 @@ class Kits extends Component {
         >
           decrement
         </button>
+        <LinkButton to="/" className="kits-home-button">
+          Home
+        </LinkButton>
       </div>
     );
   }
