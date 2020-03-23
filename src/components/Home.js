@@ -1,5 +1,6 @@
 //the Home component contains links to different species' kits and a link to the Table component, which also displays how many current kits are in the Table.
 import React, { Component } from "react";
+import LinkButton from "./LinkButton.jsx";
 import "./Home.css";
 
 //********************include function to add species
@@ -32,9 +33,10 @@ class Home extends Component {
             <button className="species-button">{button}</button>
           ))}
         </div>
-        <button className="home-table-button">
+
+        <LinkButton to="/table" className="home-table-button">
           Table &#40;{this.state.tableRows} Kits&#41;
-        </button>
+        </LinkButton>
       </div>
     );
   }
