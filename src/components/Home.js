@@ -6,8 +6,7 @@ import "./Home.css";
 //********************include function to add species
 class Home extends Component {
   state = {
-    buttons: ["Human", "Non-Human Primate", "Mouse", "Rat", "Dog", "Rabbit"],
-    tableRows: 3
+    buttons: ["Human", "Non-Human Primate", "Mouse", "Rat", "Dog", "Rabbit"]
   };
 
   render() {
@@ -35,7 +34,7 @@ class Home extends Component {
         </div>
 
         <LinkButton to="/table" className="home-table-button">
-          Table &#40;{this.state.tableRows} Kits&#41;
+          Table &#40;{this.props.tableRows} Kits&#41;
         </LinkButton>
       </div>
     );

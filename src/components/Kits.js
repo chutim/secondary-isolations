@@ -4,7 +4,25 @@ import "./Kits.css";
 
 class Kits extends Component {
   render() {
-    return <div>kits</div>;
+    return (
+      <div>
+        <div>kits</div>
+        <button
+          onClick={() => {
+            this.props.functionModifyRows("increment");
+          }}
+        >
+          increment
+        </button>
+        <button
+          onClick={() => {
+            this.props.functionModifyRows("decrement");
+          }}
+        >
+          decrement
+        </button>
+      </div>
+    );
   }
 }
 export default Kits;
