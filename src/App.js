@@ -37,6 +37,7 @@ class App extends Component {
                 {...props}
                 currentSpecies={this.state.currentSpecies}
                 functionModifyRows={this.functionModifyRows}
+                tableRows={this.state.tableRows}
               />
             )}
           ></Route>

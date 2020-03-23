@@ -8,7 +8,7 @@ class Table extends Component {
     return (
       <div>
         <div>table</div>
-        <LinkButton to="/" className="kits-home-button">
+        <LinkButton to="/" className="nav-button kits-home-button">
           Home
         </LinkButton>
       </div>

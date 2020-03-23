@@ -38,10 +38,11 @@ class Home extends Component {
             </LinkButton>
           ))}
         </div>
-
-        <LinkButton to="/table" className="home-table-button">
-          Table &#40;{this.props.tableRows} Kits&#41;
-        </LinkButton>
+        <footer>
+          <LinkButton to="/table" className="nav-button table-button">
+            Table &#40;{this.props.tableRows} Kits&#41;
+          </LinkButton>
+        </footer>
       </div>
     );
   }

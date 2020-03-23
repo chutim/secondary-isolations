@@ -52,18 +52,3 @@
   outline: none;
   box-shadow: 0px 0px 10px #01b0db;
 }
-
-.home-table-button {
-  font-size: calc(10px + 2vmin);
-  position: fixed;
-  bottom: 5vh;
-  min-width: 15vw;
-  border-radius: 100vw;
-  padding: 2vw;
-  background-color: #01b0db;
-}
-
-.home-table-button:focus {
-  outline: none;
-  box-shadow: 0px 0px 10px #01b0db;
-}
