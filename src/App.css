@@ -1,7 +1,3 @@
-.home {
-  text-align: center;
-}
-
 /* .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -11,22 +7,6 @@
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
   }
-}
-
-.home-header {
-  background-color: #ffffff;
-  min-height: 30vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: #000000;
-}
-
-.miltenyi-link {
-  color: #37138c;
-  text-decoration: none;
 }
 
 @keyframes App-logo-spin {
