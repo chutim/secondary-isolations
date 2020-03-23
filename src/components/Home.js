@@ -13,7 +13,7 @@ class Home extends Component {
     return (
       <div className="home">
         <header className="home-header">
-          <h3 className="home-title">Secondary Isolation Calculator</h3>
+          <h3 className="page-title">Secondary Isolation Calculator</h3>
           <h5 className="home-subtitle">
             For{" "}
             <a
@@ -29,7 +29,11 @@ class Home extends Component {
         </header>
         <div className="home-container-species-buttons">
           {this.state.buttons.map(button => (
-            <LinkButton to="/kits" className="species-button">
+            <LinkButton
+              to="/kits"
+              className="species-button"
+              onClick={() => this.props.functionSelectSpecies(button)}
+            >
               {button}
             </LinkButton>
           ))}

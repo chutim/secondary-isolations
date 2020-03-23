@@ -9,16 +9,21 @@ class App extends Component {
     super();
     this.state = {
       tableRows: 0,
-      currentSpecies: ""
+      currentSpecies: "No Species Selected"
     };
     this.functionModifyRows = this.functionModifyRows.bind(this);
+    this.functionSelectSpecies = this.functionSelectSpecies.bind(this);
   }
 
   functionModifyRows = modification => {
     if (modification === "increment")
       this.setState({ tableRows: this.state.tableRows + 1 });
-    if (modification === "decrement")
+    if (modification === "decrement" && this.state.tableRows > 0)
       this.setState({ tableRows: this.state.tableRows - 1 });
+  };
+
+  functionSelectSpecies = species => {
+    this.setState({ currentSpecies: species });
   };
 
   render() {
@@ -40,7 +45,11 @@ class App extends Component {
             path="/"
             exact={true}
             render={props => (
-              <Home {...props} tableRows={this.state.tableRows} />
+              <Home
+                {...props}
+                tableRows={this.state.tableRows}
+                functionSelectSpecies={this.functionSelectSpecies}
+              />
             )}
           ></Route>
         </Switch>

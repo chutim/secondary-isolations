@@ -25,7 +25,7 @@
 }
 
 /* ----------------TEXT---------------- */
-.home-title {
+.page-title {
   margin-bottom: 0;
 }
 
@@ -45,6 +45,7 @@
   padding: 2vw;
   min-width: 15vw;
   border-radius: 100vw;
+  background-color: #f5f5dc;
 }
 
 .species-button:focus {

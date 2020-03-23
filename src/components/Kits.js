@@ -7,7 +7,9 @@ class Kits extends Component {
   render() {
     return (
       <div>
-        <div>kits</div>
+        <header>
+          <h3 className="page-title">{this.props.currentSpecies}</h3>
+        </header>
         <button
           onClick={() => {
             this.props.functionModifyRows("increment");
@@ -24,6 +26,9 @@ class Kits extends Component {
         </button>
         <LinkButton to="/" className="kits-home-button">
           Home
+        </LinkButton>
+        <LinkButton to="/table" className="home-table-button">
+          Table &#40;{this.props.tableRows} Kits&#41;
         </LinkButton>
       </div>
     );
