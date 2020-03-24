@@ -39,13 +39,7 @@ class App extends Component {
       this.setState({ tableKitIDs });
       //if the kit quantity is increased to 1, add its data to the tableKitData array
       if (tableKitIDs[kitID] === 1) {
-        const kitData = this.fetchKitData(kitID);
-        const dataObject = {
-          [kitID]: kitData
-        };
-        this.setState({
-          tableKitData: [...this.state.tableKitData, dataObject]
-        });
+        this.addKitData(kitID);
       }
     }
     if (modification === "remove") {
@@ -56,11 +50,27 @@ class App extends Component {
       this.setState({ tableKitIDs });
       //if the kit quantity is zero, remove its data from the tableKitData array
       if (!tableKitIDs[kitID]) {
-        const tableKitData = this.state.tableKitData;
-        // const filteredKitData = tableKitData.filter(kit => kit)
-        // this.setState({ tableKitData: filteredKitData });
+        this.removeKitData(kitID);
       }
     }
+  };
+
+  addKitData = kitID => {
+    const kitData = this.fetchKitData(kitID);
+    const dataObject = {
+      [kitID]: kitData
+    };
+    this.setState({
+      tableKitData: [...this.state.tableKitData, dataObject]
+    });
+  };
+
+  removeKitData = kitID => {
+    const tableKitData = this.state.tableKitData;
+    const filteredKitData = tableKitData.filter(
+      kit => !kit.hasOwnProperty(kitID)
+    );
+    this.setState({ tableKitData: filteredKitData });
   };
 
   fetchKitData = kitID => {
@@ -79,6 +89,7 @@ class App extends Component {
       ],
       washes: "3 x 3"
     };
+    return kitData;
   };
 
   clearTable = () => {
