@@ -10,24 +10,22 @@ class Table extends Component {
         <header>
           <h3 className="page-title">Table</h3>
         </header>
-        <LinkButton to="/" className="nav-button home-button">
-          Home
-        </LinkButton>
+
+        <footer>
+          <button
+            className="nav-button clear-table-button"
+            onClick={() => {
+              this.props.clearTable();
+            }}
+          >
+            Clear Table
+          </button>
+          <LinkButton to="/" className="nav-button home-button">
+            Home
+          </LinkButton>
+        </footer>
       </div>
     );
   }
 }
 export default Table;
-
-// id: "130-096-537",
-// name: "Pan Monocyte Isolation Kit",
-//         constants: [
-//           { "Buffer (µL)": 40 },
-//           { "FcR Blocking Reagent (µL)": 10 },
-//           { "Biotin-Antibody Cocktail (µL)": 10 },
-//           { "Incubation (min)": 5 },
-//           { "Buffer (µL)": 30 },
-//           { "Anti-Biotin Microbeads (µL)": 20 },
-//           { "Incubation (min)": 10 }
-//         ],
-//         washes: "3 x 3"

@@ -16,6 +16,8 @@ class App extends Component {
     this.modifyRows = this.modifyRows.bind(this);
     this.selectSpecies = this.selectSpecies.bind(this);
     this.updateTable = this.updateTable.bind(this);
+    this.fetchKitData = this.fetchKitData.bind(this);
+    this.clearTable = this.clearTable.bind(this);
   }
 
   modifyRows = modification => {
@@ -35,6 +37,16 @@ class App extends Component {
       this.modifyRows(modification);
       tableKitIDs[kitID] = (tableKitIDs[kitID] || 0) + 1;
       this.setState({ tableKitIDs });
+      //if the kit quantity is increased to 1, add its data to the tableKitData array
+      if (tableKitIDs[kitID] === 1) {
+        const kitData = this.fetchKitData(kitID);
+        const dataObject = {
+          [kitID]: kitData
+        };
+        this.setState({
+          tableKitData: [...this.state.tableKitData, dataObject]
+        });
+      }
     }
     if (modification === "remove") {
       if (tableKitIDs[kitID]) {
@@ -42,7 +54,35 @@ class App extends Component {
         tableKitIDs[kitID]--;
       }
       this.setState({ tableKitIDs });
+      //if the kit quantity is zero, remove its data from the tableKitData array
+      if (!tableKitIDs[kitID]) {
+        const tableKitData = this.state.tableKitData;
+        // const filteredKitData = tableKitData.filter(kit => kit)
+        // this.setState({ tableKitData: filteredKitData });
+      }
     }
+  };
+
+  fetchKitData = kitID => {
+    //fetch from DB based on kitID
+    const kitData = {
+      id: "130-096-537",
+      name: "Pan Monocyte Isolation Kit",
+      constants: [
+        { "Buffer (µL)": 40 },
+        { "FcR Blocking Reagent (µL)": 10 },
+        { "Biotin-Antibody Cocktail (µL)": 10 },
+        { "Incubation (min)": 5 },
+        { "Buffer (µL)": 30 },
+        { "Anti-Biotin Microbeads (µL)": 20 },
+        { "Incubation (min)": 10 }
+      ],
+      washes: "3 x 3"
+    };
+  };
+
+  clearTable = () => {
+    this.setState({ tableRows: 0, tableKitIDs: {}, tableKitData: [] });
   };
 
   render() {
@@ -66,8 +106,10 @@ class App extends Component {
             render={props => (
               <Table
                 {...props}
-                updateTable={this.updateTable}
                 tableKitIDs={this.state.tableKitIDs}
+                tableKitData={this.state.tableKitData}
+                updateTable={this.updateTable}
+                clearTable={this.clearTable}
               />
             )}
           ></Route>
