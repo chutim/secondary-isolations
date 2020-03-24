@@ -25,10 +25,9 @@ class Table extends Component {
   arrayifyKitData = kitDataHash => {
     let arrayedKitData = [];
     for (let groupSpecies in kitDataHash) {
-      const groupObj = {
-        [groupSpecies]: kitDataHash[groupSpecies]
-      };
-      arrayedKitData.push(groupObj);
+      const groupArray = [groupSpecies, kitDataHash[groupSpecies]];
+      arrayedKitData.push(groupArray);
+      console.log("grouparray", groupArray);
     }
     this.setState({ arrayedKitData });
   };
@@ -42,10 +41,12 @@ class Table extends Component {
 
         <div className="groups-container">
           {/* generate a new table group for each species */}
-          {this.state.arrayedKitData.map(species => (
-            <div className="tables-container" key={species}>
-              <div className="species-name">{Object.keys(species)}</div>
-              <table></table>
+          {this.state.arrayedKitData.map(speciesGroup => (
+            <div className="tables-container" key={speciesGroup[0]}>
+              {/* NOTE the key may cause problems */}
+              <div className="species-name">{speciesGroup[0]}</div>
+              {/* generate a table for each kit in the species group */}
+              {/* {speciesGroup} */}
             </div>
           ))}
         </div>
