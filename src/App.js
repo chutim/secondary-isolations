@@ -9,21 +9,35 @@ class App extends Component {
     super();
     this.state = {
       tableRows: 0,
-      currentSpecies: "No Species Selected"
+      currentSpecies: "No Species Selected",
+      tableKitIDs: {},
+      tableKitData: []
     };
-    this.functionModifyRows = this.functionModifyRows.bind(this);
-    this.functionSelectSpecies = this.functionSelectSpecies.bind(this);
+    this.modifyRows = this.modifyRows.bind(this);
+    this.selectSpecies = this.selectSpecies.bind(this);
+    this.updateTable = this.updateTable.bind(this);
   }
 
-  functionModifyRows = modification => {
-    if (modification === "increment")
+  modifyRows = modification => {
+    if (modification === "increase")
       this.setState({ tableRows: this.state.tableRows + 1 });
-    if (modification === "decrement" && this.state.tableRows > 0)
+    else if (modification === "decrease" && this.state.tableRows > 0)
       this.setState({ tableRows: this.state.tableRows - 1 });
   };
 
-  functionSelectSpecies = species => {
+  selectSpecies = species => {
     this.setState({ currentSpecies: species });
+  };
+
+  updateTable = (modification, kitID) => {
+    let tableKitIDs = this.state.tableKitIDs;
+    if (modification === "increase") {
+      tableKitIDs[kitID] = (tableKitIDs[kitID] || 0) + 1;
+      this.setState({ tableKitIDs });
+    } else if (modification === "decrease") {
+      tableKitIDs[kitID] = (tableKitIDs[kitID] || 1) - 1;
+      this.setState({ tableKitIDs });
+    }
   };
 
   render() {
@@ -36,12 +50,18 @@ class App extends Component {
               <Kits
                 {...props}
                 currentSpecies={this.state.currentSpecies}
-                functionModifyRows={this.functionModifyRows}
+                modifyRows={this.modifyRows}
                 tableRows={this.state.tableRows}
+                updateTable={this.updateTable}
               />
             )}
           ></Route>
-          <Route path="/table" render={props => <Table {...props} />}></Route>
+          <Route
+            path="/table"
+            render={props => (
+              <Table {...props} updateTable={this.updateTable} />
+            )}
+          ></Route>
           <Route
             path="/"
             exact={true}
@@ -49,7 +69,7 @@ class App extends Component {
               <Home
                 {...props}
                 tableRows={this.state.tableRows}
-                functionSelectSpecies={this.functionSelectSpecies}
+                selectSpecies={this.selectSpecies}
               />
             )}
           ></Route>
