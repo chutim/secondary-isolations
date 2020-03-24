@@ -19,9 +19,9 @@ class App extends Component {
   }
 
   modifyRows = modification => {
-    if (modification === "increase")
+    if (modification === "add")
       this.setState({ tableRows: this.state.tableRows + 1 });
-    else if (modification === "decrease" && this.state.tableRows > 0)
+    else if (modification === "remove" && this.state.tableRows > 0)
       this.setState({ tableRows: this.state.tableRows - 1 });
   };
 
@@ -31,17 +31,16 @@ class App extends Component {
 
   updateTable = (modification, kitID) => {
     let tableKitIDs = this.state.tableKitIDs;
-    if (modification === "increase") {
+    if (modification === "add") {
       this.modifyRows(modification);
       tableKitIDs[kitID] = (tableKitIDs[kitID] || 0) + 1;
       this.setState({ tableKitIDs });
     }
-    if (modification === "decrease") {
+    if (modification === "remove") {
       if (tableKitIDs[kitID]) {
         this.modifyRows(modification);
         tableKitIDs[kitID]--;
       }
-      // tableKitIDs[kitID] = (tableKitIDs[kitID] || 1) - 1;
       this.setState({ tableKitIDs });
     }
 

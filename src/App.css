@@ -19,6 +19,17 @@
 }
 
 /* ----------------CONTAINERS--------------- */
+header {
+  background-color: #dfdfdf;
+  min-height: 30vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: #000000;
+}
+
 footer {
   bottom: 0;
 }

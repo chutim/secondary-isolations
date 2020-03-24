@@ -1,11 +1,29 @@
 /* ----------------CONTAINERS--------------- */
-.section-positive-selection {
+.kits {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  align-items: center;
+}
+
+.kits-body {
+  display: flex;
+}
+
+.kit-section {
   display: flex;
   flex-direction: column;
 }
 
+.section-positive-selection {
+  background-color: lightgreen;
+}
+
+.section-negative-selection {
+  background-color: pink;
+}
+
 .kit-options-container {
-  background-color: rgb(147, 165, 42);
   display: flex;
 }
 

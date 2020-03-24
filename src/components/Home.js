@@ -12,7 +12,7 @@ class Home extends Component {
   render() {
     return (
       <div className="home">
-        <header className="home-header">
+        <header>
           <h3 className="page-title">Secondary Isolation Calculator</h3>
           <h5 className="home-subtitle">
             For{" "}
