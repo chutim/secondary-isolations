@@ -17,6 +17,7 @@ class Kits extends Component {
     //these will be fetched from the db
     const positiveKits = ["130-050-201"];
     const negativeKits = ["130-096-537", "130-096-533"];
+
     this.setState({ positiveKits, negativeKits });
   };
 
@@ -34,20 +35,53 @@ class Kits extends Component {
         <header>
           <h3 className="page-title">{this.state.currentSpecies}</h3>
         </header>
-        <button
-          onClick={() => {
-            this.props.modifyRows("increase");
-          }}
-        >
-          increase
-        </button>
-        <button
-          onClick={() => {
-            this.props.modifyRows("decrease");
-          }}
-        >
-          decrease
-        </button>
+        <div className="section-positive-selection">
+          {this.state.positiveKits.map(kitID => (
+            <div className="kit-options-container">
+              <div>{kitID}</div>
+              <button
+                className="kit-options-button kit-add-button"
+                onClick={() => {
+                  this.addKit(kitID);
+                }}
+              >
+                Increase
+              </button>
+              <button
+                className="kit-options-button kit-remove-button"
+                onClick={() => {
+                  this.removeKit(kitID);
+                }}
+              >
+                Decrease
+              </button>
+            </div>
+          ))}
+        </div>
+        <div className="section-negative-selection">
+          {this.state.negativeKits.map(kitID => (
+            <div className="kit-options-container">
+              <div>{kitID}</div>
+              <button
+                className="kit-options-button kit-add-button"
+                onClick={() => {
+                  this.addKit(kitID);
+                }}
+              >
+                Increase
+              </button>
+              <button
+                className="kit-options-button kit-remove-button"
+                onClick={() => {
+                  this.removeKit(kitID);
+                }}
+              >
+                Decrease
+              </button>
+            </div>
+          ))}
+        </div>
+
         <footer>
           <LinkButton to="/" className="nav-button kits-home-button">
             Home

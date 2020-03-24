@@ -1,5 +1,27 @@
 /* ----------------CONTAINERS--------------- */
+.section-positive-selection {
+  display: flex;
+  flex-direction: column;
+}
+
+.kit-options-container {
+  background-color: rgb(147, 165, 42);
+  display: flex;
+}
 
 /* ----------------TEXT---------------- */
 
 /* --------------BUTTONS--------------- */
+.kit-options-button {
+  font-size: calc(10px + 1vmin);
+  padding: 1vw;
+  margin: 1vw;
+}
+
+.kit-add-button {
+  background-color: green;
+}
+
+.kit-remove-button {
+  background-color: red;
+}
