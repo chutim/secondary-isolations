@@ -1,12 +1,15 @@
 /* ----------------CONTAINERS--------------- */
 .kits-body {
   display: flex;
+  justify-content: space-between;
+  width: 100%;
 }
 
 .kit-section {
   display: flex;
   flex-direction: column;
-  width: ;
+  width: 50%;
+  padding: 3%;
 }
 
 .section-positive-selection {
@@ -21,20 +24,36 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  background-color: rgb(202, 202, 202);
+  padding: 3%;
+}
+
+.kit-name-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .kit-options-container {
   display: flex;
   align-items: center;
+  width: calc(140px + 1vmin);
+  justify-content: space-between;
 }
 
 /* ----------------TEXT---------------- */
+.kit-section-title {
+  font-size: calc(10px + 2vmin);
+}
+
+.kit-count {
+  color: rgb(68, 0, 255);
+}
 
 /* --------------BUTTONS--------------- */
 .kit-options-button {
   font-size: calc(10px + 1vmin);
   text-align: center;
-  margin: 1vw;
   height: calc(40px + 1vmin);
   width: calc(40px + 1vmin);
 }

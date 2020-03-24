@@ -32,11 +32,12 @@ class Kits extends Component {
         </header>
         <div className="kits-body">
           <div className="kit-section section-positive-selection">
-            <h5>Positive Selection</h5>
+            <h5 className="kit-section-title">Positive Selection</h5>
             {this.state.positiveKits.map(kit => (
               <div className="kit-info-container" key={kit.id}>
-                <div>
-                  <b>{kit.name}</b> {kit.id}
+                <div className="kit-name-container">
+                  <b>{kit.name}</b>
+                  <div>{kit.id}</div>
                 </div>
                 <div className="kit-options-container">
                   <button
@@ -47,7 +48,9 @@ class Kits extends Component {
                   >
                     <b>+</b>
                   </button>
-                  <div>{this.props.tableKitIDs[kit.id] || 0}</div>
+                  <div className="kit-count">
+                    {this.props.tableKitIDs[kit.id] || 0}
+                  </div>
                   <button
                     className="kit-options-button kit-remove-button"
                     onClick={() => {
@@ -61,11 +64,12 @@ class Kits extends Component {
             ))}
           </div>
           <div className="kit-section section-negative-selection">
-            <h5>Negative Selection</h5>
+            <h5 className="kit-section-title">Negative Selection</h5>
             {this.state.negativeKits.map(kit => (
               <div className="kit-info-container" key={kit.id}>
-                <div>
-                  <b>{kit.name}</b> {kit.id}
+                <div className="kit-name-container">
+                  <b>{kit.name}</b>
+                  <div>{kit.id}</div>
                 </div>
                 <div className="kit-options-container">
                   <button
@@ -76,7 +80,9 @@ class Kits extends Component {
                   >
                     <b>+</b>
                   </button>
-                  <div>{this.props.tableKitIDs[kit.id] || 0}</div>
+                  <div className="kit-count">
+                    {this.props.tableKitIDs[kit.id] || 0}
+                  </div>
                   <button
                     className="kit-options-button kit-remove-button"
                     onClick={() => {
