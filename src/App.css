@@ -19,6 +19,18 @@
 }
 
 /* ----------------CONTAINERS--------------- */
+#root {
+  width: 1000px;
+  margin: auto;
+}
+
+.page {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  align-items: center;
+}
+
 header {
   background-color: #dfdfdf;
   min-height: 30vh;

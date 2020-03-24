@@ -43,13 +43,11 @@ class App extends Component {
       }
       this.setState({ tableKitIDs });
     }
-
-    console.log(this.state.tableKitIDs);
   };
 
   render() {
     return (
-      <Router>
+      <Router className="main">
         <Switch>
           <Route
             path="/kits"
@@ -58,6 +56,7 @@ class App extends Component {
                 {...props}
                 currentSpecies={this.state.currentSpecies}
                 tableRows={this.state.tableRows}
+                tableKitIDs={this.state.tableKitIDs}
                 updateTable={this.updateTable}
               />
             )}

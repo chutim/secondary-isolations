@@ -11,7 +11,7 @@ class Home extends Component {
 
   render() {
     return (
-      <div className="home">
+      <div className="page">
         <header>
           <h3 className="page-title">Secondary Isolation Calculator</h3>
           <h5 className="home-subtitle">

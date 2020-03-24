@@ -6,7 +6,7 @@ import "./Table.css";
 class Table extends Component {
   render() {
     return (
-      <div className="table">
+      <div className="page">
         <header>
           <h3 className="page-title">Table</h3>
         </header>
