@@ -65,7 +65,11 @@ class App extends Component {
           <Route
             path="/table"
             render={props => (
-              <Table {...props} updateTable={this.updateTable} />
+              <Table
+                {...props}
+                updateTable={this.updateTable}
+                tableKitIDs={this.state.tableKitIDs}
+              />
             )}
           ></Route>
           <Route

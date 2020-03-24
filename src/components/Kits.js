@@ -15,8 +15,11 @@ class Kits extends Component {
 
   componentDidMount = () => {
     //these will be fetched from the db
-    const positiveKits = ["130-050-201"];
-    const negativeKits = ["130-096-537", "130-096-533"];
+    const positiveKits = [{ id: "130-050-201", name: "CD14 Microbeads" }];
+    const negativeKits = [
+      { id: "130-096-537", name: "Pan Monocyte Isolation Kit" },
+      { id: "130-096-533", name: "CD4 T Cell Isolation Kit" }
+    ];
 
     this.setState({ positiveKits, negativeKits });
   };
@@ -30,13 +33,15 @@ class Kits extends Component {
         <div className="kits-body">
           <div className="kit-section section-positive-selection">
             <h5>Positive Selection</h5>
-            {this.state.positiveKits.map(kitID => (
-              <div className="kit-options-container" key={kitID}>
-                <div>{kitID}</div>
+            {this.state.positiveKits.map(kit => (
+              <div className="kit-options-container" key={kit.id}>
+                <div>
+                  <b>{kit.name}</b> {kit.id}
+                </div>
                 <button
                   className="kit-options-button kit-add-button"
                   onClick={() => {
-                    this.props.updateTable("add", kitID);
+                    this.props.updateTable("add", kit.id);
                   }}
                 >
                   Add
@@ -44,7 +49,7 @@ class Kits extends Component {
                 <button
                   className="kit-options-button kit-remove-button"
                   onClick={() => {
-                    this.props.updateTable("remove", kitID);
+                    this.props.updateTable("remove", kit.id);
                   }}
                 >
                   Remove
@@ -54,13 +59,15 @@ class Kits extends Component {
           </div>
           <div className="kit-section section-negative-selection">
             <h5>Negative Selection</h5>
-            {this.state.negativeKits.map(kitID => (
-              <div className="kit-options-container" key={kitID}>
-                <div>{kitID}</div>
+            {this.state.negativeKits.map(kit => (
+              <div className="kit-options-container" key={kit.id}>
+                <div>
+                  <b>{kit.name}</b> {kit.id}
+                </div>
                 <button
                   className="kit-options-button kit-add-button"
                   onClick={() => {
-                    this.props.updateTable("add", kitID);
+                    this.props.updateTable("add", kit.id);
                   }}
                 >
                   Add
@@ -68,7 +75,7 @@ class Kits extends Component {
                 <button
                   className="kit-options-button kit-remove-button"
                   onClick={() => {
-                    this.props.updateTable("remove", kitID);
+                    this.props.updateTable("remove", kit.id);
                   }}
                 >
                   Remove
@@ -79,7 +86,7 @@ class Kits extends Component {
         </div>
 
         <footer>
-          <LinkButton to="/" className="nav-button kits-home-button">
+          <LinkButton to="/" className="nav-button home-button">
             Home
           </LinkButton>
           <LinkButton to="/table" className="nav-button table-button">

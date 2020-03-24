@@ -10,7 +10,7 @@ class Table extends Component {
         <header>
           <h3 className="page-title">Table</h3>
         </header>
-        <LinkButton to="/" className="nav-button kits-home-button">
+        <LinkButton to="/" className="nav-button home-button">
           Home
         </LinkButton>
       </div>
