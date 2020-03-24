@@ -41,8 +41,8 @@ class App extends Component {
       if (tableKitIDs[kitID] === 1) {
         this.addKitData(kitID);
       }
-    }
-    if (modification === "remove") {
+      console.log("App.js state:", this.state);
+    } else if (modification === "remove") {
       if (tableKitIDs[kitID]) {
         this.modifyRows(modification);
         tableKitIDs[kitID]--;
@@ -57,19 +57,14 @@ class App extends Component {
 
   addKitData = kitID => {
     const kitData = this.fetchKitData(kitID);
-    const dataObject = {
-      [kitID]: kitData
-    };
     this.setState({
-      tableKitData: [...this.state.tableKitData, dataObject]
+      tableKitData: [...this.state.tableKitData, kitData]
     });
   };
 
   removeKitData = kitID => {
     const tableKitData = this.state.tableKitData;
-    const filteredKitData = tableKitData.filter(
-      kit => !kit.hasOwnProperty(kitID)
-    );
+    const filteredKitData = tableKitData.filter(kit => kit.id !== kitID);
     this.setState({ tableKitData: filteredKitData });
   };
 
@@ -78,6 +73,7 @@ class App extends Component {
     const kitData = {
       id: "130-096-537",
       name: "Pan Monocyte Isolation Kit",
+      species: "Human",
       constants: [
         { "Buffer (µL)": 40 },
         { "FcR Blocking Reagent (µL)": 10 },

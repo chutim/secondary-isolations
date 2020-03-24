@@ -14,7 +14,7 @@ class Kits extends Component {
   }
 
   componentDidMount = () => {
-    //these will be fetched from the db
+    //these will be fetched from the db. consider fetching the entire kit data to be passed up to App.js. therefore only one read from the db total, as opposed to once here and once again in App.js when a new kit is added
     const positiveKits = [{ id: "130-050-201", name: "CD14 Microbeads" }];
     const negativeKits = [
       { id: "130-096-537", name: "Pan Monocyte Isolation Kit" },
