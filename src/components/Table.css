@@ -5,7 +5,9 @@
 .tables-container {
 }
 /* ----------------TEXT---------------- */
-
+.species-name {
+  font-size: calc(10px + 2vmin);
+}
 /* --------------BUTTONS--------------- */
 .clear-table-button {
   background-color: red;
