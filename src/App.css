@@ -49,6 +49,13 @@ footer {
   width: 100vw;
 }
 
+table,
+th,
+td {
+  border: 3px solid rgb(136, 136, 255);
+  border-collapse: collapse;
+}
+
 /* ----------------TEXT---------------- */
 
 /* --------------BUTTONS--------------- */

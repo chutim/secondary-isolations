@@ -27,7 +27,6 @@ class Table extends Component {
     for (let groupSpecies in kitDataHash) {
       const groupArray = [groupSpecies, kitDataHash[groupSpecies]];
       arrayedKitData.push(groupArray);
-      console.log("grouparray", groupArray);
     }
     this.setState({ arrayedKitData });
   };
@@ -43,10 +42,50 @@ class Table extends Component {
           {/* generate a new table group for each species */}
           {this.state.arrayedKitData.map(speciesGroup => (
             <div className="tables-container" key={speciesGroup[0]}>
-              {/* NOTE the key may cause problems */}
               <div className="species-name">{speciesGroup[0]}</div>
               {/* generate a table for each kit in the species group */}
-              {/* {speciesGroup} */}
+              {speciesGroup[1].map(kit => (
+                <table className="kit-table" key={kit.id}>
+                  <thead>
+                    <tr>
+                      <th
+                        className="kit-table-subtitle"
+                        colSpan={kit.constants.length + 2}
+                      >
+                        {kit.name}: {kit.id}
+                      </th>
+                    </tr>
+                    <tr>
+                      <th>Sample ID</th>
+                      <th>Cell Count</th>
+                      {/* using idx for the keys because constants can repeat */}
+                      {kit.constants.map((constant, idx) => (
+                        <th key={idx}>{constant[0]}</th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <input></input>
+                      </td>
+                      <td>
+                        <input></input>
+                      </td>
+                      {kit.constants.map((constant, idx) => {
+                        if (
+                          constant[0].includes("(min)") ||
+                          constant[0].includes("Washes")
+                        ) {
+                          return <td key={idx}>{constant[1]}</td>;
+                        }
+
+                        return <td key={idx}>{constant[1]}</td>;
+                      })}
+                    </tr>
+                  </tbody>
+                </table>
+              ))}
             </div>
           ))}
         </div>
