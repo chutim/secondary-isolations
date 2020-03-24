@@ -29,8 +29,9 @@ class Kits extends Component {
         </header>
         <div className="kits-body">
           <div className="kit-section section-positive-selection">
+            <h5>Positive Selection</h5>
             {this.state.positiveKits.map(kitID => (
-              <div className="kit-options-container">
+              <div className="kit-options-container" key={kitID}>
                 <div>{kitID}</div>
                 <button
                   className="kit-options-button kit-add-button"
@@ -52,8 +53,9 @@ class Kits extends Component {
             ))}
           </div>
           <div className="kit-section section-negative-selection">
+            <h5>Negative Selection</h5>
             {this.state.negativeKits.map(kitID => (
-              <div className="kit-options-container">
+              <div className="kit-options-container" key={kitID}>
                 <div>{kitID}</div>
                 <button
                   className="kit-options-button kit-add-button"
@@ -89,16 +91,3 @@ class Kits extends Component {
   }
 }
 export default Kits;
-
-// id: "130-096-537",
-// name: "Pan Monocyte Isolation Kit",
-//         constants: [
-//           { "Buffer (µL)": 40 },
-//           { "FcR Blocking Reagent (µL)": 10 },
-//           { "Biotin-Antibody Cocktail (µL)": 10 },
-//           { "Incubation (min)": 5 },
-//           { "Buffer (µL)": 30 },
-//           { "Anti-Biotin Microbeads (µL)": 20 },
-//           { "Incubation (min)": 10 }
-//         ],
-//         washes: "3 x 3"

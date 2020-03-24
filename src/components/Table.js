@@ -6,8 +6,10 @@ import "./Table.css";
 class Table extends Component {
   render() {
     return (
-      <div>
-        <div>table</div>
+      <div className="table">
+        <header>
+          <h3 className="page-title">Table</h3>
+        </header>
         <LinkButton to="/" className="nav-button kits-home-button">
           Home
         </LinkButton>
@@ -16,3 +18,16 @@ class Table extends Component {
   }
 }
 export default Table;
+
+// id: "130-096-537",
+// name: "Pan Monocyte Isolation Kit",
+//         constants: [
+//           { "Buffer (µL)": 40 },
+//           { "FcR Blocking Reagent (µL)": 10 },
+//           { "Biotin-Antibody Cocktail (µL)": 10 },
+//           { "Incubation (min)": 5 },
+//           { "Buffer (µL)": 30 },
+//           { "Anti-Biotin Microbeads (µL)": 20 },
+//           { "Incubation (min)": 10 }
+//         ],
+//         washes: "3 x 3"

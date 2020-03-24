@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 // import logo from "./logo.svg";
 import { Home, Kits, Table } from "./components";
 import "./App.css";
@@ -21,7 +21,7 @@ class App extends Component {
   modifyRows = modification => {
     if (modification === "add")
       this.setState({ tableRows: this.state.tableRows + 1 });
-    else if (modification === "remove" && this.state.tableRows > 0)
+    else if (modification === "remove")
       this.setState({ tableRows: this.state.tableRows - 1 });
   };
 
@@ -57,7 +57,6 @@ class App extends Component {
               <Kits
                 {...props}
                 currentSpecies={this.state.currentSpecies}
-                // modifyRows={this.modifyRows}
                 tableRows={this.state.tableRows}
                 updateTable={this.updateTable}
               />

@@ -1,11 +1,11 @@
+/* ----------------CONTAINERS--------------- */
 .home {
+  /* might be redundant across pages */
   display: flex;
   flex-direction: column;
   text-align: center;
   align-items: center;
 }
-
-/* ----------------CONTAINERS--------------- */
 
 .home-container-species-buttons {
   display: flex;

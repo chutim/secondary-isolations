@@ -1,5 +1,6 @@
 /* ----------------CONTAINERS--------------- */
 .kits {
+  /* might be redundant across pages */
   display: flex;
   flex-direction: column;
   text-align: center;
@@ -16,11 +17,11 @@
 }
 
 .section-positive-selection {
-  background-color: lightgreen;
+  background-color: rgb(144, 224, 238);
 }
 
 .section-negative-selection {
-  background-color: pink;
+  background-color: rgb(239, 195, 250);
 }
 
 .kit-options-container {

@@ -33,6 +33,7 @@ class Home extends Component {
               to="/kits"
               className="species-button"
               onClick={() => this.props.selectSpecies(button)}
+              key={button}
             >
               {button}
             </LinkButton>
