@@ -32,7 +32,7 @@ class App extends Component {
   };
 
   updateTable = (modification, kitID) => {
-    let tableKitIDs = this.state.tableKitIDs;
+    let tableKitIDs = Object.assign({}, this.state.tableKitIDs);
     if (modification === "add") {
       this.modifyRows(modification);
       tableKitIDs[kitID] = (tableKitIDs[kitID] || 0) + 1;
