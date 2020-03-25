@@ -26,8 +26,6 @@ class Table extends Component {
     this.setState({ cellCountsHash: this.cellCountsHash });
   };
 
-  //note edge case where you delete something from Table, but because all of that logic above is in componentDidMount, it won't run again and update Table's state
-
   arrayifyKitData = kitDataHash => {
     let arrayedKitData = [];
     for (let groupSpecies in kitDataHash) {
@@ -36,7 +34,7 @@ class Table extends Component {
     }
     this.setState({ arrayedKitData });
   };
-  //need to refuse non-number inputs
+
   handleCellCount = (e, species, rowKey) => {
     const cellCountsHash = cloneDeep(this.state.cellCountsHash);
     cellCountsHash[species][rowKey] = e.target.innerHTML;
@@ -46,25 +44,34 @@ class Table extends Component {
   generateRows = kit => {
     let numRows = this.props.tableKitIDs[kit.id];
     const rows = [];
+
     while (numRows--) {
-      const rowID = numRows;
+      const rowID = numRows; //note the row IDs will count down
       const rowKey = kit.id + " " + rowID;
+
+      //insert this new row into the cellCountsHash
       this.updateCellCountsHash(kit.species, rowKey);
+
       rows.push(
         <tr key={rowID}>
           <td contentEditable={true}></td>
           <td
             contentEditable={true}
+            onKeyPress={e => {
+              if ((e.charCode < 48 && e.charCode !== 46) || e.charCode > 57)
+                e.preventDefault();
+            }}
             onInput={e => this.handleCellCount(e, kit.species, rowKey)}
           ></td>
           {kit.constants.map((constant, idx) => {
+            //if the constant is for time or the final wash, just render it
             if (
               constant[0].includes("(min)") ||
               constant[0].includes("Washes")
             ) {
               return <td key={idx}>{constant[1]}</td>;
             }
-
+            //otherwise, multiply the constant by the row's cell count
             return (
               <td key={idx}>
                 {(constant[1] *
@@ -132,6 +139,7 @@ class Table extends Component {
             className="nav-button clear-table-button"
             onClick={() => {
               this.props.clearTable();
+              this.setState({ arrayedKitData: [] });
             }}
           >
             Clear Table
