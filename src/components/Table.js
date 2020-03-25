@@ -31,6 +31,37 @@ class Table extends Component {
     this.setState({ arrayedKitData });
   };
 
+  handleCellCount = (e, species, kitID) => {
+    console.log("Current row species/id/index:", species, kitID);
+  };
+
+  generateRows = kit => {
+    let numRows = this.props.tableKitIDs[kit.id];
+    let rows = [];
+    while (numRows--) {
+      rows.push(
+        <tr>
+          <td contentEditable={true}></td>
+          <td
+            contentEditable={true}
+            onInput={e => this.handleCellCount(e, kit.species, kit.id)}
+          ></td>
+          {kit.constants.map((constant, idx) => {
+            if (
+              constant[0].includes("(min)") ||
+              constant[0].includes("Washes")
+            ) {
+              return <td key={idx}>{constant[1]}</td>;
+            }
+
+            return <td key={idx}>{constant[1] * 3}</td>;
+          })}
+        </tr>
+      );
+    }
+    return rows;
+  };
+
   render() {
     return (
       <div className="page">
@@ -65,13 +96,14 @@ class Table extends Component {
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td>
-                        <input></input>
-                      </td>
-                      <td>
-                        <input></input>
-                      </td>
+                    {/* <tr>
+                      <td contentEditable={true}></td>
+                      <td
+                        contentEditable={true}
+                        onInput={e =>
+                          this.handleCellCount(e, kit.species, kit.id)
+                        }
+                      ></td>
                       {kit.constants.map((constant, idx) => {
                         if (
                           constant[0].includes("(min)") ||
@@ -80,9 +112,10 @@ class Table extends Component {
                           return <td key={idx}>{constant[1]}</td>;
                         }
 
-                        return <td key={idx}>{constant[1]}</td>;
+                        return <td key={idx}>{constant[1] * 2}</td>;
                       })}
-                    </tr>
+                    </tr> */}
+                    {this.generateRows(kit)}
                   </tbody>
                 </table>
               ))}
