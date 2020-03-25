@@ -82,7 +82,7 @@ class App extends Component {
         ["Buffer (µL)", 30],
         ["Anti-Biotin Microbeads (µL)", 20],
         ["Incubation (min)", 10],
-        ["Washes", "3 x 3"]
+        ["Washes (times x mL)", "3 x 3"]
       ]
     };
     return kitData;

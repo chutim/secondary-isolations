@@ -1,5 +1,6 @@
 //the Table component displays all of the kits selected and allows the user to input sample IDs and cell counts to generate the corresponding constants. the Table can then be printed. a "clear" button is provided to clear the Table, which will also auto-clear in 24 hours.
 import React, { Component } from "react";
+import { cloneDeep } from "lodash";
 import LinkButton from "./LinkButton.jsx";
 import "./Table.css";
 
@@ -17,14 +18,14 @@ class Table extends Component {
   //allow changing of row order, drag and drop
   //display multipliers next to each reagent so user can double check against kit paper
   componentDidMount = () => {
-    this.setState({ cellCountsHash: this.cellCountsHash });
     const kitDataHash = {};
     for (let kit of this.props.tableKitData) {
       kitDataHash[kit.species] = (kitDataHash[kit.species] || []).concat(kit);
     }
-
     this.arrayifyKitData(kitDataHash);
+    this.setState({ cellCountsHash: this.cellCountsHash });
   };
+
   //note edge case where you delete something from Table, but because all of that logic above is in componentDidMount, it won't run again and update Table's state
 
   arrayifyKitData = kitDataHash => {
@@ -35,9 +36,11 @@ class Table extends Component {
     }
     this.setState({ arrayedKitData });
   };
-
-  handleCellCount = (e, species, kitID, rowID) => {
-    console.log("Current row species/id/index:", species, kitID);
+  //need to refuse non-number inputs
+  handleCellCount = (e, species, rowKey) => {
+    const cellCountsHash = cloneDeep(this.state.cellCountsHash);
+    cellCountsHash[species][rowKey] = e.target.innerHTML;
+    this.setState({ cellCountsHash });
   };
 
   generateRows = kit => {
@@ -52,7 +55,7 @@ class Table extends Component {
           <td contentEditable={true}></td>
           <td
             contentEditable={true}
-            onInput={e => this.handleCellCount(e, kit.species, kit.id, rowID)}
+            onInput={e => this.handleCellCount(e, kit.species, rowKey)}
           ></td>
           {kit.constants.map((constant, idx) => {
             if (
@@ -64,7 +67,9 @@ class Table extends Component {
 
             return (
               <td key={idx}>
-                {constant[1] * this.state.cellCountsHash[kit.species][rowKey]}
+                {(constant[1] *
+                  this.state.cellCountsHash[kit.species][rowKey]) /
+                  10 || ""}
               </td>
             );
           })}
@@ -77,8 +82,7 @@ class Table extends Component {
 
   updateCellCountsHash = (species, rowKey) => {
     if (!this.cellCountsHash[species]) this.cellCountsHash[species] = {};
-    let rowsHash = this.cellCountsHash[species];
-    rowsHash[rowKey] = undefined;
+    this.cellCountsHash[species][rowKey] = undefined;
   };
 
   render() {
@@ -107,7 +111,9 @@ class Table extends Component {
                     </tr>
                     <tr>
                       <th>Sample ID</th>
-                      <th>Cell Count</th>
+                      <th>
+                        Cell Count (10<sup>6</sup>)
+                      </th>
                       {/* using idx for the keys because constants can repeat */}
                       {kit.constants.map((constant, idx) => (
                         <th key={idx}>{constant[0]}</th>
