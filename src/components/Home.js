@@ -3,7 +3,9 @@ import React, { Component } from "react";
 import LinkButton from "./LinkButton.jsx";
 import "./Home.css";
 
-//********************include function to add species
+//THINGS TO DO
+//include function/button to add species
+
 class Home extends Component {
   state = {
     buttons: ["Human", "Non-Human Primate", "Mouse", "Rat", "Dog", "Rabbit"]

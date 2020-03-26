@@ -5,6 +5,12 @@
 .tables-container {
 }
 
+.tables-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
 .kit-table {
 }
 .user-input-cell {
@@ -13,6 +19,7 @@
 /* ----------------TEXT---------------- */
 .species-name {
   font-size: calc(10px + 2vmin);
+  color: green;
 }
 
 .kit-table-subtitle {
@@ -31,4 +38,15 @@ td {
 /* --------------BUTTONS--------------- */
 .clear-table-button {
   background-color: red;
+}
+
+.delete-button {
+  background-color: red;
+  border-radius: 100vh;
+  height: calc(30px + 1vmin);
+  width: calc(30px + 1vmin);
+}
+
+.delete-species {
+  font-size: calc(10px + 1vmin);
 }

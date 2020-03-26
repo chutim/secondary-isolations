@@ -4,7 +4,6 @@ import LinkButton from "./LinkButton.jsx";
 import "./Kits.css";
 
 //THINGS TO DO
-//add component for editing kits, display button on this page
 
 class Kits extends Component {
   constructor(props) {

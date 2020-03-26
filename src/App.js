@@ -9,6 +9,36 @@ import "./App.css";
 //whenever a change happens, upload to localStorage
 //set timer with each update, to clear localStorage in 24 hours
 
+// DATA STRUCTURES REFERENCE:
+// kit = {
+//   id: "130-096-537",
+//   name: "Pan Monocyte Isolation Kit",
+//   species: "Human",
+//   constants: [
+//     ["Buffer (µL)", 40],
+//     ["FcR Blocking Reagent (µL)", 10],
+//     ["Biotin-Antibody Cocktail (µL)", 10],
+//     ["Incubation (min)", 5],
+//     ["Buffer (µL)", 30],
+//     ["Anti-Biotin Microbeads (µL)", 20],
+//     ["Incubation (min)", 10],
+//     ["Washes (times x mL)", "3 x 3"]
+//   ]
+// };
+// tableKitIDs = { "192-050-201": 2, "190-229-501": 1, "130-096-537": 8 };
+// tableKitData = [{ kit1 }, { kit2 }, { kit3 }];
+// tableRowsHash = {
+//   Human: {
+//     "130-096-537 0": ["Human 24", "45.3"],
+//     "130-096-537 1": ["Human 25", "21.5"],
+//     "130-096-537 2": ["Human 26", "39.2"],
+//     "142-829-339 0": ["Human 3", "224.1"]
+//   },
+//   Mouse: {
+//     "120-332-192 0": ["Mouse Pool", "31"]
+//   }
+// };
+
 class App extends Component {
   constructor() {
     super();
@@ -26,9 +56,10 @@ class App extends Component {
     this.clearTable = this.clearTable.bind(this);
     this.addRowToTableRowsHash = this.addRowToTableRowsHash.bind(this);
     this.setTableRowsHashToState = this.setTableRowsHashToState.bind(this);
+    this.deleteSpeciesGroup = this.deleteSpeciesGroup.bind(this);
   }
 
-  //class variable for generating the tableRowsHash as render is creating the tables. this.state.tableRowsHash gets updated with this variable once component finishes mounting.
+  //class variable for generating the tableRowsHash as render is creating the tables. this.state.tableRowsHash gets updated with this variable once Table component finishes mounting.
   tableRowsHash = {};
 
   modifyRows = modification => {
@@ -122,6 +153,31 @@ class App extends Component {
     this.setState({ tableRowsHash });
   };
 
+  deleteSpeciesGroup = species => {
+    let tableRows = this.state.tableRows;
+    const tableKitIDs = cloneDeep(this.state.tableKitIDs);
+    let tableKitData = cloneDeep(this.state.tableKitData);
+    const tableRowsHash = cloneDeep(this.state.tableRowsHash);
+
+    //grab the number of rows that will be deleted, subtract from tableRows
+    const speciesRows = tableRowsHash[species];
+    const numRows = Object.keys(speciesRows).length;
+    tableRows -= numRows;
+    //delete the entire species and its rows from the hash table
+    delete tableRowsHash[species];
+    //delete kits from the species, from tableKitData array. at the same time, store the IDs of any kits deleted
+    let IDs = [];
+    tableKitData = tableKitData.filter(kit => {
+      if (kit.species !== species) return true;
+      IDs.push(kit.id);
+      return false;
+    });
+    //delete kits from tableKitIDs using the IDs grabbed during the modification of tableKitData
+    for (let ID of IDs) delete tableKitIDs[ID];
+
+    this.setState({ tableRows, tableKitIDs, tableKitData, tableRowsHash });
+  };
+
   clearTable = () => {
     this.setState({
       tableRows: 0,
@@ -159,10 +215,12 @@ class App extends Component {
                 tableKitIDs={this.state.tableKitIDs}
                 tableKitData={this.state.tableKitData}
                 tableRowsHash={this.state.tableRowsHash}
+                selectSpecies={this.selectSpecies}
                 updateTable={this.updateTable}
                 addRowToTableRowsHash={this.addRowToTableRowsHash}
                 updateRowCellCount={this.updateRowCellCount}
                 setTableRowsHashToState={this.setTableRowsHashToState}
+                deleteSpeciesGroup={this.deleteSpeciesGroup}
                 clearTable={this.clearTable}
               />
             )}

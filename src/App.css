@@ -13,6 +13,9 @@
   body {
     visibility: hidden;
   }
+  .no-print {
+    visibility: hidden;
+  }
   #divToPrint {
     visibility: visible;
   }
