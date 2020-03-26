@@ -47,23 +47,23 @@ class Kits extends Component {
                   </div>
                   <div className="kit-options-container">
                     <button
-                      className="kit-options-button kit-add-button"
-                      onClick={() => {
-                        this.props.updateTable("add", kit.id);
-                      }}
-                    >
-                      <b>+</b>
-                    </button>
-                    <div className="kit-count">
-                      {this.props.tableKitIDs[kit.id] || 0}
-                    </div>
-                    <button
                       className="kit-options-button kit-remove-button"
                       onClick={() => {
                         this.props.updateTable("remove", kit.id);
                       }}
                     >
                       <b>-</b>
+                    </button>
+                    <div className="kit-count">
+                      {this.props.tableKitIDs[kit.id] || 0}
+                    </div>
+                    <button
+                      className="kit-options-button kit-add-button"
+                      onClick={() => {
+                        this.props.updateTable("add", kit.id);
+                      }}
+                    >
+                      <b>+</b>
                     </button>
                   </div>
                 </div>
@@ -81,23 +81,23 @@ class Kits extends Component {
                   </div>
                   <div className="kit-options-container">
                     <button
-                      className="kit-options-button kit-add-button"
-                      onClick={() => {
-                        this.props.updateTable("add", kit.id);
-                      }}
-                    >
-                      <b>+</b>
-                    </button>
-                    <div className="kit-count">
-                      {this.props.tableKitIDs[kit.id] || 0}
-                    </div>
-                    <button
                       className="kit-options-button kit-remove-button"
                       onClick={() => {
                         this.props.updateTable("remove", kit.id);
                       }}
                     >
                       <b>-</b>
+                    </button>
+                    <div className="kit-count">
+                      {this.props.tableKitIDs[kit.id] || 0}
+                    </div>
+                    <button
+                      className="kit-options-button kit-add-button"
+                      onClick={() => {
+                        this.props.updateTable("add", kit.id);
+                      }}
+                    >
+                      <b>+</b>
                     </button>
                   </div>
                 </div>

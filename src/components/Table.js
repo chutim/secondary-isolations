@@ -1,6 +1,5 @@
 //the Table component displays all of the kits selected and allows the user to input sample IDs and cell counts to generate the corresponding constants. the Table can then be printed. a "clear" button is provided to clear the Table, which will also auto-clear in 24 hours.
 import React, { Component } from "react";
-import { cloneDeep } from "lodash";
 import LinkButton from "./LinkButton.jsx";
 import "./Table.css";
 
@@ -9,21 +8,21 @@ class Table extends Component {
     super(props);
     this.state = {
       arrayedKitData: []
-      // cellCountsHash: {}
     };
   }
-  // //class variable for generating the cellCountsHash as render is creating the tables. this.state.cellCountsHash gets updated with this variable once component finishes mounting.
-  // cellCountsHash = {};
-
+  //THINGS TO DO:
   //allow changing of row order, drag and drop
   //display multipliers next to each reagent so user can double check against kit paper
+  //auto clear table in 24 hours
+  //'delete row' button next to each row
+  //'add new row' button next to each type of kit
+
   componentDidMount = () => {
     const kitDataHash = {};
     for (let kit of this.props.tableKitData) {
       kitDataHash[kit.species] = (kitDataHash[kit.species] || []).concat(kit);
     }
     this.arrayifyKitData(kitDataHash);
-    // this.setState({ cellCountsHash: this.props.cellCountsHash });
 
     this.props.setCellCountsHashToState();
   };
@@ -37,14 +36,6 @@ class Table extends Component {
     this.setState({ arrayedKitData });
   };
 
-  // handleCellCount = (e, species, rowKey) => {
-  //   // const cellCountsHash = cloneDeep(this.state.cellCountsHash);
-  //   // cellCountsHash[species][rowKey] = e.target.innerHTML;
-  //   // this.setState({ cellCountsHash });
-  //   // this.props.updateCellCount(species, rowKey, e.target.innerHTML);
-  //   // this.props.cellCountsHash[species][rowKey] = e.target.innerHTML;
-  // };
-
   generateRows = kit => {
     let numRows = this.props.tableKitIDs[kit.id];
     const rows = [];
@@ -53,26 +44,30 @@ class Table extends Component {
       const rowID = numRows; //note the row IDs will count down
       const rowKey = kit.id + " " + rowID;
 
-      //insert this new row into the cellCountsHash
-      this.props.updateCellCountsHash(kit.species, rowKey);
+      //add this new row into the cellCountsHash
+      this.props.addRowToCellCountsHash(kit.species, rowKey);
 
       rows.push(
         <tr key={rowID}>
           <td contentEditable={true}></td>
-          <td
-            contentEditable={true}
-            onKeyPress={e => {
-              if ((e.charCode < 48 && e.charCode !== 46) || e.charCode > 57)
-                e.preventDefault();
-            }}
-            onInput={e =>
-              this.props.updateCellCount(
-                kit.species,
-                rowKey,
-                e.target.innerHTML
-              )
-            }
-          ></td>
+          <td className="cell-count-input-cell">
+            <input
+              className="cell-count-input"
+              // only allow numbers and decimals
+              onKeyPress={e => {
+                if ((e.charCode < 48 && e.charCode !== 46) || e.charCode > 57)
+                  e.preventDefault();
+              }}
+              onChange={e =>
+                this.props.updateRowCellCount(
+                  kit.species,
+                  rowKey,
+                  e.target.value
+                )
+              }
+              value={this.props.cellCountsHash[kit.species][rowKey]}
+            ></input>
+          </td>
           {kit.constants.map((constant, idx) => {
             //if the constant is for time or the final wash, just render it
             if (
@@ -96,11 +91,6 @@ class Table extends Component {
 
     return rows;
   };
-
-  // updateCellCountsHash = (species, rowKey) => {
-  //   if (!this.cellCountsHash[species]) this.cellCountsHash[species] = {};
-  //   this.cellCountsHash[species][rowKey] = undefined;
-  // };
 
   render() {
     return (

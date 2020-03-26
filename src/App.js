@@ -20,7 +20,7 @@ class App extends Component {
     this.updateTable = this.updateTable.bind(this);
     this.fetchKitData = this.fetchKitData.bind(this);
     this.clearTable = this.clearTable.bind(this);
-    this.updateCellCountsHash = this.updateCellCountsHash.bind(this);
+    this.addRowToCellCountsHash = this.addRowToCellCountsHash.bind(this);
     this.setCellCountsHashToState = this.setCellCountsHashToState.bind(this);
   }
 
@@ -95,7 +95,7 @@ class App extends Component {
     return kitData;
   };
 
-  updateCellCountsHash = (species, rowKey) => {
+  addRowToCellCountsHash = (species, rowKey) => {
     if (!this.cellCountsHash[species]) this.cellCountsHash[species] = {};
     this.cellCountsHash[species][rowKey] = undefined;
   };
@@ -106,14 +106,19 @@ class App extends Component {
     }
   };
 
-  updateCellCount = (species, rowKey, input) => {
+  updateRowCellCount = (species, rowKey, input) => {
     const cellCountsHash = cloneDeep(this.state.cellCountsHash);
     cellCountsHash[species][rowKey] = input;
     this.setState({ cellCountsHash });
   };
 
   clearTable = () => {
-    this.setState({ tableRows: 0, tableKitIDs: {}, tableKitData: [] });
+    this.setState({
+      tableRows: 0,
+      tableKitIDs: {},
+      tableKitData: [],
+      cellCountsHash: {}
+    });
   };
 
   render() {
@@ -141,8 +146,8 @@ class App extends Component {
                 tableKitData={this.state.tableKitData}
                 cellCountsHash={this.state.cellCountsHash}
                 updateTable={this.updateTable}
-                updateCellCountsHash={this.updateCellCountsHash}
-                updateCellCount={this.updateCellCount}
+                addRowToCellCountsHash={this.addRowToCellCountsHash}
+                updateRowCellCount={this.updateRowCellCount}
                 setCellCountsHashToState={this.setCellCountsHashToState}
                 clearTable={this.clearTable}
               />

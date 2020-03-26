@@ -7,6 +7,9 @@
 
 .kit-table {
 }
+.cell-count-input-cell {
+  padding: 0;
+}
 /* ----------------TEXT---------------- */
 .species-name {
   font-size: calc(10px + 2vmin);
@@ -14,6 +17,16 @@
 
 .kit-table-subtitle {
   padding: calc(10px + 0.1vmin);
+}
+
+.cell-count-input {
+  border: none;
+  text-align: center;
+  font-size: calc(10px + 1vmin);
+}
+
+td {
+  font-size: calc(10px + 1vmin);
 }
 /* --------------BUTTONS--------------- */
 .clear-table-button {
