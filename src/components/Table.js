@@ -8,12 +8,12 @@ class Table extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      arrayedKitData: [],
-      cellCountsHash: {}
+      arrayedKitData: []
+      // cellCountsHash: {}
     };
   }
-  //class variable for generating the cellCountsHash as render is creating the tables. this.state.cellCountsHash gets updated with this variable once component finishes mounting.
-  cellCountsHash = {};
+  // //class variable for generating the cellCountsHash as render is creating the tables. this.state.cellCountsHash gets updated with this variable once component finishes mounting.
+  // cellCountsHash = {};
 
   //allow changing of row order, drag and drop
   //display multipliers next to each reagent so user can double check against kit paper
@@ -23,7 +23,9 @@ class Table extends Component {
       kitDataHash[kit.species] = (kitDataHash[kit.species] || []).concat(kit);
     }
     this.arrayifyKitData(kitDataHash);
-    this.setState({ cellCountsHash: this.cellCountsHash });
+    // this.setState({ cellCountsHash: this.props.cellCountsHash });
+
+    this.props.setCellCountsHashToState();
   };
 
   arrayifyKitData = kitDataHash => {
@@ -35,11 +37,13 @@ class Table extends Component {
     this.setState({ arrayedKitData });
   };
 
-  handleCellCount = (e, species, rowKey) => {
-    const cellCountsHash = cloneDeep(this.state.cellCountsHash);
-    cellCountsHash[species][rowKey] = e.target.innerHTML;
-    this.setState({ cellCountsHash });
-  };
+  // handleCellCount = (e, species, rowKey) => {
+  //   // const cellCountsHash = cloneDeep(this.state.cellCountsHash);
+  //   // cellCountsHash[species][rowKey] = e.target.innerHTML;
+  //   // this.setState({ cellCountsHash });
+  //   // this.props.updateCellCount(species, rowKey, e.target.innerHTML);
+  //   // this.props.cellCountsHash[species][rowKey] = e.target.innerHTML;
+  // };
 
   generateRows = kit => {
     let numRows = this.props.tableKitIDs[kit.id];
@@ -50,7 +54,7 @@ class Table extends Component {
       const rowKey = kit.id + " " + rowID;
 
       //insert this new row into the cellCountsHash
-      this.updateCellCountsHash(kit.species, rowKey);
+      this.props.updateCellCountsHash(kit.species, rowKey);
 
       rows.push(
         <tr key={rowID}>
@@ -61,7 +65,13 @@ class Table extends Component {
               if ((e.charCode < 48 && e.charCode !== 46) || e.charCode > 57)
                 e.preventDefault();
             }}
-            onInput={e => this.handleCellCount(e, kit.species, rowKey)}
+            onInput={e =>
+              this.props.updateCellCount(
+                kit.species,
+                rowKey,
+                e.target.innerHTML
+              )
+            }
           ></td>
           {kit.constants.map((constant, idx) => {
             //if the constant is for time or the final wash, just render it
@@ -75,7 +85,7 @@ class Table extends Component {
             return (
               <td key={idx}>
                 {(constant[1] *
-                  this.state.cellCountsHash[kit.species][rowKey]) /
+                  this.props.cellCountsHash[kit.species][rowKey]) /
                   10 || ""}
               </td>
             );
@@ -87,10 +97,10 @@ class Table extends Component {
     return rows;
   };
 
-  updateCellCountsHash = (species, rowKey) => {
-    if (!this.cellCountsHash[species]) this.cellCountsHash[species] = {};
-    this.cellCountsHash[species][rowKey] = undefined;
-  };
+  // updateCellCountsHash = (species, rowKey) => {
+  //   if (!this.cellCountsHash[species]) this.cellCountsHash[species] = {};
+  //   this.cellCountsHash[species][rowKey] = undefined;
+  // };
 
   render() {
     return (

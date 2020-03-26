@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 // import logo from "./logo.svg";
+import { cloneDeep } from "lodash";
 import { Home, Kits, Table } from "./components";
 import "./App.css";
 
@@ -11,14 +12,20 @@ class App extends Component {
       tableRows: 0,
       currentSpecies: "No Species Selected",
       tableKitIDs: {},
-      tableKitData: []
+      tableKitData: [],
+      cellCountsHash: {}
     };
     this.modifyRows = this.modifyRows.bind(this);
     this.selectSpecies = this.selectSpecies.bind(this);
     this.updateTable = this.updateTable.bind(this);
     this.fetchKitData = this.fetchKitData.bind(this);
     this.clearTable = this.clearTable.bind(this);
+    this.updateCellCountsHash = this.updateCellCountsHash.bind(this);
+    this.setCellCountsHashToState = this.setCellCountsHashToState.bind(this);
   }
+
+  //class variable for generating the cellCountsHash as render is creating the tables. this.state.cellCountsHash gets updated with this variable once component finishes mounting.
+  cellCountsHash = {};
 
   modifyRows = modification => {
     if (modification === "add")
@@ -88,6 +95,23 @@ class App extends Component {
     return kitData;
   };
 
+  updateCellCountsHash = (species, rowKey) => {
+    if (!this.cellCountsHash[species]) this.cellCountsHash[species] = {};
+    this.cellCountsHash[species][rowKey] = undefined;
+  };
+
+  setCellCountsHashToState = () => {
+    if (Object.keys(this.state.cellCountsHash).length === 0) {
+      this.setState({ cellCountsHash: this.cellCountsHash });
+    }
+  };
+
+  updateCellCount = (species, rowKey, input) => {
+    const cellCountsHash = cloneDeep(this.state.cellCountsHash);
+    cellCountsHash[species][rowKey] = input;
+    this.setState({ cellCountsHash });
+  };
+
   clearTable = () => {
     this.setState({ tableRows: 0, tableKitIDs: {}, tableKitData: [] });
   };
@@ -115,7 +139,11 @@ class App extends Component {
                 {...props}
                 tableKitIDs={this.state.tableKitIDs}
                 tableKitData={this.state.tableKitData}
+                cellCountsHash={this.state.cellCountsHash}
                 updateTable={this.updateTable}
+                updateCellCountsHash={this.updateCellCountsHash}
+                updateCellCount={this.updateCellCount}
+                setCellCountsHashToState={this.setCellCountsHashToState}
                 clearTable={this.clearTable}
               />
             )}
