@@ -24,7 +24,7 @@ class Table extends Component {
     }
     this.arrayifyKitData(kitDataHash);
 
-    this.props.setCellCountsHashToState();
+    this.props.setTableRowsHashToState();
   };
 
   arrayifyKitData = kitDataHash => {
@@ -44,8 +44,8 @@ class Table extends Component {
       const rowID = numRows; //note the row IDs will count down
       const rowKey = kit.id + " " + rowID;
 
-      //add this new row into the cellCountsHash
-      this.props.addRowToCellCountsHash(kit.species, rowKey);
+      //add this new row into the tableRowsHash
+      this.props.addRowToTableRowsHash(kit.species, rowKey);
 
       rows.push(
         <tr key={rowID}>
@@ -60,7 +60,7 @@ class Table extends Component {
                   e.target.value
                 )
               }
-              value={this.props.cellCountsHash[kit.species][rowKey][0]}
+              value={this.props.tableRowsHash[kit.species][rowKey][0]}
             ></input>
           </td>
           <td className="user-input-cell">
@@ -79,7 +79,7 @@ class Table extends Component {
                   e.target.value
                 )
               }
-              value={this.props.cellCountsHash[kit.species][rowKey][1]}
+              value={this.props.tableRowsHash[kit.species][rowKey][1]}
             ></input>
           </td>
           {kit.constants.map((constant, idx) => {
@@ -95,7 +95,7 @@ class Table extends Component {
             return (
               <td key={idx}>
                 {(constant[1] *
-                  this.props.cellCountsHash[kit.species][rowKey][1]) /
+                  this.props.tableRowsHash[kit.species][rowKey][1]) /
                   10 || ""}
               </td>
             );

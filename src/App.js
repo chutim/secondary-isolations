@@ -13,19 +13,19 @@ class App extends Component {
       currentSpecies: "No Species Selected",
       tableKitIDs: {},
       tableKitData: [],
-      cellCountsHash: {}
+      tableRowsHash: {}
     };
     this.modifyRows = this.modifyRows.bind(this);
     this.selectSpecies = this.selectSpecies.bind(this);
     this.updateTable = this.updateTable.bind(this);
     this.fetchKitData = this.fetchKitData.bind(this);
     this.clearTable = this.clearTable.bind(this);
-    this.addRowToCellCountsHash = this.addRowToCellCountsHash.bind(this);
-    this.setCellCountsHashToState = this.setCellCountsHashToState.bind(this);
+    this.addRowToTableRowsHash = this.addRowToTableRowsHash.bind(this);
+    this.setTableRowsHashToState = this.setTableRowsHashToState.bind(this);
   }
 
-  //class variable for generating the cellCountsHash as render is creating the tables. this.state.cellCountsHash gets updated with this variable once component finishes mounting.
-  cellCountsHash = {};
+  //class variable for generating the tableRowsHash as render is creating the tables. this.state.tableRowsHash gets updated with this variable once component finishes mounting.
+  tableRowsHash = {};
 
   modifyRows = modification => {
     if (modification === "add")
@@ -95,27 +95,27 @@ class App extends Component {
     return kitData;
   };
 
-  addRowToCellCountsHash = (species, rowKey) => {
-    if (!this.cellCountsHash[species]) this.cellCountsHash[species] = {};
-    this.cellCountsHash[species][rowKey] = [undefined, undefined];
+  addRowToTableRowsHash = (species, rowKey) => {
+    if (!this.tableRowsHash[species]) this.tableRowsHash[species] = {};
+    this.tableRowsHash[species][rowKey] = [undefined, undefined];
   };
 
-  setCellCountsHashToState = () => {
-    if (Object.keys(this.state.cellCountsHash).length === 0) {
-      this.setState({ cellCountsHash: this.cellCountsHash });
+  setTableRowsHashToState = () => {
+    if (Object.keys(this.state.tableRowsHash).length === 0) {
+      this.setState({ tableRowsHash: this.tableRowsHash });
     }
   };
 
   updateRowCellCount = (inputType, species, rowKey, input) => {
-    const cellCountsHash = cloneDeep(this.state.cellCountsHash);
+    const tableRowsHash = cloneDeep(this.state.tableRowsHash);
 
     if (inputType === "cellCount") {
-      cellCountsHash[species][rowKey][1] = input;
+      tableRowsHash[species][rowKey][1] = input;
     } else if (inputType === "sampleID") {
-      cellCountsHash[species][rowKey][0] = input;
+      tableRowsHash[species][rowKey][0] = input;
     }
 
-    this.setState({ cellCountsHash });
+    this.setState({ tableRowsHash });
   };
 
   clearTable = () => {
@@ -123,7 +123,7 @@ class App extends Component {
       tableRows: 0,
       tableKitIDs: {},
       tableKitData: [],
-      cellCountsHash: {}
+      tableRowsHash: {}
     });
   };
 
@@ -150,11 +150,11 @@ class App extends Component {
                 {...props}
                 tableKitIDs={this.state.tableKitIDs}
                 tableKitData={this.state.tableKitData}
-                cellCountsHash={this.state.cellCountsHash}
+                tableRowsHash={this.state.tableRowsHash}
                 updateTable={this.updateTable}
-                addRowToCellCountsHash={this.addRowToCellCountsHash}
+                addRowToTableRowsHash={this.addRowToTableRowsHash}
                 updateRowCellCount={this.updateRowCellCount}
-                setCellCountsHashToState={this.setCellCountsHashToState}
+                setTableRowsHashToState={this.setTableRowsHashToState}
                 clearTable={this.clearTable}
               />
             )}
