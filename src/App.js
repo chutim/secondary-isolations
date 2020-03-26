@@ -97,7 +97,7 @@ class App extends Component {
 
   addRowToCellCountsHash = (species, rowKey) => {
     if (!this.cellCountsHash[species]) this.cellCountsHash[species] = {};
-    this.cellCountsHash[species][rowKey] = undefined;
+    this.cellCountsHash[species][rowKey] = [undefined, undefined];
   };
 
   setCellCountsHashToState = () => {
@@ -106,9 +106,15 @@ class App extends Component {
     }
   };
 
-  updateRowCellCount = (species, rowKey, input) => {
+  updateRowCellCount = (inputType, species, rowKey, input) => {
     const cellCountsHash = cloneDeep(this.state.cellCountsHash);
-    cellCountsHash[species][rowKey] = input;
+
+    if (inputType === "cellCount") {
+      cellCountsHash[species][rowKey][1] = input;
+    } else if (inputType === "sampleID") {
+      cellCountsHash[species][rowKey][0] = input;
+    }
+
     this.setState({ cellCountsHash });
   };
 

@@ -49,10 +49,23 @@ class Table extends Component {
 
       rows.push(
         <tr key={rowID}>
-          <td contentEditable={true}></td>
-          <td className="cell-count-input-cell">
+          <td className="user-input-cell">
             <input
-              className="cell-count-input"
+              className="user-input"
+              onChange={e =>
+                this.props.updateRowCellCount(
+                  "sampleID",
+                  kit.species,
+                  rowKey,
+                  e.target.value
+                )
+              }
+              value={this.props.cellCountsHash[kit.species][rowKey][0]}
+            ></input>
+          </td>
+          <td className="user-input-cell">
+            <input
+              className="user-input"
               // only allow numbers and decimals
               onKeyPress={e => {
                 if ((e.charCode < 48 && e.charCode !== 46) || e.charCode > 57)
@@ -60,19 +73,21 @@ class Table extends Component {
               }}
               onChange={e =>
                 this.props.updateRowCellCount(
+                  "cellCount",
                   kit.species,
                   rowKey,
                   e.target.value
                 )
               }
-              value={this.props.cellCountsHash[kit.species][rowKey]}
+              value={this.props.cellCountsHash[kit.species][rowKey][1]}
             ></input>
           </td>
           {kit.constants.map((constant, idx) => {
-            //if the constant is for time or the final wash, just render it
+            //if the constant is for time, a spin, or the final wash, just render it
             if (
               constant[0].includes("(min)") ||
-              constant[0].includes("Washes")
+              constant[0].includes("(times x mL)") ||
+              constant[0].includes("(g x min)")
             ) {
               return <td key={idx}>{constant[1]}</td>;
             }
@@ -80,7 +95,7 @@ class Table extends Component {
             return (
               <td key={idx}>
                 {(constant[1] *
-                  this.props.cellCountsHash[kit.species][rowKey]) /
+                  this.props.cellCountsHash[kit.species][rowKey][1]) /
                   10 || ""}
               </td>
             );

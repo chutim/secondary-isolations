@@ -7,7 +7,7 @@
 
 .kit-table {
 }
-.cell-count-input-cell {
+.user-input-cell {
   padding: 0;
 }
 /* ----------------TEXT---------------- */
@@ -19,7 +19,7 @@
   padding: calc(10px + 0.1vmin);
 }
 
-.cell-count-input {
+.user-input {
   border: none;
   text-align: center;
   font-size: calc(10px + 1vmin);
