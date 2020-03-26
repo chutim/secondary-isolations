@@ -2,8 +2,12 @@ import React, { Component } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 // import logo from "./logo.svg";
 import { cloneDeep } from "lodash";
-import { Home, Kits, Table } from "./components";
+import { Home, Kits, EditKits, Table } from "./components";
 import "./App.css";
+
+//THINGS TO DO
+//whenever a change happens, upload to localStorage
+//set timer with each update, to clear localStorage in 24 hours
 
 class App extends Component {
   constructor() {
@@ -142,6 +146,10 @@ class App extends Component {
                 updateTable={this.updateTable}
               />
             )}
+          ></Route>
+          <Route
+            path="/editkits"
+            render={props => <EditKits {...props} />}
           ></Route>
           <Route
             path="/table"

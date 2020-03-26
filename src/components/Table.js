@@ -3,6 +3,13 @@ import React, { Component } from "react";
 import LinkButton from "./LinkButton.jsx";
 import "./Table.css";
 
+//THINGS TO DO:
+//allow changing of row order, drag and drop
+//display multipliers next to each reagent so user can double check against kit paper
+//'delete row' button next to each row
+//'add new row' button next to each type of kit
+//figure out how to reverse the indices of the rows so a new row insertion doesn't insert at beginning
+
 class Table extends Component {
   constructor(props) {
     super(props);
@@ -10,12 +17,6 @@ class Table extends Component {
       arrayedKitData: []
     };
   }
-  //THINGS TO DO:
-  //allow changing of row order, drag and drop
-  //display multipliers next to each reagent so user can double check against kit paper
-  //auto clear table in 24 hours
-  //'delete row' button next to each row
-  //'add new row' button next to each type of kit
 
   componentDidMount = () => {
     const kitDataHash = {};
@@ -150,6 +151,14 @@ class Table extends Component {
         </div>
 
         <footer>
+          <button
+            className="nav-button"
+            onClick={() => {
+              this.props.history.goBack();
+            }}
+          >
+            Back
+          </button>
           <LinkButton to="/" className="nav-button home-button">
             Home
           </LinkButton>
