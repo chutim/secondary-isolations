@@ -99,7 +99,7 @@ class Table extends Component {
           <h3 className="page-title">Table</h3>
         </header>
 
-        <div className="groups-container">
+        <div className="groups-container" id="divToPrint">
           {/* generate a new table group for each species */}
           {this.state.arrayedKitData.map(speciesGroup => (
             <div className="tables-container" key={speciesGroup[0]}>
@@ -135,6 +135,9 @@ class Table extends Component {
         </div>
 
         <footer>
+          <LinkButton to="/" className="nav-button home-button">
+            Home
+          </LinkButton>
           <button
             className="nav-button clear-table-button"
             onClick={() => {
@@ -144,9 +147,14 @@ class Table extends Component {
           >
             Clear Table
           </button>
-          <LinkButton to="/" className="nav-button home-button">
-            Home
-          </LinkButton>
+          <button
+            className="nav-button"
+            onClick={() => {
+              window.print();
+            }}
+          >
+            Print
+          </button>
         </footer>
       </div>
     );
