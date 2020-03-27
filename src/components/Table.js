@@ -7,7 +7,6 @@ import "./Table.css";
 //THINGS TO DO:
 //allow changing of row order, drag and drop
 //display multipliers next to each reagent so user can double check against kit paper
-//'delete species' button next to each group
 //'delete kit' button next to each kit
 //'delete row' button next to each row
 //'add new row' button next to each type of kit

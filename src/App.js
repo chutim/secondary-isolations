@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-// import logo from "./logo.svg";
 import { cloneDeep } from "lodash";
 import { Home, Kits, EditKits, Table } from "./components";
 import "./App.css";
