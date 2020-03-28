@@ -110,7 +110,7 @@ class Table extends Component {
             //otherwise, multiply the constant by the row's cell count
             return (
               <td key={idx}>
-                {(constant[1] *
+                {(Number(constant[1]) *
                   this.props.tableRowsHash[kit.species][rowKey][1]) /
                   10 || ""}
               </td>

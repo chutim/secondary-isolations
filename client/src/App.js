@@ -116,13 +116,13 @@ class App extends Component {
       name: "Pan Monocyte Isolation Kit",
       species: "Human",
       constants: [
-        ["Buffer (µL)", 40],
-        ["FcR Blocking Reagent (µL)", 10],
-        ["Biotin-Antibody Cocktail (µL)", 10],
-        ["Incubation (min)", 5],
-        ["Buffer (µL)", 30],
-        ["Anti-Biotin Microbeads (µL)", 20],
-        ["Incubation (min)", 10],
+        ["Buffer (µL)", "40"],
+        ["FcR Blocking Reagent (µL)", "10"],
+        ["Biotin-Antibody Cocktail (µL)", "10"],
+        ["Incubation (min)", "5"],
+        ["Buffer (µL)", "30"],
+        ["Anti-Biotin Microbeads (µL)", "20"],
+        ["Incubation (min)", "10"],
         ["Washes (times x mL)", "3 x 3"]
       ]
     };
