@@ -51,7 +51,8 @@ class App extends Component {
       allKits: [],
       tableRows: 0,
       currentSpecies: "No Species Selected",
-      currentKits: [],
+      currentPosKits: [],
+      currentNegKits: [],
       tableKitIDs: {},
       tableKitData: [],
       arrayedKitData: [],
@@ -71,7 +72,7 @@ class App extends Component {
     await this.fetchKitsFromDatabase();
   };
 
-  fetchLocalStorage = () => {
+  fetchLocalStorage = async () => {
     console.log("Fetching state from local storage...");
     const localState = JSON.parse(localStorage.getItem("state"));
     if (localState) {
@@ -79,16 +80,18 @@ class App extends Component {
       const {
         tableRows,
         currentSpecies,
-        currentKits,
+        currentPosKits,
+        currentNegKits,
         tableKitIDs,
         tableKitData,
         arrayedKitData,
         tableRowsHash
       } = localState;
-      this.setState({
+      await this.setState({
         tableRows,
         currentSpecies,
-        currentKits,
+        currentPosKits,
+        currentNegKits,
         tableKitIDs,
         tableKitData,
         arrayedKitData,
@@ -131,9 +134,21 @@ class App extends Component {
     const currentKits = this.state.allKits.filter(
       kit => kit.species === currentSpecies
     );
-    await this.setState({ currentSpecies, currentKits });
+    const { currentPosKits, currentNegKits } = this.sortKits(currentKits);
+    await this.setState({ currentSpecies, currentPosKits, currentNegKits });
     console.log("selectSpecies");
     this.updateLocalStorage();
+  };
+
+  sortKits = currentKits => {
+    const positiveKits = [];
+    const negativeKits = [];
+
+    for (let kit of currentKits) {
+      if (kit.type === "Positive") positiveKits.push(kit);
+      else if (kit.type === "Negative") negativeKits.push(kit);
+    }
+    return { currentPosKits: positiveKits, currentNegKits: negativeKits };
   };
 
   updateTable = async (modification, kit) => {
@@ -286,7 +301,8 @@ class App extends Component {
               <Kits
                 {...props}
                 currentSpecies={this.state.currentSpecies}
-                currentKits={this.state.currentKits}
+                currentPosKits={this.state.currentPosKits}
+                currentNegKits={this.state.currentNegKits}
                 tableRows={this.state.tableRows}
                 tableKitIDs={this.state.tableKitIDs}
                 updateTable={this.updateTable}

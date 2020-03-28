@@ -13,6 +13,10 @@
 
 .kit-table {
 }
+
+.kit-multipliers-row {
+  background-color: rgb(175, 209, 253);
+}
 .user-input-cell {
   padding: 0;
 }

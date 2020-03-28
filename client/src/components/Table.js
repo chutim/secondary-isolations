@@ -1,6 +1,5 @@
 //the Table component displays all of the kits selected and allows the user to input sample IDs and cell counts to generate the corresponding constants. the Table can then be printed. a "clear" button is provided to clear the Table, which will also auto-clear in 24 hours.
 import React, { Component } from "react";
-import { cloneDeep } from "lodash";
 import LinkButton from "./LinkButton.jsx";
 import "./Table.css";
 
@@ -121,6 +120,13 @@ class Table extends Component {
                       >
                         {kit.name}: {kit.id}
                       </th>
+                    </tr>
+                    <tr className="kit-multipliers-row">
+                      <th colSpan={2}>Multipliers:</th>
+                      {/* using idx for the keys because constants can repeat */}
+                      {kit.constants.map((constant, idx) => (
+                        <th key={idx}>{constant[1]}</th>
+                      ))}
                     </tr>
                     <tr>
                       <th>Sample ID</th>

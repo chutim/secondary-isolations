@@ -6,25 +6,6 @@ import "./Kits.css";
 //THINGS TO DO
 
 class Kits extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      positiveKits: [],
-      negativeKits: []
-    };
-  }
-
-  componentDidMount = () => {
-    const positiveKits = [];
-    const negativeKits = [];
-
-    for (let kit of this.props.currentKits) {
-      if (kit.type === "Positive") positiveKits.push(kit);
-      else if (kit.type === "Negative") negativeKits.push(kit);
-    }
-    this.setState({ positiveKits, negativeKits });
-  };
-
   render() {
     return (
       <div className="page">
@@ -35,69 +16,71 @@ class Kits extends Component {
           <div className="kit-section section-positive-selection">
             <h5 className="kit-section-title">Positive Selection</h5>
             <div className="kit-section-list">
-              {this.state.positiveKits.map(kit => (
-                <div className="kit-info-container" key={kit.id}>
-                  <div className="kit-name-container">
-                    <b>{kit.name}</b>
-                    <div>{kit.id}</div>
-                  </div>
-                  <div className="kit-options-container">
-                    <button
-                      className="kit-options-button kit-remove-button"
-                      onClick={() => {
-                        this.props.updateTable("remove", kit);
-                      }}
-                    >
-                      <b>-</b>
-                    </button>
-                    <div className="kit-count">
-                      {this.props.tableKitIDs[kit.id] || 0}
+              {this.props.currentPosKits &&
+                this.props.currentPosKits.map(kit => (
+                  <div className="kit-info-container" key={kit.id}>
+                    <div className="kit-name-container">
+                      <b>{kit.name}</b>
+                      <div>{kit.id}</div>
                     </div>
-                    <button
-                      className="kit-options-button kit-add-button"
-                      onClick={() => {
-                        this.props.updateTable("add", kit);
-                      }}
-                    >
-                      <b>+</b>
-                    </button>
+                    <div className="kit-options-container">
+                      <button
+                        className="kit-options-button kit-remove-button"
+                        onClick={() => {
+                          this.props.updateTable("remove", kit);
+                        }}
+                      >
+                        <b>-</b>
+                      </button>
+                      <div className="kit-count">
+                        {this.props.tableKitIDs[kit.id] || 0}
+                      </div>
+                      <button
+                        className="kit-options-button kit-add-button"
+                        onClick={() => {
+                          this.props.updateTable("add", kit);
+                        }}
+                      >
+                        <b>+</b>
+                      </button>
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
             </div>
           </div>
           <div className="kit-section section-negative-selection">
             <h5 className="kit-section-title">Negative Selection</h5>
             <div className="kit-section-list">
-              {this.state.negativeKits.map(kit => (
-                <div className="kit-info-container" key={kit.id}>
-                  <div className="kit-name-container">
-                    <b>{kit.name}</b>
-                    <div>{kit.id}</div>
-                  </div>
-                  <div className="kit-options-container">
-                    <button
-                      className="kit-options-button kit-remove-button"
-                      onClick={() => {
-                        this.props.updateTable("remove", kit);
-                      }}
-                    >
-                      <b>-</b>
-                    </button>
-                    <div className="kit-count">
-                      {this.props.tableKitIDs[kit.id] || 0}
+              {this.props.currentNegKits &&
+                this.props.currentNegKits.map(kit => (
+                  <div className="kit-info-container" key={kit.id}>
+                    <div className="kit-name-container">
+                      <b>{kit.name}</b>
+                      <div>{kit.id}</div>
                     </div>
-                    <button
-                      className="kit-options-button kit-add-button"
-                      onClick={() => {
-                        this.props.updateTable("add", kit);
-                      }}
-                    >
-                      <b>+</b>
-                    </button>
+                    <div className="kit-options-container">
+                      <button
+                        className="kit-options-button kit-remove-button"
+                        onClick={() => {
+                          this.props.updateTable("remove", kit);
+                        }}
+                      >
+                        <b>-</b>
+                      </button>
+                      <div className="kit-count">
+                        {this.props.tableKitIDs[kit.id] || 0}
+                      </div>
+                      <button
+                        className="kit-options-button kit-add-button"
+                        onClick={() => {
+                          this.props.updateTable("add", kit);
+                        }}
+                      >
+                        <b>+</b>
+                      </button>
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
             </div>
           </div>
         </div>
