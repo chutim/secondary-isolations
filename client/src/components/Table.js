@@ -22,28 +22,9 @@ class Table extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      arrayedKitData: []
+      arrayedKitData: this.props.arrayedKitData
     };
   }
-
-  componentDidMount = () => {
-    const kitDataHash = {};
-    for (let kit of this.props.tableKitData) {
-      kitDataHash[kit.species] = (kitDataHash[kit.species] || []).concat(kit);
-    }
-    this.arrayifyKitData(kitDataHash);
-
-    this.props.setTableRowsHashToState();
-  };
-
-  arrayifyKitData = kitDataHash => {
-    let arrayedKitData = [];
-    for (let groupSpecies in kitDataHash) {
-      const groupArray = [groupSpecies, kitDataHash[groupSpecies]];
-      arrayedKitData.push(groupArray);
-    }
-    this.setState({ arrayedKitData });
-  };
 
   deleteSpeciesFromTable = species => {
     this.props.deleteSpeciesGroup(species);
@@ -53,15 +34,16 @@ class Table extends Component {
   };
 
   generateRows = kit => {
-    let numRows = this.props.tableKitIDs[kit.id];
+    const numRows = this.props.tableKitIDs[kit.id];
+    let row = 1;
     const rows = [];
 
-    while (numRows--) {
-      const rowID = numRows; //note the row IDs will count down
+    while (row <= numRows) {
+      const rowID = row; //note the row IDs will count down
       const rowKey = kit.id + " " + rowID;
 
       //add this new row into the tableRowsHash
-      this.props.addRowToTableRowsHash(kit.species, rowKey);
+      // this.props.addRowToTableRowsHash(kit.species, rowKey);
 
       rows.push(
         <tr key={rowID}>
@@ -118,6 +100,7 @@ class Table extends Component {
           })}
         </tr>
       );
+      ++row;
     }
 
     return rows;

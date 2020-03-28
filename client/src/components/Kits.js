@@ -14,9 +14,10 @@ class Kits extends Component {
     };
   }
 
-  componentDidMount = async () => {
+  componentDidMount = () => {
     const positiveKits = [];
     const negativeKits = [];
+
     for (let kit of this.props.currentKits) {
       if (kit.type === "Positive") positiveKits.push(kit);
       else if (kit.type === "Negative") negativeKits.push(kit);
@@ -44,7 +45,7 @@ class Kits extends Component {
                     <button
                       className="kit-options-button kit-remove-button"
                       onClick={() => {
-                        this.props.updateTable("remove", kit.id);
+                        this.props.updateTable("remove", kit);
                       }}
                     >
                       <b>-</b>
@@ -55,7 +56,7 @@ class Kits extends Component {
                     <button
                       className="kit-options-button kit-add-button"
                       onClick={() => {
-                        this.props.updateTable("add", kit.id);
+                        this.props.updateTable("add", kit);
                       }}
                     >
                       <b>+</b>
@@ -78,7 +79,7 @@ class Kits extends Component {
                     <button
                       className="kit-options-button kit-remove-button"
                       onClick={() => {
-                        this.props.updateTable("remove", kit.id);
+                        this.props.updateTable("remove", kit);
                       }}
                     >
                       <b>-</b>
@@ -89,7 +90,7 @@ class Kits extends Component {
                     <button
                       className="kit-options-button kit-add-button"
                       onClick={() => {
-                        this.props.updateTable("add", kit.id);
+                        this.props.updateTable("add", kit);
                       }}
                     >
                       <b>+</b>

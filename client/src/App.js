@@ -51,16 +51,17 @@ class App extends Component {
       currentKits: [],
       tableKitIDs: {},
       tableKitData: [],
+      arrayedKitData: [],
       tableRowsHash: {},
       allSpecies: []
     };
-    this.modifyRows = this.modifyRows.bind(this);
+
     this.selectSpecies = this.selectSpecies.bind(this);
     this.updateTable = this.updateTable.bind(this);
     this.clearTable = this.clearTable.bind(this);
     this.addRowToTableRowsHash = this.addRowToTableRowsHash.bind(this);
-    this.setTableRowsHashToState = this.setTableRowsHashToState.bind(this);
     this.deleteSpeciesGroup = this.deleteSpeciesGroup.bind(this);
+    // this.hashifyKitData = this.hashifyKitData.bind(this);
   }
 
   //class variable for generating the tableRowsHash as render is creating the tables. this.state.tableRowsHash gets updated with this variable once Table component finishes mounting.
@@ -68,7 +69,7 @@ class App extends Component {
 
   componentDidMount = async () => {
     this.fetchLocalStorage();
-    this.fetchKitsFromDatabase();
+    await this.fetchKitsFromDatabase();
   };
 
   fetchLocalStorage = () => {
@@ -82,6 +83,7 @@ class App extends Component {
         currentKits,
         tableKitIDs,
         tableKitData,
+        arrayedKitData,
         tableRowsHash
       } = localState;
       this.setState({
@@ -90,6 +92,7 @@ class App extends Component {
         currentKits,
         tableKitIDs,
         tableKitData,
+        arrayedKitData,
         tableRowsHash
       });
     }
@@ -113,6 +116,11 @@ class App extends Component {
     return Array.from(speciesSet);
   };
 
+  updateLocalStorage = () => {
+    console.log("UPDATING LOCALSTORAGE");
+    localStorage.setItem("state", JSON.stringify(this.state));
+  };
+  //
   modifyRows = modification => {
     if (modification === "add")
       this.setState({ tableRows: this.state.tableRows + 1 });
@@ -120,44 +128,54 @@ class App extends Component {
       this.setState({ tableRows: this.state.tableRows - 1 });
   };
 
-  selectSpecies = currentSpecies => {
+  //
+  selectSpecies = async currentSpecies => {
     const currentKits = this.state.allKits.filter(
       kit => kit.species === currentSpecies
     );
-    this.setState({ currentSpecies, currentKits });
+    await this.setState({ currentSpecies, currentKits });
+    console.log("selectSpecies");
+    this.updateLocalStorage();
   };
 
-  updateTable = (modification, kitID) => {
+  updateTable = async (modification, kit) => {
     let tableKitIDs = Object.assign({}, this.state.tableKitIDs);
     if (modification === "add") {
-      this.modifyRows(modification);
-      tableKitIDs[kitID] = (tableKitIDs[kitID] || 0) + 1;
-      this.setState({ tableKitIDs });
+      await this.modifyRows(modification);
+      tableKitIDs[kit.id] = (tableKitIDs[kit.id] || 0) + 1;
+      let rowID = tableKitIDs[kit.id];
+      let rowKey = kit.id + " " + rowID;
+      this.addRowToTableRowsHash(kit.species, rowKey);
+      await this.setState({ tableKitIDs });
       //if the kit quantity is increased to 1, add its data to the tableKitData array
-      if (tableKitIDs[kitID] === 1) {
-        this.addKitData(kitID);
+      if (tableKitIDs[kit.id] === 1) {
+        await this.addKitData(kit.id);
       }
       console.log("App.js state:", this.state);
     } else if (modification === "remove") {
-      if (tableKitIDs[kitID]) {
-        this.modifyRows(modification);
-        tableKitIDs[kitID]--;
+      if (tableKitIDs[kit.id]) {
+        await this.modifyRows(modification);
+        tableKitIDs[kit.id]--;
       }
-      this.setState({ tableKitIDs });
+      await this.setState({ tableKitIDs });
       //if the kit quantity is zero, remove its data from the tableKitData array
-      if (!tableKitIDs[kitID]) {
-        this.removeKitData(kitID);
+      if (!tableKitIDs[kit.id]) {
+        await this.removeKitData(kit.id);
       }
     }
+    console.log("updateTable");
+    this.updateLocalStorage();
   };
 
   addKitData = kitID => {
     //find the correct kit from allKits and add to the table
     for (let kit of this.state.allKits) {
       if (kit.id === kitID) {
+        const tableKitData = [...this.state.tableKitData, kit];
         this.setState({
-          tableKitData: [...this.state.tableKitData, kit]
+          tableKitData
         });
+        this.hashifyKitData(tableKitData);
         return;
       }
     }
@@ -169,20 +187,36 @@ class App extends Component {
     const tableKitData = this.state.tableKitData;
     const filteredKitData = tableKitData.filter(kit => kit.id !== kitID);
     this.setState({ tableKitData: filteredKitData });
+    this.hashifyKitData(filteredKitData);
   };
 
-  addRowToTableRowsHash = (species, rowKey) => {
-    if (!this.tableRowsHash[species]) this.tableRowsHash[species] = {};
-    this.tableRowsHash[species][rowKey] = [undefined, undefined];
-  };
-
-  setTableRowsHashToState = () => {
-    if (Object.keys(this.state.tableRowsHash).length === 0) {
-      this.setState({ tableRowsHash: this.tableRowsHash });
+  hashifyKitData = tableKitData => {
+    const kitDataHash = {};
+    for (let kit of tableKitData) {
+      kitDataHash[kit.species] = (kitDataHash[kit.species] || []).concat(kit);
     }
+    this.arrayifyKitData(kitDataHash);
   };
 
-  updateRowCellCount = (inputType, species, rowKey, input) => {
+  arrayifyKitData = async kitDataHash => {
+    let arrayedKitData = [];
+    for (let groupSpecies in kitDataHash) {
+      const groupArray = [groupSpecies, kitDataHash[groupSpecies]];
+      arrayedKitData.push(groupArray);
+    }
+    await this.setState({ arrayedKitData });
+    this.updateLocalStorage();
+  };
+
+  addRowToTableRowsHash = async (species, rowKey) => {
+    const tableRowsHash = cloneDeep(this.state.tableRowsHash);
+    if (!tableRowsHash[species]) tableRowsHash[species] = {};
+    tableRowsHash[species][rowKey] = [undefined, undefined];
+    await this.setState({ tableRowsHash });
+    this.updateLocalStorage();
+  };
+
+  updateRowCellCount = async (inputType, species, rowKey, input) => {
     const tableRowsHash = cloneDeep(this.state.tableRowsHash);
 
     if (inputType === "cellCount") {
@@ -191,10 +225,12 @@ class App extends Component {
       tableRowsHash[species][rowKey][0] = input;
     }
 
-    this.setState({ tableRowsHash });
+    await this.setState({ tableRowsHash });
+    console.log("updateRowCellCount");
+    this.updateLocalStorage();
   };
 
-  deleteSpeciesGroup = species => {
+  deleteSpeciesGroup = async species => {
     let tableRows = this.state.tableRows;
     const tableKitIDs = cloneDeep(this.state.tableKitIDs);
     let tableKitData = cloneDeep(this.state.tableKitData);
@@ -216,7 +252,14 @@ class App extends Component {
     //delete kits from tableKitIDs using the IDs grabbed during the modification of tableKitData
     for (let ID of IDs) delete tableKitIDs[ID];
 
-    this.setState({ tableRows, tableKitIDs, tableKitData, tableRowsHash });
+    await this.setState({
+      tableRows,
+      tableKitIDs,
+      tableKitData,
+      tableRowsHash
+    });
+    console.log("deleteSpeciesGroup");
+    this.updateLocalStorage();
   };
 
   clearTable = () => {
@@ -256,12 +299,12 @@ class App extends Component {
                 {...props}
                 tableKitIDs={this.state.tableKitIDs}
                 tableKitData={this.state.tableKitData}
+                arrayedKitData={this.state.arrayedKitData}
                 tableRowsHash={this.state.tableRowsHash}
                 selectSpecies={this.selectSpecies}
                 updateTable={this.updateTable}
                 addRowToTableRowsHash={this.addRowToTableRowsHash}
                 updateRowCellCount={this.updateRowCellCount}
-                setTableRowsHashToState={this.setTableRowsHashToState}
                 deleteSpeciesGroup={this.deleteSpeciesGroup}
                 clearTable={this.clearTable}
               />
