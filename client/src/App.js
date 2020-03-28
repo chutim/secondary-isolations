@@ -7,7 +7,6 @@ import "./App.css";
 
 //THINGS TO DO
 //when deleting/creating/updating a kit, change state, localstorage, and also make a query to db.
-//whenever a change happens, upload to localStorage
 //set timer with each update, to clear localStorage in 24 hours
 //user login! do not want outsiders messing with the data
 
@@ -29,6 +28,10 @@ import "./App.css";
 // };
 // tableKitIDs = { "192-050-201": 2, "190-229-501": 1, "130-096-537": 8 };
 // tableKitData = [{ kit1 }, { kit2 }, { kit3 }];
+// arrayedKitData = [
+//   ["Human", [{ kit1 }, { kit2 }]],
+//   ["Mouse", [{ kit1 }]]
+// ];
 // tableRowsHash = {
 //   Human: {
 //     "130-096-537 0": ["Human 24", "45.3"],
@@ -61,11 +64,7 @@ class App extends Component {
     this.clearTable = this.clearTable.bind(this);
     this.addRowToTableRowsHash = this.addRowToTableRowsHash.bind(this);
     this.deleteSpeciesGroup = this.deleteSpeciesGroup.bind(this);
-    // this.hashifyKitData = this.hashifyKitData.bind(this);
   }
-
-  //class variable for generating the tableRowsHash as render is creating the tables. this.state.tableRowsHash gets updated with this variable once Table component finishes mounting.
-  tableRowsHash = {};
 
   componentDidMount = async () => {
     this.fetchLocalStorage();
@@ -120,7 +119,7 @@ class App extends Component {
     console.log("UPDATING LOCALSTORAGE");
     localStorage.setItem("state", JSON.stringify(this.state));
   };
-  //
+
   modifyRows = modification => {
     if (modification === "add")
       this.setState({ tableRows: this.state.tableRows + 1 });
@@ -128,7 +127,6 @@ class App extends Component {
       this.setState({ tableRows: this.state.tableRows - 1 });
   };
 
-  //
   selectSpecies = async currentSpecies => {
     const currentKits = this.state.allKits.filter(
       kit => kit.species === currentSpecies
@@ -231,10 +229,14 @@ class App extends Component {
   };
 
   deleteSpeciesGroup = async species => {
-    let tableRows = this.state.tableRows;
-    const tableKitIDs = cloneDeep(this.state.tableKitIDs);
-    let tableKitData = cloneDeep(this.state.tableKitData);
-    const tableRowsHash = cloneDeep(this.state.tableRowsHash);
+    let clone = cloneDeep(this.state);
+    let {
+      tableRows,
+      tableKitIDs,
+      tableKitData,
+      arrayedKitData,
+      tableRowsHash
+    } = clone;
 
     //grab the number of rows that will be deleted, subtract from tableRows
     const speciesRows = tableRowsHash[species];
@@ -251,11 +253,14 @@ class App extends Component {
     });
     //delete kits from tableKitIDs using the IDs grabbed during the modification of tableKitData
     for (let ID of IDs) delete tableKitIDs[ID];
+    //delete species from arrayedKitData
+    arrayedKitData = arrayedKitData.filter(group => group[0] !== species);
 
     await this.setState({
       tableRows,
       tableKitIDs,
       tableKitData,
+      arrayedKitData,
       tableRowsHash
     });
     console.log("deleteSpeciesGroup");

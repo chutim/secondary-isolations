@@ -10,40 +10,16 @@ import "./Table.css";
 //'delete kit' button next to each kit
 //'delete row' button next to each row
 //'add new row' button next to each type of kit
-//figure out how to reverse the indices of the rows so a new row insertion doesn't insert at beginning
-
-// DATA STRUCTURES REFERENCE:
-// arrayedKitData = [
-//   ["Human", [{ kit1 }, { kit2 }]],
-//   ["Mouse", [{ kit1 }]]
-// ];
 
 class Table extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      arrayedKitData: this.props.arrayedKitData
-    };
-  }
-
-  deleteSpeciesFromTable = species => {
-    this.props.deleteSpeciesGroup(species);
-    let arrayedKitData = cloneDeep(this.state.arrayedKitData);
-    arrayedKitData = arrayedKitData.filter(group => group[0] !== species);
-    this.setState({ arrayedKitData });
-  };
-
   generateRows = kit => {
     const numRows = this.props.tableKitIDs[kit.id];
     let row = 1;
     const rows = [];
 
     while (row <= numRows) {
-      const rowID = row; //note the row IDs will count down
+      const rowID = row;
       const rowKey = kit.id + " " + rowID;
-
-      //add this new row into the tableRowsHash
-      // this.props.addRowToTableRowsHash(kit.species, rowKey);
 
       rows.push(
         <tr key={rowID}>
@@ -115,7 +91,7 @@ class Table extends Component {
 
         <div className="groups-container" id="divToPrint">
           {/* generate a new table group for each species */}
-          {this.state.arrayedKitData.map(speciesGroup => (
+          {this.props.arrayedKitData.map(speciesGroup => (
             <div className="tables-container" key={speciesGroup[0]}>
               <div className="tables-header">
                 <div></div>
@@ -129,7 +105,7 @@ class Table extends Component {
                 </LinkButton>
                 <button
                   className="delete-button delete-species no-print"
-                  onClick={() => this.deleteSpeciesFromTable(speciesGroup[0])}
+                  onClick={() => this.props.deleteSpeciesGroup(speciesGroup[0])}
                 >
                   x
                 </button>
