@@ -1,5 +1,5 @@
 //for organization
-export { default as Home } from "./Home.js";
-export { default as Kits } from "./Kits.js";
-export { default as Table } from "./Table.js";
-export { default as EditKits } from "./EditKits.js";
+export { default as Home } from "./Home";
+export { default as Kits } from "./Kits";
+export { default as Table } from "./Table";
+export { default as EditKits } from "./EditKits";

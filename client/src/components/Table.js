@@ -76,7 +76,7 @@ class Table extends Component {
                   e.target.value
                 )
               }
-              value={this.props.tableRowsHash[kit.species][rowKey][0]}
+              value={this.props.tableRowsHash[kit.species][rowKey][0] || ""}
             ></input>
           </td>
           <td className="user-input-cell">
@@ -95,7 +95,7 @@ class Table extends Component {
                   e.target.value
                 )
               }
-              value={this.props.tableRowsHash[kit.species][rowKey][1]}
+              value={this.props.tableRowsHash[kit.species][rowKey][1] || ""}
             ></input>
           </td>
           {kit.constants.map((constant, idx) => {

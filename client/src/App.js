@@ -115,6 +115,7 @@ class App extends Component {
       id: "130-096-537",
       name: "Pan Monocyte Isolation Kit",
       species: "Human",
+      type: "Negative",
       constants: [
         ["Buffer (µL)", "40"],
         ["FcR Blocking Reagent (µL)", "10"],

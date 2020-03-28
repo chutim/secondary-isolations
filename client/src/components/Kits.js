@@ -1,6 +1,7 @@
 //the Kits component lists all positive & negative kits for the selected species, and allows user to add kits to the Table, to edit/create kits, to go Home, and to go to the Table. the number of kits currently in the Table is displayed.
 import React, { Component } from "react";
 import LinkButton from "./LinkButton.jsx";
+import apis from "../api";
 import "./Kits.css";
 
 //THINGS TO DO
@@ -9,33 +10,38 @@ class Kits extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentSpecies: this.props.currentSpecies,
       positiveKits: [],
-      negativeKits: []
+      negativeKits: [],
+      fetchingKits: false //use for rendering skeleton text
     };
   }
 
-  componentDidMount = () => {
+  componentDidMount = async () => {
     //these will be fetched from the db. consider fetching the entire kit data to be passed up to App.js. therefore only one read from the db total, as opposed to once here and once again in App.js when a new kit is added
-    const positiveKits = [{ id: "130-050-201", name: "CD14 Microbeads" }];
-    const negativeKits = [
-      { id: "130-096-537", name: "Pan Monocyte Isolation Kit" },
-      { id: "130-096-533", name: "CD4 T Cell Isolation Kit" },
-      { id: "130-096-533", name: "CD4 T Cell Isolation Kit" },
-      { id: "130-096-533", name: "CD4 T Cell Isolation Kit" },
-      { id: "130-096-533", name: "CD4 T Cell Isolation Kit" },
-      { id: "130-096-533", name: "CD4 T Cell Isolation Kit" },
-      { id: "130-096-533", name: "CD4 T Cell Isolation Kit" }
-    ];
+    this.setState({ fetchingKits: true });
+    const response = await apis.getKitsBySpecies(this.props.currentSpecies);
+    console.log("all kits:", response.data.data);
+    const allKits = response.data.data;
+    const positiveKits = [];
+    const negativeKits = [];
+    for (let kit of allKits) {
+      if (kit.type === "Positive") positiveKits.push(kit);
+      else if (kit.type === "Negative") negativeKits.push(kit);
+    }
+    // const positiveKits = [{ id: "130-050-201", name: "CD14 Microbeads" }];
+    // const negativeKits = [
+    //   { id: "130-096-537", name: "Pan Monocyte Isolation Kit" },
+    //   { id: "130-096-533", name: "CD4 T Cell Isolation Kit" }
+    // ];
 
-    this.setState({ positiveKits, negativeKits });
+    this.setState({ positiveKits, negativeKits, fetchingKits: false });
   };
 
   render() {
     return (
       <div className="page">
         <header>
-          <h3 className="page-title">{this.state.currentSpecies}</h3>
+          <h3 className="page-title">{this.props.currentSpecies}</h3>
         </header>
         <div className="kits-body">
           <div className="kit-section section-positive-selection">

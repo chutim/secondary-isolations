@@ -1,0 +1,24 @@
+{
+  "name": "secondary-isolations",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "concurrently --kill-others-on-fail \"npm --prefix client/ run start\" \"npm --prefix server/ run server\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chutim/secondary-isolations.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/chutim/secondary-isolations/issues"
+  },
+  "homepage": "https://github.com/chutim/secondary-isolations#readme",
+  "dependencies": {
+    "concurrently": "^5.1.0"
+  }
+}
