@@ -104,7 +104,9 @@ class Table extends Component {
                 </LinkButton>
                 <button
                   className="delete-button delete-species no-print"
-                  onClick={() => this.props.deleteSpeciesGroup(speciesGroup[0])}
+                  onClick={() =>
+                    this.props.deleteSpeciesFromTable(speciesGroup[0])
+                  }
                 >
                   x
                 </button>
@@ -114,11 +116,21 @@ class Table extends Component {
                 <table className="kit-table" key={kit.id}>
                   <thead>
                     <tr>
-                      <th
-                        className="kit-table-subtitle"
-                        colSpan={kit.constants.length + 2}
-                      >
-                        {kit.name}: {kit.id}
+                      <th colSpan={kit.constants.length + 2}>
+                        <div className="kit-table-title">
+                          <div></div>
+                          <div>
+                            {kit.name}: {kit.id}
+                          </div>
+                          <button
+                            className="delete-button delete-kit no-print"
+                            onClick={() =>
+                              this.props.deleteKitFromTable(kit.id, kit.species)
+                            }
+                          >
+                            x
+                          </button>
+                        </div>
                       </th>
                     </tr>
                     <tr className="kit-multipliers-row">
@@ -140,6 +152,28 @@ class Table extends Component {
                     </tr>
                   </thead>
                   <tbody>{this.generateRows(kit)}</tbody>
+                  <tfoot className="no-print">
+                    <tr>
+                      <td colSpan={kit.constants.length + 2}>
+                        <div className="kit-table-footer">
+                          <button
+                            className="kit-table-row-button kit-table-add-row"
+                            onClick={() => this.props.updateTable("add", kit)}
+                          >
+                            Add Row
+                          </button>
+                          <button
+                            className="kit-table-row-button kit-table-subtract-row"
+                            onClick={() =>
+                              this.props.updateTable("remove", kit)
+                            }
+                          >
+                            Subtract Row
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  </tfoot>
                 </table>
               ))}
             </div>

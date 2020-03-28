@@ -64,7 +64,8 @@ class App extends Component {
     this.updateTable = this.updateTable.bind(this);
     this.clearTable = this.clearTable.bind(this);
     this.addRowToTableRowsHash = this.addRowToTableRowsHash.bind(this);
-    this.deleteSpeciesGroup = this.deleteSpeciesGroup.bind(this);
+    this.deleteSpeciesFromTable = this.deleteSpeciesFromTable.bind(this);
+    this.deleteKitFromTable = this.deleteKitFromTable.bind(this);
   }
 
   componentDidMount = async () => {
@@ -180,15 +181,16 @@ class App extends Component {
     this.updateLocalStorage();
   };
 
-  addKitData = kitID => {
+  addKitData = async kitID => {
     //find the correct kit from allKits and add to the table
     for (let kit of this.state.allKits) {
       if (kit.id === kitID) {
         const tableKitData = [...this.state.tableKitData, kit];
-        this.setState({
-          tableKitData
+        const arrayedKitData = this.hashifyKitData(tableKitData);
+        await this.setState({
+          tableKitData,
+          arrayedKitData
         });
-        this.hashifyKitData(tableKitData);
         return;
       }
     }
@@ -199,8 +201,8 @@ class App extends Component {
   removeKitData = kitID => {
     const tableKitData = this.state.tableKitData;
     const filteredKitData = tableKitData.filter(kit => kit.id !== kitID);
-    this.setState({ tableKitData: filteredKitData });
-    this.hashifyKitData(filteredKitData);
+    const arrayedKitData = this.hashifyKitData(filteredKitData);
+    this.setState({ tableKitData: filteredKitData, arrayedKitData });
   };
 
   hashifyKitData = tableKitData => {
@@ -208,17 +210,18 @@ class App extends Component {
     for (let kit of tableKitData) {
       kitDataHash[kit.species] = (kitDataHash[kit.species] || []).concat(kit);
     }
-    this.arrayifyKitData(kitDataHash);
+    return this.arrayifyKitData(kitDataHash);
   };
 
-  arrayifyKitData = async kitDataHash => {
+  arrayifyKitData = kitDataHash => {
     let arrayedKitData = [];
     for (let groupSpecies in kitDataHash) {
       const groupArray = [groupSpecies, kitDataHash[groupSpecies]];
       arrayedKitData.push(groupArray);
     }
-    await this.setState({ arrayedKitData });
-    this.updateLocalStorage();
+    return arrayedKitData;
+    // await this.setState({ arrayedKitData });
+    // this.updateLocalStorage();
   };
 
   addRowToTableRowsHash = async (species, rowKey) => {
@@ -243,7 +246,7 @@ class App extends Component {
     this.updateLocalStorage();
   };
 
-  deleteSpeciesGroup = async species => {
+  deleteSpeciesFromTable = async species => {
     let clone = cloneDeep(this.state);
     let {
       tableRows,
@@ -278,7 +281,43 @@ class App extends Component {
       arrayedKitData,
       tableRowsHash
     });
-    console.log("deleteSpeciesGroup");
+    console.log("deleteSpeciesFromTable");
+    this.updateLocalStorage();
+  };
+
+  deleteKitFromTable = async (kitID, kitSpecies) => {
+    let clone = cloneDeep(this.state);
+    let { tableRows, tableKitIDs, tableKitData, tableRowsHash } = clone;
+
+    //grab the number of rows that will be deleted, subtract from tableRows
+    let rowCount = 0;
+    const kitsHash = tableRowsHash[kitSpecies];
+    for (let kit in kitsHash) {
+      if (kit.slice(0, -2) === kitID) {
+        rowCount++;
+        delete kitsHash[kit];
+      }
+    }
+    tableRows -= rowCount;
+    //delete kits from tableKitIDs
+    for (let kit in tableKitIDs) {
+      if (kit === kitID) delete tableKitIDs[kit];
+    }
+
+    //delete kit from tableKitData
+    tableKitData = tableKitData.filter(kit => kit.id !== kitID);
+
+    //delete species from arrayedKitData
+    const arrayedKitData = this.hashifyKitData(tableKitData);
+
+    await this.setState({
+      tableRows,
+      tableKitIDs,
+      tableKitData,
+      arrayedKitData,
+      tableRowsHash
+    });
+    console.log("deleteKitFromTable");
     this.updateLocalStorage();
   };
 
@@ -326,7 +365,8 @@ class App extends Component {
                 updateTable={this.updateTable}
                 addRowToTableRowsHash={this.addRowToTableRowsHash}
                 updateRowCellCount={this.updateRowCellCount}
-                deleteSpeciesGroup={this.deleteSpeciesGroup}
+                deleteSpeciesFromTable={this.deleteSpeciesFromTable}
+                deleteKitFromTable={this.deleteKitFromTable}
                 clearTable={this.clearTable}
               />
             )}
