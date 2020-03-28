@@ -52,12 +52,12 @@ class App extends Component {
       currentKits: [],
       tableKitIDs: {},
       tableKitData: [],
-      tableRowsHash: {}
+      tableRowsHash: {},
+      allSpecies: []
     };
     this.modifyRows = this.modifyRows.bind(this);
     this.selectSpecies = this.selectSpecies.bind(this);
     this.updateTable = this.updateTable.bind(this);
-    this.fetchKitData = this.fetchKitData.bind(this);
     this.clearTable = this.clearTable.bind(this);
     this.addRowToTableRowsHash = this.addRowToTableRowsHash.bind(this);
     this.setTableRowsHashToState = this.setTableRowsHashToState.bind(this);
@@ -71,8 +71,17 @@ class App extends Component {
     console.log("Fetching kits from database...");
     const res = await apis.getAllKits();
     const allKits = res.data.data;
-    this.setState({ allKits });
+    const allSpecies = this.extractAllSpecies(allKits);
+    this.setState({ allKits, allSpecies });
     console.log("All kits loaded into app.");
+  };
+
+  extractAllSpecies = allKits => {
+    const speciesSet = new Set();
+    for (let kit of allKits) {
+      speciesSet.add(kit.species);
+    }
+    return Array.from(speciesSet);
   };
 
   modifyRows = modification => {
@@ -114,37 +123,23 @@ class App extends Component {
   };
 
   addKitData = kitID => {
-    const kitData = this.fetchKitData(kitID);
-    this.setState({
-      tableKitData: [...this.state.tableKitData, kitData]
-    });
+    //find the correct kit from allKits and add to the table
+    for (let kit of this.state.allKits) {
+      if (kit.id === kitID) {
+        this.setState({
+          tableKitData: [...this.state.tableKitData, kit]
+        });
+        return;
+      }
+    }
+    console.log("Kit not found in allKits.");
+    return;
   };
 
   removeKitData = kitID => {
     const tableKitData = this.state.tableKitData;
     const filteredKitData = tableKitData.filter(kit => kit.id !== kitID);
     this.setState({ tableKitData: filteredKitData });
-  };
-
-  fetchKitData = kitID => {
-    //fetch from DB based on kitID
-    const kitData = {
-      id: "130-096-537",
-      name: "Pan Monocyte Isolation Kit",
-      species: "Human",
-      type: "Negative",
-      constants: [
-        ["Buffer (µL)", "40"],
-        ["FcR Blocking Reagent (µL)", "10"],
-        ["Biotin-Antibody Cocktail (µL)", "10"],
-        ["Incubation (min)", "5"],
-        ["Buffer (µL)", "30"],
-        ["Anti-Biotin Microbeads (µL)", "20"],
-        ["Incubation (min)", "10"],
-        ["Washes (times x mL)", "3 x 3"]
-      ]
-    };
-    return kitData;
   };
 
   addRowToTableRowsHash = (species, rowKey) => {
@@ -250,6 +245,7 @@ class App extends Component {
               <Home
                 {...props}
                 tableRows={this.state.tableRows}
+                allSpecies={this.state.allSpecies}
                 selectSpecies={this.selectSpecies}
               />
             )}

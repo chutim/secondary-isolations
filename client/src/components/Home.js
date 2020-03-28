@@ -4,14 +4,10 @@ import LinkButton from "./LinkButton.jsx";
 import "./Home.css";
 
 //THINGS TO DO
+//common species: "Non-Human Primate", "Mouse", "Rat", "Dog", "Rabbit"
 //include function/button to add species
-//get the species from database instead of hardcode here
 
 class Home extends Component {
-  state = {
-    buttons: ["Human", "Non-Human Primate", "Mouse", "Rat", "Dog", "Rabbit"]
-  };
-
   render() {
     return (
       <div className="page">
@@ -31,14 +27,14 @@ class Home extends Component {
           </h5>
         </header>
         <div className="home-container-species-buttons">
-          {this.state.buttons.map(button => (
+          {this.props.allSpecies.map(species => (
             <LinkButton
               to="/kits"
               className="species-button"
-              onClick={() => this.props.selectSpecies(button)}
-              key={button}
+              onClick={() => this.props.selectSpecies(species)}
+              key={species}
             >
-              {button}
+              {species}
             </LinkButton>
           ))}
         </div>
