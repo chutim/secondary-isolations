@@ -2,13 +2,17 @@ import React, { Component } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { cloneDeep } from "lodash";
 import { Home, Kits, EditKits, Table } from "./components";
+import apis from "./api";
 import "./App.css";
 
 //THINGS TO DO
+//when deleting/creating/updating a kit, change state, localstorage, and also make a query to db.
 //whenever a change happens, upload to localStorage
 //set timer with each update, to clear localStorage in 24 hours
+//user login! do not want outsiders messing with the data
+//put on localStorage: entire state. definitely need table data, need table rows, need current species in case user goes from a species to the table, then refreshes and clicks back, need table kitIDs for displaying how many of each kit is chosen on Kits, need tableRowsHash for cell counts.
 
-// DATA STRUCTURES REFERENCE:
+// DATA STRUCTURES EXAMPLES:
 // kit = {
 //   id: "130-096-537",
 //   name: "Pan Monocyte Isolation Kit",
@@ -42,8 +46,10 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
+      allKits: [],
       tableRows: 0,
       currentSpecies: "No Species Selected",
+      currentKits: [],
       tableKitIDs: {},
       tableKitData: [],
       tableRowsHash: {}
@@ -61,6 +67,14 @@ class App extends Component {
   //class variable for generating the tableRowsHash as render is creating the tables. this.state.tableRowsHash gets updated with this variable once Table component finishes mounting.
   tableRowsHash = {};
 
+  componentDidMount = async () => {
+    console.log("Fetching kits from database...");
+    const res = await apis.getAllKits();
+    const allKits = res.data.data;
+    this.setState({ allKits });
+    console.log("All kits loaded into app.");
+  };
+
   modifyRows = modification => {
     if (modification === "add")
       this.setState({ tableRows: this.state.tableRows + 1 });
@@ -68,8 +82,11 @@ class App extends Component {
       this.setState({ tableRows: this.state.tableRows - 1 });
   };
 
-  selectSpecies = species => {
-    this.setState({ currentSpecies: species });
+  selectSpecies = currentSpecies => {
+    const currentKits = this.state.allKits.filter(
+      kit => kit.species === currentSpecies
+    );
+    this.setState({ currentSpecies, currentKits });
   };
 
   updateTable = (modification, kitID) => {
@@ -197,6 +214,7 @@ class App extends Component {
               <Kits
                 {...props}
                 currentSpecies={this.state.currentSpecies}
+                currentKits={this.state.currentKits}
                 tableRows={this.state.tableRows}
                 tableKitIDs={this.state.tableKitIDs}
                 updateTable={this.updateTable}

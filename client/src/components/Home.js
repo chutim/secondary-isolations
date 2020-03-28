@@ -5,6 +5,7 @@ import "./Home.css";
 
 //THINGS TO DO
 //include function/button to add species
+//get the species from database instead of hardcode here
 
 class Home extends Component {
   state = {
