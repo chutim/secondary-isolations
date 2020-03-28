@@ -12,4 +12,5 @@ const Kit = new Schema(
   { timestamps: true }
 );
 
+//note that the first argument here has to match the name of the collection
 module.exports = mongoose.model("kits", Kit);

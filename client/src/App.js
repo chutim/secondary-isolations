@@ -10,7 +10,6 @@ import "./App.css";
 //whenever a change happens, upload to localStorage
 //set timer with each update, to clear localStorage in 24 hours
 //user login! do not want outsiders messing with the data
-//put on localStorage: entire state. definitely need table data, need table rows, need current species in case user goes from a species to the table, then refreshes and clicks back, need table kitIDs for displaying how many of each kit is chosen on Kits, need tableRowsHash for cell counts.
 
 // DATA STRUCTURES EXAMPLES:
 // kit = {
@@ -68,12 +67,42 @@ class App extends Component {
   tableRowsHash = {};
 
   componentDidMount = async () => {
+    this.fetchLocalStorage();
+    this.fetchKitsFromDatabase();
+  };
+
+  fetchLocalStorage = () => {
+    console.log("Fetching state from local storage...");
+    const localState = JSON.parse(localStorage.getItem("state"));
+    if (localState) {
+      // do not need to store/fetch allKits or allSpecies, as those can change in the database and we want to always grab the newest update on loading app
+      const {
+        tableRows,
+        currentSpecies,
+        currentKits,
+        tableKitIDs,
+        tableKitData,
+        tableRowsHash
+      } = localState;
+      this.setState({
+        tableRows,
+        currentSpecies,
+        currentKits,
+        tableKitIDs,
+        tableKitData,
+        tableRowsHash
+      });
+    }
+    console.log("State loaded.");
+  };
+
+  fetchKitsFromDatabase = async () => {
     console.log("Fetching kits from database...");
     const res = await apis.getAllKits();
     const allKits = res.data.data;
     const allSpecies = this.extractAllSpecies(allKits);
     this.setState({ allKits, allSpecies });
-    console.log("All kits loaded into app.");
+    console.log("All kits loaded.");
   };
 
   extractAllSpecies = allKits => {
