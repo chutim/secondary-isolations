@@ -5,10 +5,6 @@ import "./Table.css";
 
 //THINGS TO DO:
 //allow changing of row order, drag and drop
-//display multipliers next to each reagent so user can double check against kit paper
-//'delete kit' button next to each kit
-//'delete row' button next to each row
-//'add new row' button next to each type of kit
 
 class Table extends Component {
   generateRows = kit => {
@@ -165,7 +161,7 @@ class Table extends Component {
                           <button
                             className="kit-table-row-button kit-table-subtract-row"
                             onClick={() =>
-                              this.props.updateTable("remove", kit)
+                              this.props.updateTable("subtract", kit)
                             }
                           >
                             Subtract Row
@@ -196,7 +192,6 @@ class Table extends Component {
             className="nav-button clear-table-button"
             onClick={() => {
               this.props.clearTable();
-              this.setState({ arrayedKitData: [] });
             }}
           >
             Clear Table

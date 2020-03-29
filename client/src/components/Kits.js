@@ -27,7 +27,7 @@ class Kits extends Component {
                       <button
                         className="kit-options-button kit-remove-button"
                         onClick={() => {
-                          this.props.updateTable("remove", kit);
+                          this.props.updateTable("subtract", kit);
                         }}
                       >
                         <b>-</b>
@@ -62,7 +62,7 @@ class Kits extends Component {
                       <button
                         className="kit-options-button kit-remove-button"
                         onClick={() => {
-                          this.props.updateTable("remove", kit);
+                          this.props.updateTable("subtract", kit);
                         }}
                       >
                         <b>-</b>
@@ -93,7 +93,7 @@ class Kits extends Component {
             Edit Kits
           </LinkButton>
           <LinkButton to="/table" className="nav-button table-button">
-            Table &#40;{this.props.tableRows} Samples&#41;
+            Table &#40;{this.props.rowCount} Samples&#41;
           </LinkButton>
         </footer>
       </div>

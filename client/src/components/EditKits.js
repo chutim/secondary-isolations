@@ -22,7 +22,7 @@ class EditKits extends Component {
             Home
           </LinkButton>
           <LinkButton to="/table" className="nav-button table-button">
-            Table &#40;{this.props.tableRows} Samples&#41;
+            Table &#40;{this.props.rowCount} Samples&#41;
           </LinkButton>
         </footer>
       </div>
