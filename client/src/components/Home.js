@@ -4,8 +4,6 @@ import LinkButton from "./LinkButton.jsx";
 import "./Home.css";
 
 //THINGS TO DO
-//common species: "Non-Human Primate", "Mouse", "Rat", "Dog", "Rabbit"
-//include function/button to add species
 
 class Home extends Component {
   render() {

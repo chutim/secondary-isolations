@@ -89,8 +89,11 @@ class Kits extends Component {
           <LinkButton to="/" className="nav-button home-button">
             Home
           </LinkButton>
-          <LinkButton to="/editkits" className="nav-button">
+          <LinkButton to="/edit" className="nav-button">
             Edit Kits
+          </LinkButton>
+          <LinkButton to="/create" className="nav-button">
+            Create Kit
           </LinkButton>
           <LinkButton to="/table" className="nav-button table-button">
             Table &#40;{this.props.rowCount} Samples&#41;

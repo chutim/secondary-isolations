@@ -99,8 +99,7 @@ getKitsBySpecies = async (req, res) => {
   }).catch(err => console.log(err));
 };
 
-//might not need this one, it grabs all the kits
-getKits = async (req, res) => {
+getAllKits = async (req, res) => {
   await Kit.find({}, (err, kits) => {
     if (err) {
       return res.status(400).json({ success: false, error: err });
@@ -116,6 +115,6 @@ module.exports = {
   createKit,
   updateKit,
   deleteKit,
-  getKits,
+  getAllKits,
   getKitsBySpecies
 };

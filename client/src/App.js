@@ -1,14 +1,14 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { cloneDeep } from "lodash";
-import { Home, Kits, EditKits, Table } from "./components";
+import { Home, Kits, Edit, Create, Table } from "./components";
 import apis from "./api";
 import "./App.css";
 
 //THINGS TO DO
 //when deleting/creating/updating a kit, change state, localstorage, and also make a query to db.
-//set timer with each update, to clear localStorage in 24 hours
-//user login! do not want outsiders messing with the data
+//set timer with each update, to clear localStorage in 24 hours. have button to stop auto-clear in case user wants to keep the table over the weekend or something.
+//sign-in box can be floating div on App.js, upper corner. once signed in, it says 'Full Access Mode' with a Logout button. before sign-in, it says 'Visitor Mode'u
 
 // DATA STRUCTURES EXAMPLES:
 // kit = {
@@ -16,13 +16,13 @@ import "./App.css";
 //   name: "Pan Monocyte Isolation Kit",
 //   species: "Human",
 //   constants: [
-//     ["Buffer (µL)", 40],
-//     ["FcR Blocking Reagent (µL)", 10],
-//     ["Biotin-Antibody Cocktail (µL)", 10],
-//     ["Incubation (min)", 5],
-//     ["Buffer (µL)", 30],
-//     ["Anti-Biotin Microbeads (µL)", 20],
-//     ["Incubation (min)", 10],
+//     ["Buffer (µL)", "40"],
+//     ["FcR Blocking Reagent (µL)", "10"],
+//     ["Biotin-Antibody Cocktail (µL)", "10"],
+//     ["Incubation (min)", "5"],
+//     ["Buffer (µL)", "30"],
+//     ["Anti-Biotin Microbeads (µL)", "20"],
+//     ["Incubation (min)", "10"],
 //     ["Washes (times x mL)", "3 x 3"]
 //   ]
 // };
@@ -363,10 +363,8 @@ class App extends Component {
               />
             )}
           ></Route>
-          <Route
-            path="/editkits"
-            render={props => <EditKits {...props} />}
-          ></Route>
+          <Route path="/edit" render={props => <Edit {...props} />}></Route>
+          <Route path="/create" render={props => <Create {...props} />}></Route>
           <Route
             path="/table"
             render={props => (
