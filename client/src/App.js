@@ -15,6 +15,7 @@ import "./App.css";
 //   id: "130-096-537",
 //   name: "Pan Monocyte Isolation Kit",
 //   species: "Human",
+//   type: "Negative",
 //   constants: [
 //     ["Buffer (µL)", "40"],
 //     ["FcR Blocking Reagent (µL)", "10"],
@@ -70,6 +71,7 @@ class App extends Component {
   componentDidMount = async () => {
     this.fetchLocalStorage();
     await this.fetchKitsFromDatabase();
+    console.log("app state", this.state);
   };
 
   fetchLocalStorage = async () => {
@@ -104,7 +106,20 @@ class App extends Component {
   fetchKitsFromDatabase = async () => {
     console.log("Fetching kits from database...");
     const res = await apis.getAllKits();
-    const allKits = res.data.data;
+    const responseData = res.data.data;
+
+    const allKits = [];
+    for (let kit of responseData) {
+      const { id, name, species, type, constants } = kit;
+      allKits.push({
+        id,
+        name,
+        species,
+        type,
+        constants
+      });
+    }
+
     const allSpecies = this.extractAllSpecies(allKits);
     this.setState({ allKits, allSpecies });
     console.log("All kits loaded.");

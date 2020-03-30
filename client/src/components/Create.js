@@ -136,22 +136,20 @@ class Create extends Component {
                 <tr>
                   <td align="right">Type:</td>
                   <td align="left">
-                    <select name="type" onChange={this.handleInput}>
-                      <option selected={this.state.type ? false : true} hidden>
-                        Select one:
-                      </option>
-                      <option
-                        selected={this.state.type === "Positive" ? true : false}
-                        value="Positive"
-                      >
-                        Positive
-                      </option>
-                      <option
-                        selected={this.state.type === "Negative" ? true : false}
-                        value="Negative"
-                      >
-                        Negative
-                      </option>
+                    <select
+                      name="type"
+                      value={
+                        this.state.type === "Positive"
+                          ? "Positive"
+                          : this.state.type === "Negative"
+                          ? "Negative"
+                          : "Select one:"
+                      }
+                      onChange={this.handleInput}
+                    >
+                      <option hidden>Select one:</option>
+                      <option value="Positive">Positive</option>
+                      <option value="Negative">Negative</option>
                     </select>
                   </td>
                 </tr>
