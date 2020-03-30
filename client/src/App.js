@@ -58,7 +58,8 @@ class App extends Component {
       tableKitData: [],
       arrayedKitData: [],
       tableRowsHash: {},
-      allSpecies: []
+      allSpecies: [],
+      allKitIDs: {}
     };
 
     this.selectSpecies = this.selectSpecies.bind(this);
@@ -71,7 +72,7 @@ class App extends Component {
   componentDidMount = async () => {
     this.fetchLocalStorage();
     await this.fetchKitsFromDatabase();
-    console.log("app state", this.state);
+    console.log("App state", this.state);
   };
 
   fetchLocalStorage = async () => {
@@ -121,8 +122,17 @@ class App extends Component {
     }
 
     const allSpecies = this.extractAllSpecies(allKits);
-    this.setState({ allKits, allSpecies });
+    const allKitIDs = this.createKitIDHash(allKits);
+    this.setState({ allKits, allSpecies, allKitIDs });
     console.log("All kits loaded.");
+  };
+
+  createKitIDHash = allKits => {
+    let allKitIDs = new Set();
+    for (let kit of allKits) {
+      allKitIDs.add(kit.id);
+    }
+    return allKitIDs;
   };
 
   extractAllSpecies = allKits => {
@@ -382,7 +392,11 @@ class App extends Component {
           <Route
             path="/create"
             render={props => (
-              <Create {...props} rowCount={this.state.rowCount} />
+              <Create
+                {...props}
+                rowCount={this.state.rowCount}
+                allKitIDs={this.state.allKitIDs}
+              />
             )}
           ></Route>
           <Route

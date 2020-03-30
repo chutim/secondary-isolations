@@ -4,6 +4,10 @@ import { cloneDeep } from "lodash";
 import apis from "../api";
 import "./Create.css";
 
+//THINGS TO DO
+//delete all the bad kits from db
+//upload legit kits
+
 class Create extends Component {
   constructor(props) {
     super(props);
@@ -39,6 +43,12 @@ class Create extends Component {
     }
     //otherwise we are not dealing with constants, just update the appropriate fields
     else {
+      //check to see if the ID is already used. there should not be duplicate kits
+      if (e.target.name === "id" && this.props.allKitIDs.has(e.target.value)) {
+        return alert("This kit ID already exists.");
+        // return;
+      }
+
       await this.setState({ [e.target.name]: e.target.value });
     }
     this.updateLocalStorage();
@@ -47,6 +57,19 @@ class Create extends Component {
   handleSubmit = e => {
     e.preventDefault();
     const { id, name, species, type, constants } = this.state;
+    let constantsEmpty = false;
+    for (let constant of constants) {
+      if (!constant[0] || !constant[1]) constantsEmpty = true;
+    }
+    if (
+      id === "" ||
+      name === "" ||
+      species === "" ||
+      type === "" ||
+      constantsEmpty
+    ) {
+      return alert("All fields must be filled.");
+    }
     apis.insertKit({
       id,
       name,
