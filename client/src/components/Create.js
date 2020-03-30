@@ -21,21 +21,32 @@ class Create extends Component {
   }
 
   componentDidMount = async () => {
-    //if editing a kit, grab the kit data pushed into the history object
+    //if editing a kit, grab the kit data pushed into the history object. if the user just went to the url directly, i.e., didn't click in from a kit, there is no history so grab from localStorage
     if (this.props.match.params.kitID) {
-      await this.setState(this.props.location.state);
+      if (this.props.location.state)
+        await this.setState(this.props.location.state);
+      else {
+        console.log("Fetching saved update kit data...");
+        const localForm = JSON.parse(localStorage.getItem("updateState"));
+        await this.setState(localForm);
+        console.log("Saved update kit data loaded.");
+      }
+      this.updateLocalStorage("update");
     } else {
       //otherwise, grab any form data from localStorage
-      console.log("Fetching saved form data...");
+      console.log("Fetching saved create kit data...");
       const localForm = JSON.parse(localStorage.getItem("createState"));
       await this.setState(localForm);
-      console.log("Saved form data loaded.");
+      console.log("Saved create kit data loaded.");
     }
   };
 
-  updateLocalStorage = () => {
+  updateLocalStorage = createOrUpdate => {
     console.log("UPDATING LOCALSTORAGE");
-    localStorage.setItem("createState", JSON.stringify(this.state));
+    if (createOrUpdate === "create")
+      localStorage.setItem("createState", JSON.stringify(this.state));
+    else if (createOrUpdate === "update")
+      localStorage.setItem("updateState", JSON.stringify(this.state));
   };
 
   handleInput = async (e, constantRow, constantNameOrValue) => {
@@ -57,7 +68,9 @@ class Create extends Component {
 
       await this.setState({ [e.target.name]: e.target.value });
     }
-    this.updateLocalStorage();
+    this.updateLocalStorage(
+      this.props.match.params.kitID ? "update" : "create"
+    );
   };
 
   capitalizeWords = string => {
@@ -122,20 +135,33 @@ class Create extends Component {
     if (this.validateFields() === false) return;
     const { id, name, species, type, constants } = this.validateFields();
 
-    await apis.createKit({
-      id,
-      name,
-      species,
-      type,
-      constants
-    });
-    this.clearStateAndStorage();
-    alert("New kit added to database!");
-    this.props.fetchKitsFromDatabase();
+    this.props.match.params.kitID
+      ? await apis.updateKitById(id, {
+          name,
+          species,
+          type,
+          constants
+        })
+      : await apis.createKit({
+          id,
+          name,
+          species,
+          type,
+          constants
+        });
+    await this.clearStateAndStorage();
+    alert(
+      this.props.match.params.kitID
+        ? "Kit updated on database!"
+        : "New kit added to database!"
+    );
+    await this.props.fetchKitsFromDatabase();
   };
 
   clearStateAndStorage = () => {
-    localStorage.removeItem("createState");
+    localStorage.removeItem(
+      this.props.match.params.kitID ? "updateState" : "createState"
+    );
     this.setState({
       id: "",
       name: "",
@@ -152,14 +178,18 @@ class Create extends Component {
       });
     else if (modification === "subtract")
       await this.setState({ constants: this.state.constants.slice(0, -1) });
-    this.updateLocalStorage();
+    this.updateLocalStorage(
+      this.props.match.params.kitID ? "update" : "create"
+    );
   };
 
   render() {
     return (
       <div className="page">
         <header>
-          <h3 className="page-title">Create Kit</h3>
+          <h3 className="page-title">
+            {this.props.match.params.kitID ? "Edit Kit" : "Create Kit"}
+          </h3>
         </header>
         <div className="create-body">
           <div>All fields required.</div>
@@ -300,7 +330,10 @@ class Create extends Component {
             <button type="button" onClick={this.clearStateAndStorage}>
               Clear All
             </button>
-            <input type="submit" value="Create" />
+            <input
+              type="submit"
+              value={this.props.location.state ? "Update Kit" : "Create Kit"}
+            />
           </form>
         </div>
         <footer>
