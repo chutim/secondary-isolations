@@ -54,9 +54,25 @@ class Create extends Component {
     this.updateLocalStorage();
   };
 
-  handleSubmit = e => {
-    e.preventDefault();
-    const { id, name, species, type, constants } = this.state;
+  capitalizeWords = string => {
+    const arrayOfWords = string.split(" ");
+    const capitalizedArray = arrayOfWords.map(word => {
+      return word[0].toUpperCase() + word.slice(1);
+    });
+    return capitalizedArray.join(" ");
+  };
+
+  capitalizeFields = (name, species, constants) => {
+    let nameCap = this.capitalizeWords(name);
+    let speciesCap = this.capitalizeWords(species);
+    let constantsCap = constants.map(constantPair => {
+      constantPair[0] = this.capitalizeWords(constantPair[0]);
+      return constantPair;
+    });
+    return { nameCap, speciesCap, constantsCap };
+  };
+
+  checkForEmptyFields = (id, name, species, type, constants) => {
     let constantsEmpty = false;
     for (let constant of constants) {
       if (!constant[0] || !constant[1]) constantsEmpty = true;
@@ -68,9 +84,39 @@ class Create extends Component {
       type === "" ||
       constantsEmpty
     ) {
-      return alert("All fields must be filled.");
+      alert("All fields must be filled.");
+      return true;
     }
-    apis.insertKit({
+    return false;
+  };
+
+  validateFields = () => {
+    const { id, name, species, type, constants } = cloneDeep(this.state);
+
+    if (this.checkForEmptyFields(id, name, species, type, constants))
+      return false;
+
+    let { nameCap, speciesCap, constantsCap } = this.capitalizeFields(
+      name,
+      species,
+      constants
+    );
+
+    return {
+      id,
+      name: nameCap,
+      species: speciesCap,
+      type,
+      constants: constantsCap
+    };
+  };
+
+  handleSubmit = async e => {
+    e.preventDefault();
+    if (this.validateFields() === false) return;
+    const { id, name, species, type, constants } = this.validateFields();
+
+    await apis.createKit({
       id,
       name,
       species,
@@ -79,6 +125,7 @@ class Create extends Component {
     });
     this.clearStateAndStorage();
     alert("New kit added to database!");
+    this.props.fetchKitsFromDatabase();
   };
 
   clearStateAndStorage = () => {
@@ -227,6 +274,9 @@ class Create extends Component {
               Add Constant
             </button>
 
+            <button type="button" onClick={this.clearStateAndStorage}>
+              Clear
+            </button>
             <input type="submit" value="Create" />
           </form>
         </div>

@@ -67,6 +67,7 @@ class App extends Component {
     this.clearTable = this.clearTable.bind(this);
     this.deleteSpeciesFromTable = this.deleteSpeciesFromTable.bind(this);
     this.deleteKitFromTable = this.deleteKitFromTable.bind(this);
+    this.fetchKitsFromDatabase = this.fetchKitsFromDatabase.bind(this);
   }
 
   componentDidMount = async () => {
@@ -123,7 +124,7 @@ class App extends Component {
 
     const allSpecies = this.extractAllSpecies(allKits);
     const allKitIDs = this.createKitIDHash(allKits);
-    this.setState({ allKits, allSpecies, allKitIDs });
+    await this.setState({ allKits, allSpecies, allKitIDs });
     console.log("All kits loaded.");
   };
 
@@ -396,6 +397,7 @@ class App extends Component {
                 {...props}
                 rowCount={this.state.rowCount}
                 allKitIDs={this.state.allKitIDs}
+                fetchKitsFromDatabase={this.fetchKitsFromDatabase}
               />
             )}
           ></Route>
