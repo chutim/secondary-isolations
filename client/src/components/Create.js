@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import LinkButton from "./LinkButton.jsx";
 import { cloneDeep } from "lodash";
+import apis from "../api";
 import "./Create.css";
 
 class Create extends Component {
@@ -10,6 +11,7 @@ class Create extends Component {
       id: "",
       name: "",
       species: "",
+      type: "",
       constants: [[null, null]]
     };
   }
@@ -28,7 +30,7 @@ class Create extends Component {
 
   handleInput = async (e, constantRow, constantNameOrValue) => {
     const constants = cloneDeep(this.state.constants);
-    //if we're modifying a constant name, modify the corresponding sub-array on state
+    //if we're modifying a constant, modify the corresponding sub-array on state
     if (constantNameOrValue) {
       constantNameOrValue === "constantName"
         ? (constants[constantRow][0] = e.target.value)
@@ -39,14 +41,32 @@ class Create extends Component {
     else {
       await this.setState({ [e.target.name]: e.target.value });
     }
-    console.log(this.state);
     this.updateLocalStorage();
   };
 
   handleSubmit = e => {
     e.preventDefault();
-    alert("A name was submitted: " + this.state.value);
-    localStorage.clear();
+    const { id, name, species, type, constants } = this.state;
+    apis.insertKit({
+      id,
+      name,
+      species,
+      type,
+      constants
+    });
+    this.clearStateAndStorage();
+    alert("New kit added to database!");
+  };
+
+  clearStateAndStorage = () => {
+    localStorage.removeItem("createState");
+    this.setState({
+      id: "",
+      name: "",
+      species: "",
+      type: "",
+      constants: [[null, null]]
+    });
   };
 
   addConstant = async () => {
@@ -114,6 +134,28 @@ class Create extends Component {
                   </td>
                 </tr>
                 <tr>
+                  <td align="right">Type:</td>
+                  <td align="left">
+                    <select name="type" onChange={this.handleInput}>
+                      <option selected={this.state.type ? false : true} hidden>
+                        Select one:
+                      </option>
+                      <option
+                        selected={this.state.type === "Positive" ? true : false}
+                        value="Positive"
+                      >
+                        Positive
+                      </option>
+                      <option
+                        selected={this.state.type === "Negative" ? true : false}
+                        value="Negative"
+                      >
+                        Negative
+                      </option>
+                    </select>
+                  </td>
+                </tr>
+                <tr>
                   <td colSpan={2}>Constants</td>
                 </tr>
                 <tr>
@@ -132,8 +174,8 @@ class Create extends Component {
                         onChange={e => {
                           this.handleInput(e, idx, "constantName");
                         }}
-                        value={constantRow[0]}
-                        placeholder={constantRow[0] ? "" : "Kit Reagent (µL)"}
+                        value={constantRow[0] || ""}
+                        placeholder={constantRow[0] ? "" : "Reagent (µL)"}
                         autoComplete="off"
                       />
                       <datalist id="constants-names">
@@ -151,7 +193,7 @@ class Create extends Component {
                         onChange={e => {
                           this.handleInput(e, idx, "constantValue");
                         }}
-                        value={constantRow[1]}
+                        value={constantRow[1] || ""}
                         placeholder={constantRow[1] ? "" : "123"}
                         autoComplete="off"
                       />
