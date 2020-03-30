@@ -153,13 +153,13 @@ class Table extends Component {
                       <td colSpan={kit.constants.length + 2}>
                         <div className="kit-table-footer">
                           <button
-                            className="kit-table-row-button kit-table-add-row"
+                            className="kit-table-row-button add-row-button"
                             onClick={() => this.props.updateTable("add", kit)}
                           >
                             Add Row
                           </button>
                           <button
-                            className="kit-table-row-button kit-table-subtract-row"
+                            className="kit-table-row-button subtract-row-button"
                             onClick={() =>
                               this.props.updateTable("subtract", kit)
                             }

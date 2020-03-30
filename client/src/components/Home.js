@@ -37,6 +37,9 @@ class Home extends Component {
           ))}
         </div>
         <footer>
+          <LinkButton to="/edit" className="nav-button">
+            Edit All Kits
+          </LinkButton>
           <LinkButton to="/table" className="nav-button table-button">
             Table &#40;{this.props.rowCount} Samples&#41;
           </LinkButton>

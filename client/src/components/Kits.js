@@ -23,6 +23,9 @@ class Kits extends Component {
                       <b>{kit.name}</b>
                       <div>{kit.id}</div>
                     </div>
+                    <LinkButton to={`/edit/${kit.id}`} className="nav-button">
+                      Edit Kit
+                    </LinkButton>
                     <div className="kit-options-container">
                       <button
                         className="kit-options-button kit-remove-button"
@@ -58,6 +61,9 @@ class Kits extends Component {
                       <b>{kit.name}</b>
                       <div>{kit.id}</div>
                     </div>
+                    <LinkButton to={`/edit/${kit.id}`} className="nav-button">
+                      Edit Kit
+                    </LinkButton>
                     <div className="kit-options-container">
                       <button
                         className="kit-options-button kit-remove-button"
@@ -89,9 +95,7 @@ class Kits extends Component {
           <LinkButton to="/" className="nav-button home-button">
             Home
           </LinkButton>
-          <LinkButton to="/edit" className="nav-button">
-            Edit Kits
-          </LinkButton>
+
           <LinkButton to="/create" className="nav-button">
             Create Kit
           </LinkButton>

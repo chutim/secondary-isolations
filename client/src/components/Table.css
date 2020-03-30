@@ -74,10 +74,10 @@ td {
   padding: calc(10px + 0.1vmin);
 }
 
-.kit-table-add-row {
+.add-row-button {
   background-color: rgb(91, 189, 91);
 }
 
-.kit-table-subtract-row {
+.subtract-row-button {
   background-color: rgb(228, 110, 110);
 }

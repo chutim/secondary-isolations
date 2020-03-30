@@ -139,8 +139,13 @@ class Create extends Component {
     });
   };
 
-  addConstant = async () => {
-    await this.setState({ constants: [...this.state.constants, [null, null]] });
+  modifyConstantRows = async modification => {
+    if (modification === "add")
+      await this.setState({
+        constants: [...this.state.constants, [null, null]]
+      });
+    else if (modification === "subtract")
+      await this.setState({ constants: this.state.constants.slice(0, -1) });
     this.updateLocalStorage();
   };
 
@@ -270,12 +275,24 @@ class Create extends Component {
                 ))}
               </tbody>
             </table>
-            <button type="button" onClick={this.addConstant}>
-              Add Constant
-            </button>
-
+            <div className="create-add-subtract-container">
+              <button
+                className="create-row-button add-row-button"
+                type="button"
+                onClick={() => this.modifyConstantRows("add")}
+              >
+                Add Row
+              </button>
+              <button
+                className="create-row-button subtract-row-button"
+                type="button"
+                onClick={() => this.modifyConstantRows("subtract")}
+              >
+                Subtract Row
+              </button>
+            </div>
             <button type="button" onClick={this.clearStateAndStorage}>
-              Clear
+              Clear All
             </button>
             <input type="submit" value="Create" />
           </form>

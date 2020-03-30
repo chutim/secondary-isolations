@@ -389,7 +389,15 @@ class App extends Component {
               />
             )}
           ></Route>
-          <Route path="/edit" render={props => <Edit {...props} />}></Route>
+          <Route
+            path="/edit/:kitID"
+            render={props => <Edit {...props} />}
+          ></Route>
+          <Route
+            path="/edit"
+            exact={true}
+            render={props => <Edit {...props} />}
+          ></Route>
           <Route
             path="/create"
             render={props => (
