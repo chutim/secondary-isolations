@@ -23,7 +23,12 @@ class Kits extends Component {
                       <b>{kit.name}</b>
                       <div>{kit.id}</div>
                     </div>
-                    <LinkButton to={`/edit/${kit.id}`} className="nav-button">
+                    <LinkButton
+                      to={`/edit/${kit.id}`}
+                      className="nav-button"
+                      //attaches kit object to props.location.state
+                      kit={kit}
+                    >
                       Edit Kit
                     </LinkButton>
                     <div className="kit-options-container">
@@ -61,7 +66,12 @@ class Kits extends Component {
                       <b>{kit.name}</b>
                       <div>{kit.id}</div>
                     </div>
-                    <LinkButton to={`/edit/${kit.id}`} className="nav-button">
+                    <LinkButton
+                      to={`/edit/${kit.id}`}
+                      className="nav-button"
+                      //attaches kit object to props.location.state
+                      kit={kit}
+                    >
                       Edit Kit
                     </LinkButton>
                     <div className="kit-options-container">

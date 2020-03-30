@@ -21,10 +21,16 @@ class Create extends Component {
   }
 
   componentDidMount = async () => {
-    console.log("Fetching saved form data...");
-    const localForm = JSON.parse(localStorage.getItem("createState"));
-    await this.setState(localForm);
-    console.log("Saved form data loaded.");
+    //if editing a kit, grab the kit data pushed into the history object
+    if (this.props.match.params.kitID) {
+      await this.setState(this.props.location.state);
+    } else {
+      //otherwise, grab any form data from localStorage
+      console.log("Fetching saved form data...");
+      const localForm = JSON.parse(localStorage.getItem("createState"));
+      await this.setState(localForm);
+      console.log("Saved form data loaded.");
+    }
   };
 
   updateLocalStorage = () => {

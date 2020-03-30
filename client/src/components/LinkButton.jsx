@@ -10,6 +10,7 @@ const LinkButton = props => {
     staticContext,
     to,
     onClick,
+    kit,
     // ⬆ filtering out props that `button` doesn’t know what to do with.
     ...rest
   } = props;
@@ -18,7 +19,7 @@ const LinkButton = props => {
       {...rest} // `children` is just another prop!
       onClick={event => {
         onClick && onClick(event);
-        history.push(to);
+        history.push(to, kit);
       }}
     />
   );

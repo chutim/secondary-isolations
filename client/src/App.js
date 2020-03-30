@@ -112,6 +112,7 @@ class App extends Component {
 
     const allKits = [];
     for (let kit of responseData) {
+      //only grab the fields needed, excluding timestamps and database indices
       const { id, name, species, type, constants } = kit;
       allKits.push({
         id,
@@ -391,7 +392,7 @@ class App extends Component {
           ></Route>
           <Route
             path="/edit/:kitID"
-            render={props => <Edit {...props} />}
+            render={props => <Create {...props} />}
           ></Route>
           <Route
             path="/edit"

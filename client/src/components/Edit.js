@@ -24,7 +24,7 @@ class Edit extends Component {
   }
 
   componentDidMount = () => {
-    console.log(this.state);
+    console.log(this.props.match.params.kitID ? "yes" : "no");
   };
 
   render() {
@@ -33,13 +33,13 @@ class Edit extends Component {
         <header>
           <h3 className="page-title">Edit</h3>
         </header>
-        <div className="edit-body">
-          {Object.keys(this.props.match.params).length ? (
-            <div>single</div>
-          ) : (
-            <div>allkits</div>
-          )}
-        </div>
+
+        {Object.keys(this.props.match.params).length ? (
+          <div className="edit-body">single</div>
+        ) : (
+          <div className="edit-body">allkits</div>
+        )}
+
         <footer>
           <button
             className="nav-button"
