@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import LinkButton from "./LinkButton.jsx";
+import { cloneDeep } from "lodash";
 import "./Create.css";
 
 class Create extends Component {
@@ -9,18 +10,48 @@ class Create extends Component {
       id: "",
       name: "",
       species: "",
-      constants: []
+      constants: [[null, null]]
     };
   }
 
-  handleInput = async e => {
-    await this.setState({ [e.target.name]: e.target.value });
+  componentDidMount = async () => {
+    console.log("Fetching saved form data...");
+    const localForm = JSON.parse(localStorage.getItem("createState"));
+    await this.setState(localForm);
+    console.log("Saved form data loaded.");
+  };
+
+  updateLocalStorage = () => {
+    console.log("UPDATING LOCALSTORAGE");
+    localStorage.setItem("createState", JSON.stringify(this.state));
+  };
+
+  handleInput = async (e, constantRow, constantNameOrValue) => {
+    const constants = cloneDeep(this.state.constants);
+    //if we're modifying a constant name, modify the corresponding sub-array on state
+    if (constantNameOrValue) {
+      constantNameOrValue === "constantName"
+        ? (constants[constantRow][0] = e.target.value)
+        : (constants[constantRow][1] = e.target.value);
+      await this.setState({ constants });
+    }
+    //otherwise we are not dealing with constants, just update the appropriate fields
+    else {
+      await this.setState({ [e.target.name]: e.target.value });
+    }
     console.log(this.state);
+    this.updateLocalStorage();
   };
 
   handleSubmit = e => {
     e.preventDefault();
     alert("A name was submitted: " + this.state.value);
+    localStorage.clear();
+  };
+
+  addConstant = async () => {
+    await this.setState({ constants: [...this.state.constants, [null, null]] });
+    this.updateLocalStorage();
   };
 
   render() {
@@ -68,6 +99,8 @@ class Create extends Component {
                       list="species-choices"
                       name="species"
                       onChange={this.handleInput}
+                      value={this.state.species}
+                      placeholder={this.state.species ? "" : "Unicorn"}
                       autoComplete="off"
                     />
                     <datalist id="species-choices">
@@ -81,16 +114,26 @@ class Create extends Component {
                   </td>
                 </tr>
                 <tr>
-                  <td colSpan={2}>Multipliers/Constants</td>
+                  <td colSpan={2}>Constants</td>
+                </tr>
+                <tr>
+                  <td colSpan={2}>Be sure to include units.</td>
+                </tr>
+                <tr>
+                  <td>Name</td>
+                  <td>Constant</td>
                 </tr>
                 {this.state.constants.map((constantRow, idx) => (
-                  <tr>
+                  <tr key={idx}>
                     <td align="right">
                       <input
                         type="text"
                         list="constants-names"
-                        name={`constant ${idx}`}
-                        onChange={this.handleInput}
+                        onChange={e => {
+                          this.handleInput(e, idx, "constantName");
+                        }}
+                        value={constantRow[0]}
+                        placeholder={constantRow[0] ? "" : "Kit Reagent (µL)"}
                         autoComplete="off"
                       />
                       <datalist id="constants-names">
@@ -105,8 +148,11 @@ class Create extends Component {
                     <td align="left">
                       <input
                         type="text"
-                        name="species"
-                        onChange={this.handleInput}
+                        onChange={e => {
+                          this.handleInput(e, idx, "constantValue");
+                        }}
+                        value={constantRow[1]}
+                        placeholder={constantRow[1] ? "" : "123"}
                         autoComplete="off"
                       />
                     </td>
@@ -114,7 +160,10 @@ class Create extends Component {
                 ))}
               </tbody>
             </table>
-            <button>Add Multiplier/Constant</button>
+            <button type="button" onClick={this.addConstant}>
+              Add Constant
+            </button>
+
             <input type="submit" value="Create" />
           </form>
         </div>

@@ -130,7 +130,7 @@ class Table extends Component {
                       </th>
                     </tr>
                     <tr className="kit-multipliers-row">
-                      <th colSpan={2}>Multipliers/Constants:</th>
+                      <th colSpan={2}>Constants:</th>
                       {/* using idx for the keys because constants can repeat */}
                       {kit.constants.map((constant, idx) => (
                         <th key={idx}>{constant[1]}</th>

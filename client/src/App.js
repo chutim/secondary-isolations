@@ -74,7 +74,7 @@ class App extends Component {
 
   fetchLocalStorage = async () => {
     console.log("Fetching state from local storage...");
-    const localState = JSON.parse(localStorage.getItem("state"));
+    const localState = JSON.parse(localStorage.getItem("appState"));
     if (localState) {
       // do not need to store/fetch allKits or allSpecies, as those can change in the database and we want to always grab the newest update on loading app
       const {
@@ -120,7 +120,7 @@ class App extends Component {
 
   updateLocalStorage = () => {
     console.log("UPDATING LOCALSTORAGE");
-    localStorage.setItem("state", JSON.stringify(this.state));
+    localStorage.setItem("appState", JSON.stringify(this.state));
   };
 
   modifyRowCount = modification => {
@@ -364,7 +364,12 @@ class App extends Component {
             )}
           ></Route>
           <Route path="/edit" render={props => <Edit {...props} />}></Route>
-          <Route path="/create" render={props => <Create {...props} />}></Route>
+          <Route
+            path="/create"
+            render={props => (
+              <Create {...props} rowCount={this.state.rowCount} />
+            )}
+          ></Route>
           <Route
             path="/table"
             render={props => (
