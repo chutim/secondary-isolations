@@ -419,6 +419,7 @@ class App extends Component {
                 rowCount={this.state.rowCount}
                 allKitIDs={this.state.allKitIDs}
                 currentSpecies={this.state.currentSpecies}
+                allSpecies={this.state.allSpecies}
                 fetchKitsFromDatabase={this.fetchKitsFromDatabase}
                 selectSpecies={this.selectSpecies}
                 updateTableKitData={this.updateTableKitData}
@@ -434,6 +435,7 @@ class App extends Component {
                 rowCount={this.state.rowCount}
                 allKitIDs={this.state.allKitIDs}
                 currentSpecies={this.state.currentSpecies}
+                allSpecies={this.state.allSpecies}
                 fetchKitsFromDatabase={this.fetchKitsFromDatabase}
                 selectSpecies={this.selectSpecies}
               />

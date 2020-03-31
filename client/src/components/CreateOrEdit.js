@@ -5,9 +5,11 @@ import apis from "../api";
 import "./CreateOrEdit.css";
 
 //THINGS TO DO
-//add allSpecies from App into suggestions for Species input field
+//add all constants from App state into suggestions for constant name inputs
 //after deleting kit, update everything on App state
+//drop-down for units in each constants row, forces user to remember to add units
 //upload legit kits
+
 //need to require sign-in to use edit buttons, don't render them otherwise.
 //sign-in box can be floating div on App.js, upper corner. once signed in, it says 'Full Access Mode' with a Logout button. before sign-in, it says 'Visitor Mode' 'enter password for full access'
 //how to stop user from just typing /edit or /create in the URL?????????
@@ -207,7 +209,9 @@ class Create extends Component {
       <div className="page">
         <header>
           <h3 className="page-title">
-            {this.props.match.params.kitID ? "Edit Kit" : "Create Kit"}
+            {this.props.match.params.kitID
+              ? `Edit Kit (${this.props.match.params.kitID})`
+              : "Create Kit"}
           </h3>
         </header>
         <div className="create-body">
@@ -229,12 +233,17 @@ class Create extends Component {
                     <input
                       type="text"
                       value={this.state.id}
+                      disabled={this.props.match.params.kitID ? true : false}
                       name="id"
                       placeholder="111-222-333"
                       onChange={this.handleInput}
                       onBlur={this.checkID}
                       autoComplete="off"
-                      className={this.state.duplicateID ? "error" : ""}
+                      className={
+                        this.state.duplicateID && !this.props.match.params.kitID
+                          ? "error"
+                          : ""
+                      }
                     />
                   </td>
                 </tr>
@@ -264,12 +273,9 @@ class Create extends Component {
                       autoComplete="off"
                     />
                     <datalist id="species-choices">
-                      <option>Human</option>
-                      <option>Non-Human Primate</option>
-                      <option>Mouse</option>
-                      <option>Rat</option>
-                      <option>Dog</option>
-                      <option>Rabbit</option>
+                      {this.props.allSpecies.sort().map(species => (
+                        <option>{species}</option>
+                      ))}
                     </datalist>
                   </td>
                 </tr>

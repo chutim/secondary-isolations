@@ -4,7 +4,6 @@ import LinkButton from "./LinkButton.jsx";
 import "./Table.css";
 
 //THINGS TO DO:
-//allow changing of row order, drag and drop
 
 class Table extends Component {
   generateRows = kit => {
