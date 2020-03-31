@@ -95,7 +95,10 @@ class CreateOrEdit extends Component {
     let nameCap = this.capitalizeWords(name);
     let speciesCap = this.capitalizeWords(species);
     let constantsCap = constants.map(constantPair => {
-      constantPair[0] = this.capitalizeWords(constantPair[0]);
+      const splitName = constantPair[0].split(" (");
+      constantPair[0] = [this.capitalizeWords(splitName[0]), splitName[1]].join(
+        " ("
+      );
       return constantPair;
     });
     return { nameCap, speciesCap, constantsCap };
@@ -159,17 +162,21 @@ class CreateOrEdit extends Component {
           type,
           constants
         });
+    //if this was an update on a kit, make sure it gets updated in Table if present
+    if (updateOrCreate === "update") {
+      this.props.updateTableKitData(id);
+      this.props.history.goBack();
+    }
     await this.clearStateAndStorage();
     alert(
       updateOrCreate === "update"
         ? "Kit updated in database!"
         : "New kit added to database!"
     );
+
     await this.props.fetchKitsFromDatabase();
     //after App has finished grabbing the new set of kits, update the kits for the currentSpecies, in case the user goes back to the species Kits page, should see the new update
     await this.props.selectSpecies(this.props.currentSpecies);
-    //if this was an update on a kit, make sure it gets updated in Table if present
-    if (updateOrCreate === "update") this.props.updateTableKitData(id);
   };
 
   clearStateAndStorage = () => {
