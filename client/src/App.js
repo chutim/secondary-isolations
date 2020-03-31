@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { cloneDeep } from "lodash";
-import { Home, Kits, Edit, Create, Table } from "./components";
+import { Home, Kits, Create, Table } from "./components";
 import apis from "./api";
 import "./App.css";
 
@@ -59,7 +59,7 @@ class App extends Component {
       arrayedKitData: [],
       tableRowsHash: {},
       allSpecies: [],
-      allKitIDs: {}
+      allKitIDs: {} //used for creating kit. checking if ID already exists
     };
 
     this.selectSpecies = this.selectSpecies.bind(this);
@@ -68,12 +68,12 @@ class App extends Component {
     this.deleteSpeciesFromTable = this.deleteSpeciesFromTable.bind(this);
     this.deleteKitFromTable = this.deleteKitFromTable.bind(this);
     this.fetchKitsFromDatabase = this.fetchKitsFromDatabase.bind(this);
+    this.updateTableKitData = this.updateTableKitData.bind(this);
   }
 
   componentDidMount = async () => {
     this.fetchLocalStorage();
     await this.fetchKitsFromDatabase();
-    console.log("App state", this.state);
   };
 
   fetchLocalStorage = async () => {
@@ -146,7 +146,6 @@ class App extends Component {
   };
 
   updateLocalStorage = () => {
-    console.log("UPDATING LOCALSTORAGE");
     localStorage.setItem("appState", JSON.stringify(this.state));
   };
 
@@ -163,7 +162,7 @@ class App extends Component {
     );
     const { currentPosKits, currentNegKits } = this.sortKits(currentKits);
     await this.setState({ currentSpecies, currentPosKits, currentNegKits });
-    console.log("selectSpecies");
+
     this.updateLocalStorage();
   };
 
@@ -212,7 +211,7 @@ class App extends Component {
       }
       console.log("App state after REMOVE:", this.state);
     }
-    console.log("updateTable");
+
     this.updateLocalStorage();
   };
 
@@ -238,6 +237,27 @@ class App extends Component {
     const filteredKitData = tableKitData.filter(kit => kit.id !== kitID);
     const arrayedKitData = this.hashifyKitData(filteredKitData);
     this.setState({ tableKitData: filteredKitData, arrayedKitData });
+  };
+
+  updateTableKitData = kitID => {
+    //grab the updated kit from allKits, which has been re-pulled from db
+    let updatedKit = {};
+    for (let kit of this.state.allKits) {
+      if (kit.id === kitID) {
+        updatedKit = kit;
+        break;
+      }
+    }
+    //find the kit in tableKitData and replace it
+    const tableKitData = cloneDeep(this.state.tableKitData);
+    for (let i = 0; i < tableKitData.length; i++) {
+      if (tableKitData[i].id === kitID) {
+        tableKitData[i] = updatedKit;
+      }
+    }
+    //generate arrayedKitData for Table to use
+    const arrayedKitData = this.hashifyKitData(tableKitData);
+    this.setState({ tableKitData, arrayedKitData });
   };
 
   hashifyKitData = tableKitData => {
@@ -282,7 +302,7 @@ class App extends Component {
     }
 
     await this.setState({ tableRowsHash });
-    console.log("updateRowCellCount");
+
     this.updateLocalStorage();
   };
 
@@ -321,7 +341,7 @@ class App extends Component {
       arrayedKitData,
       tableRowsHash
     });
-    console.log("deleteSpeciesFromTable");
+
     this.updateLocalStorage();
   };
 
@@ -357,7 +377,7 @@ class App extends Component {
       arrayedKitData,
       tableRowsHash
     });
-    console.log("deleteKitFromTable");
+
     this.updateLocalStorage();
   };
 
@@ -390,15 +410,22 @@ class App extends Component {
               />
             )}
           ></Route>
+
           <Route
             path="/edit/:kitID"
-            render={props => <Create {...props} />}
+            render={props => (
+              <Create
+                {...props}
+                rowCount={this.state.rowCount}
+                allKitIDs={this.state.allKitIDs}
+                currentSpecies={this.state.currentSpecies}
+                fetchKitsFromDatabase={this.fetchKitsFromDatabase}
+                selectSpecies={this.selectSpecies}
+                updateTableKitData={this.updateTableKitData}
+              />
+            )}
           ></Route>
-          <Route
-            path="/edit"
-            exact={true}
-            render={props => <Edit {...props} />}
-          ></Route>
+
           <Route
             path="/create"
             render={props => (
@@ -406,10 +433,13 @@ class App extends Component {
                 {...props}
                 rowCount={this.state.rowCount}
                 allKitIDs={this.state.allKitIDs}
+                currentSpecies={this.state.currentSpecies}
                 fetchKitsFromDatabase={this.fetchKitsFromDatabase}
+                selectSpecies={this.selectSpecies}
               />
             )}
           ></Route>
+
           <Route
             path="/table"
             render={props => (
@@ -428,6 +458,7 @@ class App extends Component {
               />
             )}
           ></Route>
+
           <Route
             path="/"
             exact={true}

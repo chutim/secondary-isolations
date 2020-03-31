@@ -7,6 +7,9 @@ import "./Create.css";
 //THINGS TO DO
 //delete all the bad kits from db
 //upload legit kits
+//need to require sign-in to use edit buttons, don't render them otherwise.
+//sign-in box can be floating div on App.js, upper corner. once signed in, it says 'Full Access Mode' with a Logout button. before sign-in, it says 'Visitor Mode' 'enter password for full access'
+//how to stop user from just typing /edit or /create in the URL?????????
 
 class Create extends Component {
   constructor(props) {
@@ -42,7 +45,6 @@ class Create extends Component {
   };
 
   updateLocalStorage = createOrUpdate => {
-    console.log("UPDATING LOCALSTORAGE");
     if (createOrUpdate === "create")
       localStorage.setItem("createState", JSON.stringify(this.state));
     else if (createOrUpdate === "update")
@@ -130,12 +132,12 @@ class Create extends Component {
     };
   };
 
-  handleSubmit = async e => {
+  handleSubmit = async (e, updateOrCreate) => {
     e.preventDefault();
     if (this.validateFields() === false) return;
     const { id, name, species, type, constants } = this.validateFields();
 
-    this.props.match.params.kitID
+    updateOrCreate === "update"
       ? await apis.updateKitById(id, {
           name,
           species,
@@ -151,11 +153,15 @@ class Create extends Component {
         });
     await this.clearStateAndStorage();
     alert(
-      this.props.match.params.kitID
-        ? "Kit updated on database!"
+      updateOrCreate === "update"
+        ? "Kit updated in database!"
         : "New kit added to database!"
     );
     await this.props.fetchKitsFromDatabase();
+    //after App has finished grabbing the new set of kits, update the kits for the currentSpecies, in case the user goes back to the species Kits page, should see the new update
+    await this.props.selectSpecies(this.props.currentSpecies);
+    //if this was an update on a kit, make sure it gets updated in Table if present
+    if (updateOrCreate === "update") this.props.updateTableKitData(id);
   };
 
   clearStateAndStorage = () => {
@@ -193,7 +199,15 @@ class Create extends Component {
         </header>
         <div className="create-body">
           <div>All fields required.</div>
-          <form className="create-form" onSubmit={this.handleSubmit}>
+          <form
+            className="create-form"
+            onSubmit={e => {
+              this.handleSubmit(
+                e,
+                this.props.match.params.kitID ? "update" : "create"
+              );
+            }}
+          >
             <table>
               <tbody>
                 <tr>
@@ -348,9 +362,7 @@ class Create extends Component {
           <LinkButton to="/" className="nav-button home-button">
             Home
           </LinkButton>
-          <LinkButton to="/edit" className="nav-button">
-            Edit Kits
-          </LinkButton>
+
           <LinkButton to="/table" className="nav-button table-button">
             Table &#40;{this.props.rowCount} Samples&#41;
           </LinkButton>
