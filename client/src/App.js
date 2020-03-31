@@ -7,7 +7,7 @@ import "./App.css";
 
 //THINGS TO DO
 //write a giant function for downloading from db, changing state, changing localstorage. use when C/U/D-ing. careful not to lose table data.
-//set timer with each update, to clear localStorage in 24 hours. have button to stop auto-clear in case user wants to keep the table over the weekend or something.
+//maybe set timer with each update, to clear localStorage in 24 hours. have button to stop auto-clear in case user wants to keep the table over the weekend or something.
 //sign-in box can be floating div on App.js, upper corner. once signed in, it says 'Full Access Mode' with a Logout button. before sign-in, it says 'Visitor Mode'u
 
 // DATA STRUCTURES EXAMPLES:
@@ -50,6 +50,7 @@ class App extends Component {
     super();
     this.state = {
       allKits: [],
+      allConstantNames: [],
       rowCount: 0,
       currentSpecies: "No Species Selected",
       currentPosKits: [],
@@ -127,7 +128,8 @@ class App extends Component {
 
     const allSpecies = this.extractAllSpecies(allKits).sort();
     const allKitIDs = this.createKitIDHash(allKits);
-    await this.setState({ allKits, allSpecies, allKitIDs });
+    const allConstantNames = this.extractConstantNames(allKits);
+    await this.setState({ allKits, allConstantNames, allSpecies, allKitIDs });
     console.log("All kits loaded.");
   };
 
@@ -137,6 +139,19 @@ class App extends Component {
       allKitIDs.add(kit.id);
     }
     return allKitIDs;
+  };
+
+  extractConstantNames = allKits => {
+    let allConstants = [];
+    for (let kit of allKits) {
+      allConstants.push(...kit.constants);
+    }
+    let constantNamesSet = new Set();
+    for (let constantPair of allConstants) {
+      constantNamesSet.add(constantPair[0]);
+    }
+
+    return Array.from(constantNamesSet).sort();
   };
 
   extractAllSpecies = allKits => {
@@ -420,6 +435,7 @@ class App extends Component {
             render={props => (
               <CreateOrEdit
                 {...props}
+                allConstantNames={this.state.allConstantNames}
                 rowCount={this.state.rowCount}
                 allKitIDs={this.state.allKitIDs}
                 currentSpecies={this.state.currentSpecies}
@@ -436,6 +452,8 @@ class App extends Component {
             render={props => (
               <CreateOrEdit
                 {...props}
+                allConstantNames={this.state.allConstantNames}
+                allKits={this.allKits}
                 rowCount={this.state.rowCount}
                 allKitIDs={this.state.allKitIDs}
                 currentSpecies={this.state.currentSpecies}

@@ -6,15 +6,13 @@ import "./CreateOrEdit.css";
 
 //THINGS TO DO
 //add all constants from App state into suggestions for constant name inputs
-//after deleting kit, update everything on App state
 //drop-down for units in each constants row, forces user to remember to add units
-//upload legit kits
 
 //need to require sign-in to use edit buttons, don't render them otherwise.
 //sign-in box can be floating div on App.js, upper corner. once signed in, it says 'Full Access Mode' with a Logout button. before sign-in, it says 'Visitor Mode' 'enter password for full access'
 //how to stop user from just typing /edit or /create in the URL?????????
 
-class Create extends Component {
+class CreateOrEdit extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -280,7 +278,7 @@ class Create extends Component {
                     />
                     <datalist id="species-choices">
                       {this.props.allSpecies.map(species => (
-                        <option>{species}</option>
+                        <option key={species}>{species}</option>
                       ))}
                     </datalist>
                   </td>
@@ -329,12 +327,9 @@ class Create extends Component {
                         autoComplete="off"
                       />
                       <datalist id="constants-names">
-                        <option>Incubation (min)</option>
-                        <option>Washes (times x mL)</option>
-                        <option>Buffer (µL)</option>
-                        <option>Biotin-Antibody Cocktail (µL)</option>
-                        <option>Anti-Biotin Microbeads (µL)</option>
-                        <option>FcR Blocking Reagent (µL)</option>
+                        {this.props.allConstantNames.map(constant => (
+                          <option key={constant}>{constant}</option>
+                        ))}
                       </datalist>
                     </td>
                     <td align="left">
@@ -417,4 +412,4 @@ class Create extends Component {
   }
 }
 
-export default Create;
+export default CreateOrEdit;
