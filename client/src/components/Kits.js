@@ -6,6 +6,16 @@ import "./Kits.css";
 //THINGS TO DO
 
 class Kits extends Component {
+  sortKitsByName = kitArray => {
+    return kitArray.sort((a, b) => {
+      const aName = a.name.toUpperCase();
+      const bName = b.name.toUpperCase();
+      if (aName < bName) return -1;
+      if (aName > bName) return 1;
+      return 0;
+    });
+  };
+
   render() {
     return (
       <div className="page">
@@ -17,7 +27,7 @@ class Kits extends Component {
             <h5 className="kit-section-title">Positive Selection</h5>
             <div className="kit-section-list">
               {this.props.currentPosKits &&
-                this.props.currentPosKits.sort().map(kit => (
+                this.sortKitsByName(this.props.currentPosKits).map(kit => (
                   <div className="kit-info-container" key={kit.id}>
                     <div className="kit-name-container">
                       <b>{kit.name}</b>
@@ -60,7 +70,7 @@ class Kits extends Component {
             <h5 className="kit-section-title">Negative Selection</h5>
             <div className="kit-section-list">
               {this.props.currentNegKits &&
-                this.props.currentNegKits.sort().map(kit => (
+                this.sortKitsByName(this.props.currentNegKits).map(kit => (
                   <div className="kit-info-container" key={kit.id}>
                     <div className="kit-name-container">
                       <b>{kit.name}</b>

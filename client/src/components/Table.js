@@ -115,14 +115,17 @@ class Table extends Component {
                         <div className="kit-table-title">
                           <LinkButton
                             to={`/edit/${kit.id}`}
-                            className="nav-button"
+                            className="nav-button no-print"
                             //attaches kit object to props.location.state
                             kit={kit}
                           >
                             Edit Kit
                           </LinkButton>
                           <div>
-                            {kit.name}: {kit.id}
+                            <div>
+                              {kit.name}: {kit.id}
+                            </div>
+                            <div>({kit.type} Selection)</div>
                           </div>
                           <button
                             className="delete-button delete-kit no-print"

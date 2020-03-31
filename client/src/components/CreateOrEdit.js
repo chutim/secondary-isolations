@@ -200,7 +200,13 @@ class Create extends Component {
   };
 
   deleteKit = async kitID => {
+    this.clearStateAndStorage();
     await apis.deleteKitById(kitID);
+    //update App state
+    await this.props.fetchKitsFromDatabase();
+    //update species' kits in Kits component if necessary
+    await this.props.selectSpecies(this.props.currentSpecies);
+    this.props.history.goBack();
     console.log("Kit deleted from database.");
   };
 
@@ -235,7 +241,7 @@ class Create extends Component {
                       value={this.state.id}
                       disabled={this.props.match.params.kitID ? true : false}
                       name="id"
-                      placeholder="111-222-333"
+                      placeholder="000-000-000"
                       onChange={this.handleInput}
                       onBlur={this.checkID}
                       autoComplete="off"
@@ -254,7 +260,7 @@ class Create extends Component {
                       type="text"
                       value={this.state.name}
                       name="name"
-                      placeholder="CD123 Isolation Kit"
+                      placeholder="CD000 Isolation Kit"
                       onChange={this.handleInput}
                       autoComplete="off"
                     />
@@ -273,7 +279,7 @@ class Create extends Component {
                       autoComplete="off"
                     />
                     <datalist id="species-choices">
-                      {this.props.allSpecies.sort().map(species => (
+                      {this.props.allSpecies.map(species => (
                         <option>{species}</option>
                       ))}
                     </datalist>
@@ -338,7 +344,7 @@ class Create extends Component {
                           this.handleInput(e, idx, "constantValue");
                         }}
                         value={constantRow[1] || ""}
-                        placeholder={constantRow[1] ? "" : "123"}
+                        placeholder={constantRow[1] ? "" : "000"}
                         autoComplete="off"
                       />
                     </td>
@@ -367,21 +373,26 @@ class Create extends Component {
             </button>
             <input
               type="submit"
-              value={this.props.location.state ? "Update Kit" : "Create Kit"}
+              value={
+                this.props.match.params.kitID ? "Update Kit" : "Create Kit"
+              }
             />
-            <button
-              type="button"
-              onClick={() => {
-                if (
-                  window.confirm(
-                    "Confirm permanently deleting this kit from the database?"
+            {/* only show delete button if editing a kit */}
+            {this.props.match.params.kitID ? (
+              <button
+                type="button"
+                onClick={() => {
+                  if (
+                    window.confirm(
+                      "Confirm permanently deleting this kit from the database?"
+                    )
                   )
-                )
-                  this.deleteKit(this.state.id);
-              }}
-            >
-              Delete Kit
-            </button>
+                    this.deleteKit(this.state.id);
+                }}
+              >
+                Delete Kit
+              </button>
+            ) : null}
           </form>
         </div>
         <footer>

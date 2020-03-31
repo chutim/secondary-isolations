@@ -6,7 +6,7 @@ import apis from "./api";
 import "./App.css";
 
 //THINGS TO DO
-//when deleting/creating/updating a kit, change state, localstorage, and also make a query to db.
+//write a giant function for downloading from db, changing state, changing localstorage. use when C/U/D-ing. careful not to lose table data.
 //set timer with each update, to clear localStorage in 24 hours. have button to stop auto-clear in case user wants to keep the table over the weekend or something.
 //sign-in box can be floating div on App.js, upper corner. once signed in, it says 'Full Access Mode' with a Logout button. before sign-in, it says 'Visitor Mode'u
 
@@ -105,6 +105,8 @@ class App extends Component {
     console.log("State loaded.");
   };
 
+  //grabs all kits from db, generates array of allSpecies, generates hash of allKitIDs
+  //sets allKits, allSpecies, allKitIDs on state
   fetchKitsFromDatabase = async () => {
     console.log("Fetching kits from database...");
     const res = await apis.getAllKits();
@@ -123,7 +125,7 @@ class App extends Component {
       });
     }
 
-    const allSpecies = this.extractAllSpecies(allKits);
+    const allSpecies = this.extractAllSpecies(allKits).sort();
     const allKitIDs = this.createKitIDHash(allKits);
     await this.setState({ allKits, allSpecies, allKitIDs });
     console.log("All kits loaded.");
@@ -156,6 +158,8 @@ class App extends Component {
       this.setState({ rowCount: this.state.rowCount - 1 });
   };
 
+  //finds the current species' kits in allKits. calls this.sortKits to separate into positive and negative kit arrays
+  //sets currentSpecies, currentPosKits, currentNegKits on state
   selectSpecies = async currentSpecies => {
     const currentKits = this.state.allKits.filter(
       kit => kit.species === currentSpecies
