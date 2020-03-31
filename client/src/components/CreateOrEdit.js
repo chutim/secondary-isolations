@@ -2,10 +2,11 @@ import React, { Component } from "react";
 import LinkButton from "./LinkButton.jsx";
 import { cloneDeep } from "lodash";
 import apis from "../api";
-import "./Create.css";
+import "./CreateOrEdit.css";
 
 //THINGS TO DO
-//delete all the bad kits from db
+//add allSpecies from App into suggestions for Species input field
+//after deleting kit, update everything on App state
 //upload legit kits
 //need to require sign-in to use edit buttons, don't render them otherwise.
 //sign-in box can be floating div on App.js, upper corner. once signed in, it says 'Full Access Mode' with a Logout button. before sign-in, it says 'Visitor Mode' 'enter password for full access'
@@ -19,7 +20,8 @@ class Create extends Component {
       name: "",
       species: "",
       type: "",
-      constants: [[null, null]]
+      constants: [[null, null]],
+      duplicateID: false
     };
   }
 
@@ -62,17 +64,23 @@ class Create extends Component {
     }
     //otherwise we are not dealing with constants, just update the appropriate fields
     else {
-      //check to see if the ID is already used. there should not be duplicate kits
-      if (e.target.name === "id" && this.props.allKitIDs.has(e.target.value)) {
-        return alert("This kit ID already exists.");
-        // return;
-      }
-
       await this.setState({ [e.target.name]: e.target.value });
+      //check to see if the ID is already used. there should not be duplicate kits
+      if (this.props.allKitIDs.has(this.state.id)) {
+        this.setState({ duplicateID: true });
+      } else {
+        this.setState({ duplicateID: false });
+      }
     }
     this.updateLocalStorage(
       this.props.match.params.kitID ? "update" : "create"
     );
+  };
+
+  checkID = () => {
+    if (this.props.allKitIDs.has(this.state.id)) {
+      alert("This kit ID is already in use.");
+    }
   };
 
   capitalizeWords = string => {
@@ -189,6 +197,11 @@ class Create extends Component {
     );
   };
 
+  deleteKit = async kitID => {
+    await apis.deleteKitById(kitID);
+    console.log("Kit deleted from database.");
+  };
+
   render() {
     return (
       <div className="page">
@@ -219,7 +232,9 @@ class Create extends Component {
                       name="id"
                       placeholder="111-222-333"
                       onChange={this.handleInput}
+                      onBlur={this.checkID}
                       autoComplete="off"
+                      className={this.state.duplicateID ? "error" : ""}
                     />
                   </td>
                 </tr>
@@ -348,6 +363,19 @@ class Create extends Component {
               type="submit"
               value={this.props.location.state ? "Update Kit" : "Create Kit"}
             />
+            <button
+              type="button"
+              onClick={() => {
+                if (
+                  window.confirm(
+                    "Confirm permanently deleting this kit from the database?"
+                  )
+                )
+                  this.deleteKit(this.state.id);
+              }}
+            >
+              Delete Kit
+            </button>
           </form>
         </div>
         <footer>

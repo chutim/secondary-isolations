@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { cloneDeep } from "lodash";
-import { Home, Kits, Create, Table } from "./components";
+import { Home, Kits, CreateOrEdit, Table } from "./components";
 import apis from "./api";
 import "./App.css";
 
@@ -414,7 +414,7 @@ class App extends Component {
           <Route
             path="/edit/:kitID"
             render={props => (
-              <Create
+              <CreateOrEdit
                 {...props}
                 rowCount={this.state.rowCount}
                 allKitIDs={this.state.allKitIDs}
@@ -429,7 +429,7 @@ class App extends Component {
           <Route
             path="/create"
             render={props => (
-              <Create
+              <CreateOrEdit
                 {...props}
                 rowCount={this.state.rowCount}
                 allKitIDs={this.state.allKitIDs}

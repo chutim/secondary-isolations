@@ -9,7 +9,9 @@
   flex-direction: row;
 }
 /* ----------------TEXT---------------- */
-
+.error {
+  background-color: red;
+}
 /* --------------BUTTONS--------------- */
 .create-row-button {
   font-size: calc(10px + 1vmin);
