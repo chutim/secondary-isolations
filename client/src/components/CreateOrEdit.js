@@ -6,7 +6,6 @@ import "./CreateOrEdit.css";
 
 //THINGS TO DO
 //drop-down for units in each constants row, forces user to remember to add units. helps take care of parsing constant name in case user doesn't use a space or parentheses.
-//have link to miltenyi website for kit manual
 
 //need to require sign-in to use edit buttons, don't render them otherwise.
 //sign-in box can be floating div on App.js, upper corner. once signed in, it says 'Full Access Mode' with a Logout button. before sign-in, it says 'Visitor Mode' 'enter password for full access'
@@ -217,7 +216,7 @@ class CreateOrEdit extends Component {
     this.props.history.goBack();
     console.log("Kit deleted from database.");
   };
-  //https://www.miltenyibiotec.com/US-en/search.html?search=130-096-537&options=on#globalSearchFamilies=%5B%5D
+
   render() {
     return (
       <div className="page">
@@ -255,7 +254,7 @@ class CreateOrEdit extends Component {
               <tbody>
                 <tr>
                   <td align="right">ID:</td>
-                  <td align="left">
+                  <td align="left" colSpan={2}>
                     <input
                       type="text"
                       value={this.state.id}
@@ -275,7 +274,7 @@ class CreateOrEdit extends Component {
                 </tr>
                 <tr>
                   <td align="right">Name:</td>
-                  <td align="left">
+                  <td align="left" colSpan={2}>
                     <input
                       type="text"
                       value={this.state.name}
@@ -288,7 +287,7 @@ class CreateOrEdit extends Component {
                 </tr>
                 <tr>
                   <td align="right">Species:</td>
-                  <td align="left">
+                  <td align="left" colSpan={2}>
                     <input
                       type="text"
                       list="species-choices"
@@ -307,7 +306,7 @@ class CreateOrEdit extends Component {
                 </tr>
                 <tr>
                   <td align="right">Type:</td>
-                  <td align="left">
+                  <td align="left" colSpan={2}>
                     <select
                       name="type"
                       value={
@@ -326,13 +325,14 @@ class CreateOrEdit extends Component {
                   </td>
                 </tr>
                 <tr>
-                  <td colSpan={2}>Constants</td>
+                  <td colSpan={3}>Constants</td>
                 </tr>
                 <tr>
-                  <td colSpan={2}>Be sure to include units.</td>
+                  <td colSpan={3}>Be sure to include units.</td>
                 </tr>
                 <tr>
                   <td>Name</td>
+                  <td>Units</td>
                   <td>Constant</td>
                 </tr>
                 {this.state.constants.map((constantRow, idx) => (
@@ -354,6 +354,7 @@ class CreateOrEdit extends Component {
                         ))}
                       </datalist>
                     </td>
+                    <td>hi</td>
                     <td align="left">
                       <input
                         type="text"

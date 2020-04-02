@@ -146,12 +146,19 @@ class App extends Component {
     for (let kit of allKits) {
       allConstants.push(...kit.constants);
     }
+
     let constantNamesSet = new Set();
     for (let constantPair of allConstants) {
       constantNamesSet.add(constantPair[0]);
     }
 
-    return Array.from(constantNamesSet).sort();
+    const constantNames = Array.from(constantNamesSet).sort();
+    const arrayedConstantNames = constantNames.map(constant => {
+      let arr = constant.split(" (");
+      arr[1] = "(".concat(arr[1]);
+      return arr;
+    });
+    return arrayedConstantNames;
   };
 
   extractAllSpecies = allKits => {
