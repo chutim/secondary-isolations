@@ -1,7 +1,14 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { cloneDeep } from "lodash";
-import { Home, Kits, CreateOrEdit, Table, PrivateRoute } from "./components";
+import {
+  Home,
+  Kits,
+  CreateOrEdit,
+  Table,
+  PrivateRoute,
+  Error
+} from "./components";
 import apis from "./api";
 import "./App.css";
 
@@ -535,6 +542,8 @@ class App extends Component {
               />
             )}
           ></Route>
+
+          <Route path="/error" render={props => <Error {...props} />}></Route>
         </Switch>
       </Router>
     );

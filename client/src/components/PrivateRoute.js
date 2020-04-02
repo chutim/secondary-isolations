@@ -1,8 +1,8 @@
 import React from "react";
 import { Route, Redirect } from "react-router-dom";
 
-function PrivateRoute({ component: PrivateComponent, path, ...rest }) {
-  const isAuthenticated = true;
+const PrivateRoute = ({ component: PrivateComponent, path, ...rest }) => {
+  const isAuthenticated = !true;
   console.log("passing thru privateroute");
   //authentication logic here, to modify isAuthenticated
 
@@ -19,6 +19,6 @@ function PrivateRoute({ component: PrivateComponent, path, ...rest }) {
       }
     />
   );
-}
+};
 
 export default PrivateRoute;
