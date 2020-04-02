@@ -28,9 +28,14 @@ class CreateOrEdit extends Component {
   componentDidMount = async () => {
     //if editing a kit, grab the kit data pushed into the history object. if the user just went to the url directly, i.e., didn't click in from a kit, there is no history so grab from localStorage
     if (this.props.match.params.kitID) {
-      if (this.props.location.state)
+      if (this.props.location.state) {
+        const constants = this.extractConstantNames(
+          this.props.location.state.constants
+        );
         await this.setState(this.props.location.state);
-      else {
+        await this.setState({ constants });
+        console.log(this.state);
+      } else {
         console.log("Fetching saved update kit data...");
         const localForm = JSON.parse(localStorage.getItem("updateState"));
         await this.setState(localForm);
@@ -44,6 +49,18 @@ class CreateOrEdit extends Component {
       await this.setState(localForm);
       console.log("Saved create kit data loaded.");
     }
+    console.log("edit state", this.state);
+  };
+
+  extractConstantNames = constants => {
+    const arrayedConstantNames = constants.map(constantPair => {
+      let arr = constantPair[0].split(" (");
+      arr[1] = "(".concat(arr[1]);
+      let withValue = [...arr, constantPair[1]];
+      return withValue;
+    });
+
+    return arrayedConstantNames;
   };
 
   updateLocalStorage = createOrUpdate => {
@@ -62,7 +79,7 @@ class CreateOrEdit extends Component {
       } else if (constantNameOrValue === "constantUnit") {
         constants[constantRow][1] = e.target.value;
       } else if (constantNameOrValue === "constantValue") {
-        constants[constantRow][1] = e.target.value;
+        constants[constantRow][2] = e.target.value;
       }
       await this.setState({ constants });
     }
@@ -98,12 +115,16 @@ class CreateOrEdit extends Component {
   capitalizeFields = (name, species, constants) => {
     let nameCap = this.capitalizeWords(name);
     let speciesCap = this.capitalizeWords(species);
-    let constantsCap = constants.map(constantPair => {
-      const splitName = constantPair[0].split(" (");
-      constantPair[0] = [this.capitalizeWords(splitName[0]), splitName[1]].join(
-        " ("
-      );
-      return constantPair;
+    let constantsCap = constants.map(constantGroup => {
+      // const splitName = constantPair[0].split(" (");
+      // constantPair[0] = [this.capitalizeWords(splitName[0]), splitName[1]].join(
+      //   " ("
+      // );
+      constantGroup[0] = this.capitalizeWords(constantGroup[0]);
+      let newConstantGroup = [];
+      newConstantGroup.push(constantGroup[0].concat(" " + constantGroup[1]));
+      newConstantGroup.push(constantGroup[2]);
+      return newConstantGroup;
     });
     return { nameCap, speciesCap, constantsCap };
   };
@@ -111,7 +132,7 @@ class CreateOrEdit extends Component {
   checkForEmptyFields = (id, name, species, type, constants) => {
     let constantsEmpty = false;
     for (let constant of constants) {
-      if (!constant[0] || !constant[1]) constantsEmpty = true;
+      if (!constant[0] || !constant[1] || !constant[2]) constantsEmpty = true;
     }
     if (
       id === "" ||
@@ -194,7 +215,7 @@ class CreateOrEdit extends Component {
       name: "",
       species: "",
       type: "",
-      constants: [[null, null]]
+      constants: [[null, null, null]]
     });
   };
 
@@ -349,7 +370,7 @@ class CreateOrEdit extends Component {
                           this.handleInput(e, idx, "constantName");
                         }}
                         value={constantRow[0] || ""}
-                        placeholder={constantRow[0] ? "" : "Reagent (µL)"}
+                        placeholder={constantRow[0] ? "" : "Reagent"}
                         autoComplete="off"
                       />
                       <datalist id="constants-names">
@@ -367,12 +388,14 @@ class CreateOrEdit extends Component {
                           this.handleInput(e, idx, "constantUnit");
                         }}
                         value={constantRow[1] || ""}
-                        placeholder={constantRow[1] ? "" : "(µL)"}
+                        placeholder={constantRow[1] ? "" : "(unit)"}
                         autoComplete="off"
                       />
                       <datalist id="units">
-                        <option>mL</option>
-                        <option>min</option>
+                        {/* NEED TO FIX: units can repeat, will suggest all repeats */}
+                        {this.props.allConstantNames.map((constant, idx) => (
+                          <option key={idx}>{constant[1]}</option>
+                        ))}
                       </datalist>
                     </td>
 
