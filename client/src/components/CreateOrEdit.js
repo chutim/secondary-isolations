@@ -5,12 +5,13 @@ import apis from "../api";
 import "./CreateOrEdit.css";
 
 //THINGS TO DO
-//add all constants from App state into suggestions for constant name inputs
-//drop-down for units in each constants row, forces user to remember to add units
+//drop-down for units in each constants row, forces user to remember to add units. helps take care of parsing constant name in case user doesn't use a space or parentheses.
+//have link to miltenyi website for kit manual
 
 //need to require sign-in to use edit buttons, don't render them otherwise.
 //sign-in box can be floating div on App.js, upper corner. once signed in, it says 'Full Access Mode' with a Logout button. before sign-in, it says 'Visitor Mode' 'enter password for full access'
-//how to stop user from just typing /edit or /create in the URL?????????
+//how to stop user from just typing /edit or /create in the URL????????? check if signed in, if not, then don't show any create or edit button. or gray them out, if it makes the CSS look weird when they're missing.
+//need to sign users out after a certain amount of time?
 
 class CreateOrEdit extends Component {
   constructor(props) {
@@ -164,7 +165,9 @@ class CreateOrEdit extends Component {
         });
     //if this was an update on a kit, make sure it gets updated in Table if present
     if (updateOrCreate === "update") {
+      //if this was an update on a kit, make sure it gets updated in Table if present
       this.props.updateTableKitData(id);
+      //bug: if user copy/pastes the edit kit URL in a new tab, it will update the kit in db but then send the user back to the default new tab page
       this.props.history.goBack();
     }
     await this.clearStateAndStorage();
@@ -214,15 +217,27 @@ class CreateOrEdit extends Component {
     this.props.history.goBack();
     console.log("Kit deleted from database.");
   };
-
+  //https://www.miltenyibiotec.com/US-en/search.html?search=130-096-537&options=on#globalSearchFamilies=%5B%5D
   render() {
     return (
       <div className="page">
         <header>
           <h3 className="page-title">
-            {this.props.match.params.kitID
-              ? `Edit Kit (${this.props.match.params.kitID})`
-              : "Create Kit"}
+            {this.props.match.params.kitID ? (
+              <>
+                Edit Kit (
+                <a
+                  href={`https://www.miltenyibiotec.com/US-en/search.html?search=${this.props.match.params.kitID}&options=on#globalSearchFamilies=%5B%5D`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {this.props.match.params.kitID}
+                </a>
+                )
+              </>
+            ) : (
+              "Create Kit"
+            )}
           </h3>
         </header>
         <div className="create-body">
