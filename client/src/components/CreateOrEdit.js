@@ -242,6 +242,14 @@ class CreateOrEdit extends Component {
     console.log("Kit deleted from database.");
   };
 
+  createArrayOfNonRepeatingElements = (array, indexToUse) => {
+    const set = new Set();
+    for (let el of array) {
+      set.add(el[indexToUse]);
+    }
+    return Array.from(set).sort();
+  };
+
   render() {
     return (
       <div className="page">
@@ -268,6 +276,7 @@ class CreateOrEdit extends Component {
           <div>All fields required.</div>
           <form
             className="create-form"
+            autoComplete="off"
             onSubmit={e => {
               this.handleSubmit(
                 e,
@@ -288,7 +297,6 @@ class CreateOrEdit extends Component {
                       placeholder="000-000-000"
                       onChange={this.handleInput}
                       onBlur={this.checkID}
-                      autoComplete="off"
                       className={
                         this.state.duplicateID && !this.props.match.params.kitID
                           ? "error"
@@ -306,7 +314,6 @@ class CreateOrEdit extends Component {
                       name="name"
                       placeholder="CD000 Isolation Kit"
                       onChange={this.handleInput}
-                      autoComplete="off"
                     />
                   </td>
                 </tr>
@@ -320,7 +327,6 @@ class CreateOrEdit extends Component {
                       onChange={this.handleInput}
                       value={this.state.species}
                       placeholder={this.state.species ? "" : "Unicorn"}
-                      autoComplete="off"
                     />
                     <datalist id="species-choices">
                       {this.props.allSpecies.map(species => (
@@ -371,7 +377,6 @@ class CreateOrEdit extends Component {
                         }}
                         value={constantRow[0] || ""}
                         placeholder={constantRow[0] ? "" : "Reagent"}
-                        autoComplete="off"
                       />
                       <datalist id="constants-names">
                         {this.props.allConstantNames.map(constant => (
@@ -389,12 +394,13 @@ class CreateOrEdit extends Component {
                         }}
                         value={constantRow[1] || ""}
                         placeholder={constantRow[1] ? "" : "(unit)"}
-                        autoComplete="off"
                       />
                       <datalist id="units">
-                        {/* NEED TO FIX: units can repeat, will suggest all repeats */}
-                        {this.props.allConstantNames.map((constant, idx) => (
-                          <option key={idx}>{constant[1]}</option>
+                        {this.createArrayOfNonRepeatingElements(
+                          this.props.allConstantNames,
+                          1
+                        ).map(unit => (
+                          <option key={unit}>{unit}</option>
                         ))}
                       </datalist>
                     </td>
@@ -407,7 +413,6 @@ class CreateOrEdit extends Component {
                         }}
                         value={constantRow[2] || ""}
                         placeholder={constantRow[2] ? "" : "000"}
-                        autoComplete="off"
                       />
                     </td>
                   </tr>
