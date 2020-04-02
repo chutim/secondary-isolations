@@ -34,7 +34,6 @@ class CreateOrEdit extends Component {
         );
         await this.setState(this.props.location.state);
         await this.setState({ constants });
-        console.log(this.state);
       } else {
         console.log("Fetching saved update kit data...");
         const localForm = JSON.parse(localStorage.getItem("updateState"));
@@ -49,7 +48,6 @@ class CreateOrEdit extends Component {
       await this.setState(localForm);
       console.log("Saved create kit data loaded.");
     }
-    console.log("edit state", this.state);
   };
 
   extractConstantNames = constants => {

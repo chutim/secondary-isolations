@@ -4,6 +4,8 @@ import LinkButton from "./LinkButton.jsx";
 import "./Table.css";
 
 //THINGS TO DO:
+//if a kit is deleted in Edit, the kit still persists in Table
+//if a calculated number is in the thousands, add a comma for visibility
 
 class Table extends Component {
   generateRows = kit => {

@@ -1,14 +1,21 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { cloneDeep } from "lodash";
-import { Home, Kits, CreateOrEdit, Table } from "./components";
+import { Home, Kits, CreateOrEdit, Table, PrivateRoute } from "./components";
 import apis from "./api";
 import "./App.css";
 
 //THINGS TO DO
 //write a giant function for downloading from db, changing state, changing localstorage. use when C/U/D-ing. careful not to lose table data.
 //maybe set timer with each update, to clear localStorage in 24 hours. have button to stop auto-clear in case user wants to keep the table over the weekend or something.
+
 //sign-in box can be floating div on App.js, upper corner. once signed in, it says 'Full Access Mode' with a Logout button. before sign-in, it says 'Visitor Mode'u
+//onSubmit of sign-in, it sends a sign-in request to the server with the passcode, which if successful will send back a JWT token that will be stored on localStorage. then call the this.authorize() function.
+
+//initialized loggedIn:false on App state. on CDM, call this.authorize() to send authorize request to server grabbing passcode/jwt from localStorage. if it comes back positive, then set state loggedIn:true, which will allow the 'create' and 'edit' buttons to render throughout the app. if there is no passcode/jwt on localStorage, the req will come back with negative res. loggedIn will stay false, and edit/create buttons won't render.
+//in CreateOrEdit, if not authorized (passed as props from App, this.props.loggedIn), render an Error component ("please log in for full access"). if user refreshes on CreateOrEdit, App will send the auth request grabbing JWT from localStorage. if user tries to use URL to directly go to /create, App will still mount, send auth request, update state, and CreateOrEdit will render accordingly.
+
+//make sure any function that clears appState on localStorage does NOT clear the JWT, unless user clicks logout.
 
 // DATA STRUCTURES EXAMPLES:
 // kit = {
@@ -437,7 +444,7 @@ class App extends Component {
             )}
           ></Route>
 
-          <Route
+          {/* <Route
             path="/edit/:kitID"
             render={props => (
               <CreateOrEdit
@@ -452,9 +459,22 @@ class App extends Component {
                 updateTableKitData={this.updateTableKitData}
               />
             )}
-          ></Route>
+          ></Route> */}
 
-          <Route
+          <PrivateRoute
+            path="/edit/:kitID"
+            component={CreateOrEdit}
+            allConstantNames={this.state.allConstantNames}
+            rowCount={this.state.rowCount}
+            allKitIDs={this.state.allKitIDs}
+            currentSpecies={this.state.currentSpecies}
+            allSpecies={this.state.allSpecies}
+            fetchKitsFromDatabase={this.fetchKitsFromDatabase}
+            selectSpecies={this.selectSpecies}
+            updateTableKitData={this.updateTableKitData}
+          ></PrivateRoute>
+
+          {/* <Route
             path="/create"
             render={props => (
               <CreateOrEdit
@@ -469,7 +489,20 @@ class App extends Component {
                 selectSpecies={this.selectSpecies}
               />
             )}
-          ></Route>
+          ></Route> */}
+
+          <PrivateRoute
+            path="/create"
+            component={CreateOrEdit}
+            allConstantNames={this.state.allConstantNames}
+            allKits={this.allKits}
+            rowCount={this.state.rowCount}
+            allKitIDs={this.state.allKitIDs}
+            currentSpecies={this.state.currentSpecies}
+            allSpecies={this.state.allSpecies}
+            fetchKitsFromDatabase={this.fetchKitsFromDatabase}
+            selectSpecies={this.selectSpecies}
+          ></PrivateRoute>
 
           <Route
             path="/table"
