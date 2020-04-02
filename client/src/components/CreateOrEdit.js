@@ -379,8 +379,11 @@ class CreateOrEdit extends Component {
                         placeholder={constantRow[0] ? "" : "Reagent"}
                       />
                       <datalist id="constants-names">
-                        {this.props.allConstantNames.map(constant => (
-                          <option key={constant[0]}>{constant[0]}</option>
+                        {this.createArrayOfNonRepeatingElements(
+                          this.props.allConstantNames,
+                          0
+                        ).map(name => (
+                          <option key={name}>{name}</option>
                         ))}
                       </datalist>
                     </td>
