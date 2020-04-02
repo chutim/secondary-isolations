@@ -20,7 +20,7 @@ class CreateOrEdit extends Component {
       name: "",
       species: "",
       type: "",
-      constants: [[null, null]],
+      constants: [[null, null, null]],
       duplicateID: false
     };
   }
@@ -57,9 +57,13 @@ class CreateOrEdit extends Component {
     const constants = cloneDeep(this.state.constants);
     //if we're modifying a constant, modify the corresponding sub-array on state
     if (constantNameOrValue) {
-      constantNameOrValue === "constantName"
-        ? (constants[constantRow][0] = e.target.value)
-        : (constants[constantRow][1] = e.target.value);
+      if (constantNameOrValue === "constantName") {
+        constants[constantRow][0] = e.target.value;
+      } else if (constantNameOrValue === "constantUnit") {
+        constants[constantRow][1] = e.target.value;
+      } else if (constantNameOrValue === "constantValue") {
+        constants[constantRow][1] = e.target.value;
+      }
       await this.setState({ constants });
     }
     //otherwise we are not dealing with constants, just update the appropriate fields
@@ -197,7 +201,7 @@ class CreateOrEdit extends Component {
   modifyConstantRows = async modification => {
     if (modification === "add")
       await this.setState({
-        constants: [...this.state.constants, [null, null]]
+        constants: [...this.state.constants, [null, null, null]]
       });
     else if (modification === "subtract")
       await this.setState({ constants: this.state.constants.slice(0, -1) });
@@ -350,19 +354,36 @@ class CreateOrEdit extends Component {
                       />
                       <datalist id="constants-names">
                         {this.props.allConstantNames.map(constant => (
-                          <option key={constant}>{constant}</option>
+                          <option key={constant[0]}>{constant[0]}</option>
                         ))}
                       </datalist>
                     </td>
-                    <td>hi</td>
+
+                    <td>
+                      <input
+                        type="text"
+                        list="units"
+                        onChange={e => {
+                          this.handleInput(e, idx, "constantUnit");
+                        }}
+                        value={constantRow[1] || ""}
+                        placeholder={constantRow[1] ? "" : "(µL)"}
+                        autoComplete="off"
+                      />
+                      <datalist id="units">
+                        <option>mL</option>
+                        <option>min</option>
+                      </datalist>
+                    </td>
+
                     <td align="left">
                       <input
                         type="text"
                         onChange={e => {
                           this.handleInput(e, idx, "constantValue");
                         }}
-                        value={constantRow[1] || ""}
-                        placeholder={constantRow[1] ? "" : "000"}
+                        value={constantRow[2] || ""}
+                        placeholder={constantRow[2] ? "" : "000"}
                         autoComplete="off"
                       />
                     </td>
