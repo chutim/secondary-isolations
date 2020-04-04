@@ -81,10 +81,6 @@ class Table extends Component {
   render() {
     return (
       <div className="page">
-        <header>
-          <h3 className="page-title">Table</h3>
-        </header>
-
         <div className="groups-container" id="divToPrint">
           {/* generate a new table group for each species */}
           {this.props.arrayedKitData.map(speciesGroup => (

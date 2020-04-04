@@ -107,7 +107,6 @@ getAllKits = async (req, res) => {
     if (!kits.length) {
       return res.status(404).json({ success: false, error: `Kit not found` });
     }
-    console.log("thekits", kits);
     return res.status(200).json({ success: true, data: kits });
   }).catch(err => console.log(err));
 };

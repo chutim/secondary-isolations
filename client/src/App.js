@@ -7,6 +7,7 @@ import {
   CreateOrEdit,
   Table,
   PrivateRoute,
+  Login,
   Error
 } from "./components";
 import apis from "./api";
@@ -17,12 +18,6 @@ import "./App.css";
 //maybe set timer with each update, to clear localStorage in 24 hours. have button to stop auto-clear in case user wants to keep the table over the weekend or something.
 
 //sign-in box can be floating div on App.js, upper corner. once signed in, it says 'Full Access Mode' with a Logout button. before sign-in, it says 'Visitor Mode'u
-//onSubmit of sign-in, it sends a sign-in request to the server with the passcode, which if successful will send back a JWT token that will be stored on localStorage. then call the this.authorize() function.
-
-// on CDM, call this.authorize() to send authorize request to server. if it comes back positive, then set state loggedIn:true, which will allow the 'create' and 'edit' buttons to render throughout the app. if there is no passcode/jwt on localStorage, the req will come back with negative res. loggedIn will stay false, and edit/create buttons won't render.
-//in CreateOrEdit, if not authorized (passed as props from App, this.props.loggedIn), render an Error component ("please log in for full access"). if user refreshes on CreateOrEdit, App will send the auth request grabbing JWT from localStorage. if user tries to use URL to directly go to /create, App will still mount, send auth request, update state, and CreateOrEdit will render accordingly.
-
-//make sure any function that clears appState on localStorage does NOT clear the JWT, unless user clicks logout.
 
 // DATA STRUCTURES EXAMPLES:
 // kit = {
@@ -63,7 +58,7 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      loggedIn: true,
+      loggedIn: false,
       allKits: [],
       allConstantNames: [],
       rowCount: 0,
@@ -460,6 +455,7 @@ class App extends Component {
   render() {
     return (
       <Router className="main">
+        <Login loggedIn={this.state.loggedIn} setLoggedIn={this.setLoggedIn} />
         <Switch>
           <Route
             path="/kits"
