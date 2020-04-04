@@ -35,7 +35,9 @@ class Kits extends Component {
                     </div>
                     <LinkButton
                       to={`/edit/${kit.id}`}
-                      className="nav-button"
+                      className={
+                        this.props.loggedIn ? "nav-button" : "logged-out"
+                      }
                       //attaches kit object to props.location.state
                       kit={kit}
                     >
@@ -78,7 +80,9 @@ class Kits extends Component {
                     </div>
                     <LinkButton
                       to={`/edit/${kit.id}`}
-                      className="nav-button"
+                      className={
+                        this.props.loggedIn ? "nav-button" : "logged-out"
+                      }
                       //attaches kit object to props.location.state
                       kit={kit}
                     >
@@ -116,7 +120,10 @@ class Kits extends Component {
             Home
           </LinkButton>
 
-          <LinkButton to="/create" className="nav-button">
+          <LinkButton
+            to="/create"
+            className={this.props.loggedIn ? "nav-button" : "logged-out"}
+          >
             Create Kit
           </LinkButton>
           <LinkButton to="/table" className="nav-button table-button">

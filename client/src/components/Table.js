@@ -117,7 +117,11 @@ class Table extends Component {
                         <div className="kit-table-title">
                           <LinkButton
                             to={`/edit/${kit.id}`}
-                            className="nav-button no-print"
+                            className={
+                              this.props.loggedIn
+                                ? "nav-button no-print"
+                                : "logged-out"
+                            }
                             //attaches kit object to props.location.state
                             kit={kit}
                           >

@@ -2,11 +2,12 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const session = require("express-session");
+const MongoStore = require("connect-mongo")(session);
 const passport = require("./passport");
 
 const db = require("./db");
-const kitRouter = require("./routes/kit-router");
-const passcodeRouter = require("./routes/passcode-router");
+const router = require("./routes");
+// const passcodeRouter = require("./routes/passcode-router");
 
 const app = express();
 const apiPort = 3000;
@@ -18,7 +19,7 @@ app.use(bodyParser.json());
 app.use(
   session({
     secret: process.env.SESSION_SECRET || "the best secret",
-    // store: sessionStore,
+    store: new MongoStore({ mongooseConnection: db }),
     resave: false,
     saveUninitialized: false
   })
@@ -39,7 +40,7 @@ app.use((req, res, next) => {
 
 db.on("error", console.error.bind(console, "MongoDB connection error:"));
 
-app.use("/api", kitRouter);
-app.use("/login", passcodeRouter);
+app.use("/api", router);
+// app.use("/login", passcodeRouter);
 
 app.listen(apiPort, () => console.log(`Server running on port ${apiPort}`));

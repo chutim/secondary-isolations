@@ -19,7 +19,7 @@ import "./App.css";
 //sign-in box can be floating div on App.js, upper corner. once signed in, it says 'Full Access Mode' with a Logout button. before sign-in, it says 'Visitor Mode'u
 //onSubmit of sign-in, it sends a sign-in request to the server with the passcode, which if successful will send back a JWT token that will be stored on localStorage. then call the this.authorize() function.
 
-//initialized loggedIn:false on App state. on CDM, call this.authorize() to send authorize request to server grabbing passcode/jwt from localStorage. if it comes back positive, then set state loggedIn:true, which will allow the 'create' and 'edit' buttons to render throughout the app. if there is no passcode/jwt on localStorage, the req will come back with negative res. loggedIn will stay false, and edit/create buttons won't render.
+// on CDM, call this.authorize() to send authorize request to server. if it comes back positive, then set state loggedIn:true, which will allow the 'create' and 'edit' buttons to render throughout the app. if there is no passcode/jwt on localStorage, the req will come back with negative res. loggedIn will stay false, and edit/create buttons won't render.
 //in CreateOrEdit, if not authorized (passed as props from App, this.props.loggedIn), render an Error component ("please log in for full access"). if user refreshes on CreateOrEdit, App will send the auth request grabbing JWT from localStorage. if user tries to use URL to directly go to /create, App will still mount, send auth request, update state, and CreateOrEdit will render accordingly.
 
 //make sure any function that clears appState on localStorage does NOT clear the JWT, unless user clicks logout.
@@ -63,6 +63,7 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
+      loggedIn: true,
       allKits: [],
       allConstantNames: [],
       rowCount: 0,
@@ -84,11 +85,35 @@ class App extends Component {
     this.deleteKitFromTable = this.deleteKitFromTable.bind(this);
     this.fetchKitsFromDatabase = this.fetchKitsFromDatabase.bind(this);
     this.updateTableKitData = this.updateTableKitData.bind(this);
+    this.setLoggedIn = this.setLoggedIn.bind(this);
   }
 
   componentDidMount = async () => {
     this.fetchLocalStorage();
     await this.fetchKitsFromDatabase();
+  };
+
+  setLoggedIn = () => {
+    this.setState({ loggedIn: true });
+  };
+
+  getUser = () => {
+    apis.checkLoggedIn.then(response => {
+      console.log("Get user response: ");
+      console.log(response.data);
+      if (response.data.user) {
+        console.log("Get User: There is a user saved in the server session: ");
+        console.log(response.data.user.username);
+        this.setState({
+          loggedIn: true
+        });
+      } else {
+        console.log("Get user: no user");
+        this.setState({
+          loggedIn: false
+        });
+      }
+    });
   };
 
   fetchLocalStorage = async () => {
@@ -441,6 +466,7 @@ class App extends Component {
             render={props => (
               <Kits
                 {...props}
+                loggedIn={this.state.loggedIn}
                 currentSpecies={this.state.currentSpecies}
                 currentPosKits={this.state.currentPosKits}
                 currentNegKits={this.state.currentNegKits}
@@ -471,6 +497,7 @@ class App extends Component {
           <PrivateRoute
             path="/edit/:kitID"
             component={CreateOrEdit}
+            loggedIn={this.state.loggedIn}
             allConstantNames={this.state.allConstantNames}
             rowCount={this.state.rowCount}
             allKitIDs={this.state.allKitIDs}
@@ -501,6 +528,7 @@ class App extends Component {
           <PrivateRoute
             path="/create"
             component={CreateOrEdit}
+            loggedIn={this.state.loggedIn}
             allConstantNames={this.state.allConstantNames}
             allKits={this.allKits}
             rowCount={this.state.rowCount}
@@ -516,6 +544,7 @@ class App extends Component {
             render={props => (
               <Table
                 {...props}
+                loggedIn={this.state.loggedIn}
                 tableKitIDs={this.state.tableKitIDs}
                 tableKitData={this.state.tableKitData}
                 arrayedKitData={this.state.arrayedKitData}
@@ -538,6 +567,7 @@ class App extends Component {
                 {...props}
                 rowCount={this.state.rowCount}
                 allSpecies={this.state.allSpecies}
+                setLoggedIn={this.setLoggedIn}
                 selectSpecies={this.selectSpecies}
               />
             )}

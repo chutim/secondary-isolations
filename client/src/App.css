@@ -69,3 +69,7 @@ td {
 .home-button {
   background-color: peachpuff;
 }
+
+.logged-out {
+  display: none;
+}
