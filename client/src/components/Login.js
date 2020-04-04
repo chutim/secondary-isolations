@@ -17,30 +17,58 @@ class Login extends Component {
     });
   }
 
-  handleSubmit = async event => {
-    event.preventDefault();
+  handleSubmit = async (e, action) => {
+    e.preventDefault();
 
-    apis
-      .logIn({
-        username: "admin",
-        password: "BioIVT#friends"
-      })
-      .then(response => {
-        if (response.status === 200) {
-          // update App.js state so user is logged in everywhere
-          this.props.setLoggedIn();
-        }
-      })
-      .catch(error => {
-        console.log("login error: ");
-        console.log(error);
-      });
+    if (action === "login") {
+      apis
+        .logIn({
+          username: "admin",
+          password: "BioIVT#friends"
+        })
+        .then(response => {
+          if (response.status === 200) {
+            // update App.js state so user is logged in everywhere
+            this.props.setLoggedInStatus(true);
+          }
+        })
+        .catch(error => {
+          console.log("login error: ");
+          console.log(error);
+        });
+    } else if (action === "logout") {
+      apis
+        .logOut()
+        .then(response => {
+          if (response.status === 200) {
+            // update App.js state so user is logged out everywhere
+            this.props.setLoggedInStatus(false);
+          }
+        })
+        .catch(error => {
+          console.log("login error: ");
+          console.log(error);
+        });
+    }
   };
   render() {
     return (
       <div>
-        <button className="nav-button" onClick={this.handleSubmit}>
+        <button
+          className="nav-button"
+          onClick={e => {
+            this.handleSubmit(e, "login");
+          }}
+        >
           Log In
+        </button>
+        <button
+          className="nav-button"
+          onClick={e => {
+            this.handleSubmit(e, "logout");
+          }}
+        >
+          Log Out
         </button>
 
         <div>{this.props.loggedIn ? "Full Access Mode" : "Visitor Mode"}</div>

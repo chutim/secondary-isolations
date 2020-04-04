@@ -8,6 +8,7 @@ logIn = [
     next();
   },
   //this will utilize localStrategy, which checks the incoming body against the credentials in the db
+  //this also invokes req.login()
   passport.authenticate("local"),
   (req, res, next) => {
     console.log("Logged in:", req.user);
@@ -18,16 +19,13 @@ logIn = [
   }
 ];
 
-checkLoggedIn = (req, res, next) => {
-  console.log("checkLoggedIn get route", req.user);
-  if (req.user) {
-    res.json({ user: req.user });
-  } else {
-    res.json({ user: null });
-  }
+logOut = async (req, res, next) => {
+  req.logout();
+  req.session.destroy();
+  res.sendStatus(200);
 };
 
 module.exports = {
   logIn,
-  checkLoggedIn
+  logOut
 };

@@ -80,7 +80,7 @@ class App extends Component {
     this.deleteKitFromTable = this.deleteKitFromTable.bind(this);
     this.fetchKitsFromDatabase = this.fetchKitsFromDatabase.bind(this);
     this.updateTableKitData = this.updateTableKitData.bind(this);
-    this.setLoggedIn = this.setLoggedIn.bind(this);
+    this.setLoggedInStatus = this.setLoggedInStatus.bind(this);
   }
 
   componentDidMount = async () => {
@@ -88,27 +88,8 @@ class App extends Component {
     await this.fetchKitsFromDatabase();
   };
 
-  setLoggedIn = () => {
-    this.setState({ loggedIn: true });
-  };
-
-  getUser = () => {
-    apis.checkLoggedIn.then(response => {
-      console.log("Get user response: ");
-      console.log(response.data);
-      if (response.data.user) {
-        console.log("Get User: There is a user saved in the server session: ");
-        console.log(response.data.user.username);
-        this.setState({
-          loggedIn: true
-        });
-      } else {
-        console.log("Get user: no user");
-        this.setState({
-          loggedIn: false
-        });
-      }
-    });
+  setLoggedInStatus = bool => {
+    this.setState({ loggedIn: bool });
   };
 
   fetchLocalStorage = async () => {
@@ -335,8 +316,6 @@ class App extends Component {
       arrayedKitData.push(groupArray);
     }
     return arrayedKitData;
-    // await this.setState({ arrayedKitData });
-    // this.updateLocalStorage();
   };
 
   modifyTableRowsHash = async (modification, species, rowKey) => {
@@ -455,7 +434,10 @@ class App extends Component {
   render() {
     return (
       <Router className="main">
-        <Login loggedIn={this.state.loggedIn} setLoggedIn={this.setLoggedIn} />
+        <Login
+          loggedIn={this.state.loggedIn}
+          setLoggedInStatus={this.setLoggedInStatus}
+        />
         <Switch>
           <Route
             path="/kits"
@@ -563,7 +545,6 @@ class App extends Component {
                 {...props}
                 rowCount={this.state.rowCount}
                 allSpecies={this.state.allSpecies}
-                setLoggedIn={this.setLoggedIn}
                 selectSpecies={this.selectSpecies}
               />
             )}

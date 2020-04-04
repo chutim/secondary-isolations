@@ -86,19 +86,6 @@ deleteKit = async (req, res) => {
   }).catch(err => console.log(err));
 };
 
-getKitsBySpecies = async (req, res) => {
-  await Kit.find({ species: req.params.species }, (err, kit) => {
-    if (err) {
-      return res.status(400).json({ success: false, error: err });
-    }
-
-    if (!kit) {
-      return res.status(404).json({ success: false, error: `Kit not found` });
-    }
-    return res.status(200).json({ success: true, data: kit });
-  }).catch(err => console.log(err));
-};
-
 getAllKits = async (req, res) => {
   await Kit.find({}, (err, kits) => {
     if (err) {
@@ -115,6 +102,5 @@ module.exports = {
   createKit,
   updateKit,
   deleteKit,
-  getAllKits,
-  getKitsBySpecies
+  getAllKits
 };
