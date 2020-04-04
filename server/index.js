@@ -7,7 +7,6 @@ const passport = require("./passport");
 
 const db = require("./db");
 const router = require("./routes");
-// const passcodeRouter = require("./routes/passcode-router");
 
 const app = express();
 const apiPort = 3000;
@@ -32,15 +31,9 @@ app.use((req, res, next) => {
   console.log("req.session", req.session);
   return next();
 });
-// app.get("/", (req, res, next) => {
-//   console.log("assigning req.session.username");
-//   req.session.username = "bobby";
-//   res.end();
-// });
 
 db.on("error", console.error.bind(console, "MongoDB connection error:"));
 
 app.use("/api", router);
-// app.use("/login", passcodeRouter);
 
 app.listen(apiPort, () => console.log(`Server running on port ${apiPort}`));

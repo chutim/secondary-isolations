@@ -4,13 +4,13 @@ const Passcode = require("../models/passcode-model");
 //NOTE that the callbacks for a route need to be in an array
 logIn = [
   async (req, res, next) => {
-    console.log("logIn post route");
-    console.log(req.body);
+    console.log("logIn req.body:", req.body);
     next();
   },
+  //this will utilize localStrategy, which checks the incoming body against the credentials in the db
   passport.authenticate("local"),
   (req, res, next) => {
-    console.log("logged in", req.user);
+    console.log("Logged in:", req.user);
     var userInfo = {
       username: req.user.username
     };
