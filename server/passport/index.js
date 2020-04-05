@@ -4,8 +4,7 @@ const Passcode = require("../models/passcode-model");
 
 // called on login, saves the id to session req.session.passport.user = {id:'..'}
 passport.serializeUser((user, done) => {
-  console.log(user); // the whole raw user object!
-  console.log("Serializing...");
+  console.log("Serializing:", user);
   done(null, { _id: user._id });
 });
 

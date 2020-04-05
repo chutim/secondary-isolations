@@ -14,5 +14,6 @@ const PasscodeControl = require("../controllers/passcode-control");
 
 router.post("/login", PasscodeControl.logIn);
 router.post("/logout", PasscodeControl.logOut);
+router.get("/login", PasscodeControl.checkLoginStatus);
 
 module.exports = router;

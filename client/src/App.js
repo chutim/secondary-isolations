@@ -17,8 +17,6 @@ import "./App.css";
 //write a giant function for downloading from db, changing state, changing localstorage. use when C/U/D-ing. careful not to lose table data.
 //maybe set timer with each update, to clear localStorage in 24 hours. have button to stop auto-clear in case user wants to keep the table over the weekend or something.
 
-//sign-in box can be floating div on App.js, upper corner. once signed in, it says 'Full Access Mode' with a Logout button. before sign-in, it says 'Visitor Mode'u
-
 // DATA STRUCTURES EXAMPLES:
 // kit = {
 //   id: "130-096-537",
@@ -86,6 +84,23 @@ class App extends Component {
   componentDidMount = async () => {
     this.fetchLocalStorage();
     await this.fetchKitsFromDatabase();
+    this.getUser();
+  };
+
+  getUser = () => {
+    apis.checkLoginStatus().then(response => {
+      if (response.data.user) {
+        console.log("Existing session; logged in.");
+        this.setState({
+          loggedIn: true
+        });
+      } else {
+        console.log("No existing session.");
+        this.setState({
+          loggedIn: false
+        });
+      }
+    });
   };
 
   setLoggedInStatus = bool => {

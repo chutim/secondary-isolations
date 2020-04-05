@@ -1,3 +1,4 @@
+const path = require("path");
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
@@ -11,13 +12,15 @@ const router = require("./routes");
 const app = express();
 const apiPort = 3000;
 
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cors());
+app.use(express.static(path.join(__dirname, "public")));
+
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cors({ credentials: true, origin: "http://localhost:8000" }));
 
 app.use(
   session({
-    secret: process.env.SESSION_SECRET || "the best secret",
+    secret: "the best secret",
     store: new MongoStore({ mongooseConnection: db }),
     resave: false,
     saveUninitialized: false
@@ -26,11 +29,6 @@ app.use(
 
 app.use(passport.initialize());
 app.use(passport.session());
-
-app.use((req, res, next) => {
-  console.log("req.session", req.session);
-  return next();
-});
 
 db.on("error", console.error.bind(console, "MongoDB connection error:"));
 

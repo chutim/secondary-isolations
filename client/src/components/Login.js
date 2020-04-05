@@ -6,35 +6,49 @@ class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: "",
-      password: ""
+      username: "admin",
+      password: "",
+      passwordPlaceholder: ""
     };
   }
 
-  handleChange(event) {
+  handleChange = e => {
     this.setState({
-      [event.target.name]: event.target.value
+      [e.target.name]: e.target.value
     });
-  }
+  };
 
   handleSubmit = async (e, action) => {
     e.preventDefault();
 
     if (action === "login") {
+      if (this.props.loggedIn) {
+        return this.setState({
+          password: "",
+          passwordPlaceholder: "Already logged in!"
+        });
+      } else if (this.state.password === "")
+        return this.setState({
+          passwordPlaceholder: "Password needed!"
+        });
       apis
         .logIn({
-          username: "admin",
-          password: "BioIVT#friends"
+          username: this.state.username,
+          password: this.state.password
         })
         .then(response => {
           if (response.status === 200) {
             // update App.js state so user is logged in everywhere
             this.props.setLoggedInStatus(true);
+            this.setState({ password: "", passwordPlaceholder: "" });
           }
         })
         .catch(error => {
-          console.log("login error: ");
-          console.log(error);
+          console.log("Login error:", error);
+          this.setState({
+            password: "",
+            passwordPlaceholder: "Wrong password!"
+          });
         });
     } else if (action === "logout") {
       apis
@@ -54,6 +68,13 @@ class Login extends Component {
   render() {
     return (
       <div>
+        <input
+          onChange={this.handleChange}
+          name="password"
+          autoComplete="off"
+          value={this.state.password}
+          placeholder={this.state.passwordPlaceholder}
+        ></input>
         <button
           className="nav-button"
           onClick={e => {
