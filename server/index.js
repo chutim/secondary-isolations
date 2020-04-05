@@ -10,13 +10,13 @@ const db = require("./db");
 const router = require("./routes");
 
 const app = express();
-const apiPort = process.env.PORT || 3000;
+const apiPort = process.env.PORT || 8000;
 
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cors({ credentials: true, origin: "http://localhost:8000" }));
+app.use(cors({ credentials: true, origin: "http://localhost:3000" }));
 
 app.use(
   session({
