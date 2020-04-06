@@ -33,6 +33,12 @@ app.use(passport.session());
 
 db.on("error", console.error.bind(console, "MongoDB connection error:"));
 
+const proxy = require("http-proxy-middleware");
+
+module.exports = function(app) {
+  // add other server routes to path array
+  app.use(proxy(["/api"], { target: "http://localhost:8000" }));
+};
 app.use("/api", router);
 
 // sends index.html
