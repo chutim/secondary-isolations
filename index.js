@@ -15,7 +15,12 @@ global.port = apiPort;
 
 app.use(express.static(path.join(__dirname, "client", "build")));
 
-app.use(cors({ credentials: true }));
+app.use(
+  cors({
+    credentials: true,
+    origin: "https://secondary-isolations.herokuapp.com"
+  })
+);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
