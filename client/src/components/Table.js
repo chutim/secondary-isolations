@@ -56,17 +56,21 @@ class Table extends Component {
             //if the constant is for time, a spin, or the final wash, just render it
             if (
               constant[0].includes("(min)") ||
-              constant[0].includes("(times x mL)") ||
-              constant[0].includes("(g x min)")
+              constant[0].includes("(times X mL)") ||
+              constant[0].includes("(g X min)")
             ) {
               return <td key={idx}>{constant[1]}</td>;
             }
-            //otherwise, multiply the constant by the row's cell count
+            //otherwise, multiply the constant by the row's cell count. divide by 10 because the kit instructions use cell counts of 10^7
+            const multiplied =
+              (Number(constant[1]) *
+                this.props.tableRowsHash[kit.species][rowKey][1]) /
+              10;
             return (
               <td key={idx}>
-                {(Number(constant[1]) *
-                  this.props.tableRowsHash[kit.species][rowKey][1]) /
-                  10 || ""}
+                {multiplied
+                  ? multiplied.toLocaleString("en", { useGrouping: true })
+                  : ""}
               </td>
             );
           })}
