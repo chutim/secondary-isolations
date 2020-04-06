@@ -2,6 +2,9 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const bcrypt = require("bcryptjs");
 
+//THINGS TO DO
+//create route for changing password, and use bcrypt
+
 const Passcode = new Schema({
   username: String,
   password: String

@@ -12,7 +12,6 @@ import {
 } from "./components";
 import apis from "./api";
 import "./App.css";
-import axios from "axios";
 
 //THINGS TO DO
 //write a giant function for downloading from db, changing state, changing localstorage. use when C/U/D-ing. careful not to lose table data.
@@ -472,23 +471,6 @@ class App extends Component {
             )}
           ></Route>
 
-          {/* <Route
-            path="/edit/:kitID"
-            render={props => (
-              <CreateOrEdit
-                {...props}
-                allConstantNames={this.state.allConstantNames}
-                rowCount={this.state.rowCount}
-                allKitIDs={this.state.allKitIDs}
-                currentSpecies={this.state.currentSpecies}
-                allSpecies={this.state.allSpecies}
-                fetchKitsFromDatabase={this.fetchKitsFromDatabase}
-                selectSpecies={this.selectSpecies}
-                updateTableKitData={this.updateTableKitData}
-              />
-            )}
-          ></Route> */}
-
           <PrivateRoute
             path="/edit/:kitID"
             component={CreateOrEdit}
@@ -502,23 +484,6 @@ class App extends Component {
             selectSpecies={this.selectSpecies}
             updateTableKitData={this.updateTableKitData}
           ></PrivateRoute>
-
-          {/* <Route
-            path="/create"
-            render={props => (
-              <CreateOrEdit
-                {...props}
-                allConstantNames={this.state.allConstantNames}
-                allKits={this.allKits}
-                rowCount={this.state.rowCount}
-                allKitIDs={this.state.allKitIDs}
-                currentSpecies={this.state.currentSpecies}
-                allSpecies={this.state.allSpecies}
-                fetchKitsFromDatabase={this.fetchKitsFromDatabase}
-                selectSpecies={this.selectSpecies}
-              />
-            )}
-          ></Route> */}
 
           <PrivateRoute
             path="/create"

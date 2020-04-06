@@ -5,12 +5,7 @@ import apis from "../api";
 import "./CreateOrEdit.css";
 
 //THINGS TO DO
-//drop-down for units in each constants row, forces user to remember to add units. helps take care of parsing constant name in case user doesn't use a space or parentheses.
-
-//need to require sign-in to use edit buttons, don't render them otherwise.
-//sign-in box can be floating div on App.js, upper corner. once signed in, it says 'Full Access Mode' with a Logout button. before sign-in, it says 'Visitor Mode' 'enter password for full access'
-//how to stop user from just typing /edit or /create in the URL????????? check if signed in, if not, then don't show any create or edit button. or gray them out, if it makes the CSS look weird when they're missing.
-//need to sign users out after a certain amount of time?
+//drop-down for units in each constants row shouldn't require parentehses
 
 class CreateOrEdit extends Component {
   constructor(props) {
@@ -114,10 +109,6 @@ class CreateOrEdit extends Component {
     let nameCap = this.capitalizeWords(name);
     let speciesCap = this.capitalizeWords(species);
     let constantsCap = constants.map(constantGroup => {
-      // const splitName = constantPair[0].split(" (");
-      // constantPair[0] = [this.capitalizeWords(splitName[0]), splitName[1]].join(
-      //   " ("
-      // );
       constantGroup[0] = this.capitalizeWords(constantGroup[0]);
       let newConstantGroup = [];
       newConstantGroup.push(constantGroup[0].concat(" " + constantGroup[1]));

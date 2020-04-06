@@ -18,6 +18,7 @@ app.use(express.static(path.join(__dirname, "client", "build")));
 app.use(
   cors({
     credentials: true,
+    //change to localhost:3000 in dev
     origin: "https://secondary-isolations.herokuapp.com"
   })
 );
@@ -37,18 +38,6 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 db.on("error", console.error.bind(console, "MongoDB connection error:"));
-
-// const proxy = require("http-proxy-middleware");
-
-// module.exports = function(app) {
-//   // add other server routes to path array
-//   app.use(proxy(["/api"], { target: "http://localhost:8000" }));
-// };
-
-// app.use(
-//   "/api",
-//   createProxyMiddleware("/api", { target: "http://localhost:8000" })
-// );
 
 app.use("/api", router);
 
