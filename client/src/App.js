@@ -12,6 +12,7 @@ import {
 } from "./components";
 import apis from "./api";
 import "./App.css";
+import axios from "axios";
 
 //THINGS TO DO
 //write a giant function for downloading from db, changing state, changing localstorage. use when C/U/D-ing. careful not to lose table data.
@@ -109,6 +110,9 @@ class App extends Component {
 
   fetchLocalStorage = async () => {
     console.log("Fetching state from local storage...");
+    console.log("port", global.port);
+    // const { data } = await axios.get("/api/login", { browserBaseURL: "/" });
+    // console.log("the data", data);
     const localState = JSON.parse(localStorage.getItem("appState"));
     if (localState) {
       // do not need to store/fetch allKits or allSpecies, as those can change in the database and we want to always grab the newest update on loading app

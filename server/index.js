@@ -11,8 +11,9 @@ const router = require("./routes");
 
 const app = express();
 const apiPort = process.env.PORT || 8000;
+global.port = apiPort;
 
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, "../../client", "public")));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
