@@ -11,17 +11,21 @@ const router = require("./routes");
 
 const app = express();
 const apiPort = process.env.PORT || 8000;
-global.port = apiPort;
 
 app.use(express.static(path.join(__dirname, "client", "build")));
 
+console.log("Environment:", process.env.NODE_ENV);
+const origin =
+  process.env.NODE_ENV.trim() === "development"
+    ? "http://localhost:3000"
+    : "https://secondary-isolations.herokuapp.com";
 app.use(
   cors({
     credentials: true,
-    //change to localhost:3000 in dev
-    origin: "https://secondary-isolations.herokuapp.com"
+    origin
   })
 );
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 

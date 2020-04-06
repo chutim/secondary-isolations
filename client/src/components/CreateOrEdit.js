@@ -21,7 +21,7 @@ class CreateOrEdit extends Component {
   }
 
   componentDidMount = async () => {
-    //if editing a kit, grab the kit data pushed into the history object. if the user just went to the url directly, i.e., didn't click in from a kit, there is no history so grab from localStorage
+    //if editing a kit, grab the kit data pushed into the history object (location.state). if the user just went to the url directly, i.e., didn't click in from a kit, there is no history so grab from localStorage
     if (this.props.match.params.kitID) {
       if (this.props.location.state) {
         const constants = this.extractConstantNames(
@@ -37,7 +37,7 @@ class CreateOrEdit extends Component {
       }
       this.updateLocalStorage("update");
     } else {
-      //otherwise, grab any form data from localStorage
+      //otherwise, creating kit, grab any form data from localStorage
       console.log("Fetching saved create kit data...");
       const localForm = JSON.parse(localStorage.getItem("createState"));
       await this.setState(localForm);
@@ -229,6 +229,7 @@ class CreateOrEdit extends Component {
     await this.props.selectSpecies(this.props.currentSpecies);
     this.props.history.goBack();
     console.log("Kit deleted from database.");
+    //NEED TO ALSO DELETE KIT FROM TABLE
   };
 
   createArrayOfNonRepeatingElements = (array, indexToUse) => {

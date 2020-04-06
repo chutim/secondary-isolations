@@ -1,8 +1,13 @@
 import axios from "axios";
 
+const baseURL =
+  process.env.NODE_ENV.trim() === "development"
+    ? "http://localhost:8000"
+    : undefined;
+
 const api = axios.create({
-  // baseURL: `http://localhost:8000/api`
-  withCredentials: true
+  withCredentials: true,
+  baseURL
 });
 
 export const createKit = kitData => api.post(`/api/kit`, kitData);
