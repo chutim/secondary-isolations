@@ -7,10 +7,6 @@ const PrivateRoute = ({
   loggedIn,
   ...rest
 }) => {
-  console.log("passing thru privateroute");
-  //should authenticate with server here. if i just check for a loggedIn status on App.js, a user could just modify their localStorage to be loggedIn, and then have full access. don't pass in loggedIn here as props.
-  //actually... maybe jsut don't store loggedIn on localStorage. then the user can't modify the state i think.
-
   return (
     <Route
       path={path}
