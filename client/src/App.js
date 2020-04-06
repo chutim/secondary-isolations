@@ -111,7 +111,7 @@ class App extends Component {
   fetchLocalStorage = async () => {
     console.log("Fetching state from local storage...");
     console.log("port", global.port);
-    // const { data } = await axios.get("/api/login", { browserBaseURL: "/" });
+    // const { data } = await axios.get("/api/login");
     // console.log("the data", data);
     const localState = JSON.parse(localStorage.getItem("appState"));
     if (localState) {
