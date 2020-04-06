@@ -23,6 +23,7 @@
   "homepage": "https://github.com/chutim/secondary-isolations#readme",
   "dependencies": {
     "concurrently": "^5.1.0",
+    "axios": "^0.19.2",
     "react-scripts": "^3.4.1"
   }
 }
