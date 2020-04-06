@@ -13,11 +13,11 @@ const app = express();
 const apiPort = process.env.PORT || 8000;
 global.port = apiPort;
 
-app.use(express.static(path.join(__dirname, "../client", "build")));
+app.use(express.static(path.join(__dirname, "client", "build")));
 
+app.use(cors({ credentials: true }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cors({ credentials: true, origin: "http://localhost:3000" }));
 
 app.use(
   session({
@@ -33,17 +33,23 @@ app.use(passport.session());
 
 db.on("error", console.error.bind(console, "MongoDB connection error:"));
 
-const proxy = require("http-proxy-middleware");
+// const proxy = require("http-proxy-middleware");
 
-module.exports = function(app) {
-  // add other server routes to path array
-  app.use(proxy(["/api"], { target: "http://localhost:8000" }));
-};
+// module.exports = function(app) {
+//   // add other server routes to path array
+//   app.use(proxy(["/api"], { target: "http://localhost:8000" }));
+// };
+
+// app.use(
+//   "/api",
+//   createProxyMiddleware("/api", { target: "http://localhost:8000" })
+// );
+
 app.use("/api", router);
 
 // sends index.html
 app.use("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "../client", "build/index.html"));
+  res.sendFile(path.join(__dirname, "client", "build/index.html"));
 });
 
 // error handling endware

@@ -110,9 +110,7 @@ class App extends Component {
 
   fetchLocalStorage = async () => {
     console.log("Fetching state from local storage...");
-    console.log("port", global.port);
-    // const { data } = await axios.get("/api/login");
-    // console.log("the data", data);
+
     const localState = JSON.parse(localStorage.getItem("appState"));
     if (localState) {
       // do not need to store/fetch allKits or allSpecies, as those can change in the database and we want to always grab the newest update on loading app

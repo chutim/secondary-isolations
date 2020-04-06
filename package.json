@@ -8,7 +8,9 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "concurrently --kill-others-on-fail \"npm --prefix client run start\" \"npm --prefix server run server\""
+    "start-dev": "concurrently --kill-others-on-fail \"npm --prefix client run start\" \"npm run server\"",
+    "server": "nodemon index.js",
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
