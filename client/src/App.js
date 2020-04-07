@@ -227,7 +227,6 @@ class App extends Component {
       if (tableKitIDs[kit.id] === 1) {
         await this.addKitData(kit.id);
       }
-      console.log("App state after ADD:", this.state);
     } else if (modification === "subtract") {
       if (tableKitIDs[kit.id]) {
         //remove from tableRowsHash first, before decrementing tableKitIDs. need the correct rowID
@@ -244,7 +243,6 @@ class App extends Component {
       if (!tableKitIDs[kit.id]) {
         await this.removeKitData(kit.id);
       }
-      console.log("App state after REMOVE:", this.state);
     }
 
     this.updateLocalStorage();
@@ -274,25 +272,23 @@ class App extends Component {
     this.setState({ tableKitData: filteredKitData, arrayedKitData });
   };
 
-  updateTableKitData = kitID => {
-    //grab the updated kit from allKits, which has been re-pulled from db
-    let updatedKit = {};
-    for (let kit of this.state.allKits) {
-      if (kit.id === kitID) {
-        updatedKit = kit;
-        break;
-      }
-    }
-    //find the kit in tableKitData and replace it
+  updateTableKitData = async (updatedKit, mod) => {
+    //find the kit in tableKitData and replace or delete it
     const tableKitData = cloneDeep(this.state.tableKitData);
-    for (let i = 0; i < tableKitData.length; i++) {
-      if (tableKitData[i].id === kitID) {
-        tableKitData[i] = updatedKit;
+    if (mod === "update") {
+      for (let i = 0; i < tableKitData.length; i++) {
+        if (tableKitData[i].id === updatedKit.id) {
+          tableKitData[i] = updatedKit;
+          break;
+        }
       }
+      //generate arrayedKitData for Table to use
+      const arrayedKitData = this.hashifyKitData(tableKitData);
+      await this.setState({ tableKitData, arrayedKitData });
+    } else if (mod === "delete") {
+      await this.deleteKitFromTable(updatedKit.id, updatedKit.species);
     }
-    //generate arrayedKitData for Table to use
-    const arrayedKitData = this.hashifyKitData(tableKitData);
-    this.setState({ tableKitData, arrayedKitData });
+    this.updateLocalStorage();
   };
 
   hashifyKitData = tableKitData => {
@@ -453,6 +449,7 @@ class App extends Component {
             path="/edit/:kitID"
             component={CreateOrEdit}
             loggedIn={this.state.loggedIn}
+            allKits={this.state.allKits}
             rowCount={this.state.rowCount}
             allKitIDs={this.state.allKitIDs}
             currentSpecies={this.state.currentSpecies}

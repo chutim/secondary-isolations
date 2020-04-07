@@ -4,8 +4,6 @@ import LinkButton from "./LinkButton.jsx";
 import "./Table.css";
 
 //THINGS TO DO:
-//if a kit is deleted in Edit, the kit still persists in Table
-//make kit id's into miltenyi links
 
 class Table extends Component {
   generateRows = kit => {
@@ -129,7 +127,14 @@ class Table extends Component {
                           </LinkButton>
                           <div>
                             <div>
-                              {kit.name}: {kit.id}
+                              {kit.name}:{" "}
+                              <a
+                                href={`https://www.miltenyibiotec.com/US-en/search.html?search=${kit.id}&options=on#globalSearchFamilies=%5B%5D`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                              >
+                                {kit.id}
+                              </a>
                             </div>
                             <div>({kit.type} Selection)</div>
                           </div>

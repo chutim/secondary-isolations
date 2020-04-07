@@ -5,7 +5,6 @@ import apis from "../api";
 import "./CreateOrEdit.css";
 
 //THINGS TO DO
-//drop-down for units in each constants row shouldn't require parentehses
 
 class CreateOrEdit extends Component {
   constructor(props) {
@@ -91,7 +90,7 @@ class CreateOrEdit extends Component {
   };
 
   capitalizeFields = (name, species, constants) => {
-    let nameCap = this.capitalizeWords(name);
+    let nameCap = this.capitalizeWords(String(name));
     let speciesCap = this.capitalizeWords(species);
     let constantsCap = constants.map(constantGroup => {
       constantGroup[0] = this.capitalizeWords(constantGroup[0]);
@@ -131,7 +130,7 @@ class CreateOrEdit extends Component {
     );
 
     return {
-      id,
+      id: String(id),
       name: nameCap,
       species: speciesCap,
       type,
@@ -160,8 +159,16 @@ class CreateOrEdit extends Component {
         });
     //if this was an update on a kit, make sure it gets updated in Table if present
     if (updateOrCreate === "update") {
-      //if this was an update on a kit, make sure it gets updated in Table if present
-      this.props.updateTableKitData(id);
+      this.props.updateTableKitData(
+        {
+          id,
+          name,
+          species,
+          type,
+          constants
+        },
+        "update"
+      );
       //bug: if user copy/pastes the edit kit URL in a new tab, it will update the kit in db but then send the user back to the default new tab page
       this.props.history.goBack();
     }
@@ -203,15 +210,20 @@ class CreateOrEdit extends Component {
   };
 
   deleteKit = async kitID => {
+    const { id, name, species, type, constants } = cloneDeep(this.state);
     this.clearStateAndStorage();
     await apis.deleteKitById(kitID);
     //update App state
     await this.props.fetchKitsFromDatabase();
     //update species' kits in Kits component if necessary
     await this.props.selectSpecies(this.props.currentSpecies);
+
+    await this.props.updateTableKitData(
+      { id, name, species, type, constants },
+      "delete"
+    );
     this.props.history.goBack();
     console.log("Kit deleted from database.");
-    //NEED TO ALSO DELETE KIT FROM TABLE
   };
 
   createArrayOfNonRepeatingElements = indexToUse => {
@@ -302,7 +314,7 @@ class CreateOrEdit extends Component {
                       name="species"
                       onChange={this.handleInput}
                       value={this.state.species}
-                      placeholder={this.state.species ? "" : "Unicorn"}
+                      placeholder={this.state.species ? "" : "Dragon"}
                     />
                     <datalist id="species-choices">
                       {this.props.allSpecies.map(species => (
@@ -350,7 +362,7 @@ class CreateOrEdit extends Component {
                           this.handleInput(e, idx, "constantName");
                         }}
                         value={constantRow[0] || ""}
-                        placeholder={constantRow[0] ? "" : "Reagent"}
+                        placeholder={constantRow[0] ? "" : "Fireball Cocktail"}
                       />
                       <datalist id="constants-names">
                         {this.createArrayOfNonRepeatingElements(0).map(name => (
@@ -367,7 +379,7 @@ class CreateOrEdit extends Component {
                           this.handleInput(e, idx, "constantUnit");
                         }}
                         value={constantRow[1] || ""}
-                        placeholder={constantRow[1] ? "" : "(unit)"}
+                        placeholder={constantRow[1] ? "" : "cups"}
                       />
                       <datalist id="units">
                         {this.createArrayOfNonRepeatingElements(1).map(unit => (
