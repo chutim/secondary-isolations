@@ -3,7 +3,6 @@ import apis from "../api";
 import "./Login.css";
 
 //THINGS TO DO
-//make log-in button switch out with log-out
 
 class Login extends Component {
   constructor(props) {
@@ -81,18 +80,10 @@ class Login extends Component {
         <button
           className="nav-button"
           onClick={e => {
-            this.handleSubmit(e, "login");
+            this.handleSubmit(e, this.props.loggedIn ? "logout" : "login");
           }}
         >
-          Log In
-        </button>
-        <button
-          className="nav-button"
-          onClick={e => {
-            this.handleSubmit(e, "logout");
-          }}
-        >
-          Log Out
+          {this.props.loggedIn ? "Log Out" : "Log In"}
         </button>
 
         <div>{this.props.loggedIn ? "Full Access Mode" : "Visitor Mode"}</div>
