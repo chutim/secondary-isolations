@@ -1,18 +1,14 @@
 import React from "react";
+import LinkButton from "./LinkButton.jsx";
 import "./Error.css";
 
-const Error = props => {
+const Error = () => {
   return (
     <>
       <div>You are not logged in.</div>
-      <button
-        className="nav-button"
-        onClick={() => {
-          props.history.goBack();
-        }}
-      >
-        Back
-      </button>
+      <LinkButton to="/" className="nav-button home-button">
+        Home
+      </LinkButton>
     </>
   );
 };
