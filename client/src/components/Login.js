@@ -2,6 +2,9 @@ import React, { Component } from "react";
 import apis from "../api";
 import "./Login.css";
 
+//THINGS TO DO
+//make log-in button switch out with log-out
+
 class Login extends Component {
   constructor(props) {
     super(props);

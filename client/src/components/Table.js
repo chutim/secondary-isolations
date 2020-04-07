@@ -5,7 +5,7 @@ import "./Table.css";
 
 //THINGS TO DO:
 //if a kit is deleted in Edit, the kit still persists in Table
-//if a calculated number is in the thousands, add a comma for visibility
+//make kit id's into miltenyi links
 
 class Table extends Component {
   generateRows = kit => {

@@ -51,6 +51,11 @@
 
 .kit-options-container {
   display: flex;
+  flex-direction: column;
+}
+
+.kit-options-row {
+  display: flex;
   align-items: center;
   width: calc(140px + 1vmin);
   justify-content: space-between;

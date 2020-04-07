@@ -44,25 +44,28 @@ class Kits extends Component {
                       Edit Kit
                     </LinkButton>
                     <div className="kit-options-container">
-                      <button
-                        className="kit-options-button kit-remove-button"
-                        onClick={() => {
-                          this.props.updateTable("subtract", kit);
-                        }}
-                      >
-                        <b>-</b>
-                      </button>
-                      <div className="kit-count">
-                        {this.props.tableKitIDs[kit.id] || 0}
+                      <div>Samples</div>
+                      <div className="kit-options-row">
+                        <button
+                          className="kit-options-button kit-remove-button"
+                          onClick={() => {
+                            this.props.updateTable("subtract", kit);
+                          }}
+                        >
+                          <b>-</b>
+                        </button>
+                        <div className="kit-count">
+                          {this.props.tableKitIDs[kit.id] || 0}
+                        </div>
+                        <button
+                          className="kit-options-button kit-add-button"
+                          onClick={() => {
+                            this.props.updateTable("add", kit);
+                          }}
+                        >
+                          <b>+</b>
+                        </button>
                       </div>
-                      <button
-                        className="kit-options-button kit-add-button"
-                        onClick={() => {
-                          this.props.updateTable("add", kit);
-                        }}
-                      >
-                        <b>+</b>
-                      </button>
                     </div>
                   </div>
                 ))}
@@ -89,25 +92,28 @@ class Kits extends Component {
                       Edit Kit
                     </LinkButton>
                     <div className="kit-options-container">
-                      <button
-                        className="kit-options-button kit-remove-button"
-                        onClick={() => {
-                          this.props.updateTable("subtract", kit);
-                        }}
-                      >
-                        <b>-</b>
-                      </button>
-                      <div className="kit-count">
-                        {this.props.tableKitIDs[kit.id] || 0}
+                      <div>Samples</div>
+                      <div className="kit-options-row">
+                        <button
+                          className="kit-options-button kit-remove-button"
+                          onClick={() => {
+                            this.props.updateTable("subtract", kit);
+                          }}
+                        >
+                          <b>-</b>
+                        </button>
+                        <div className="kit-count">
+                          {this.props.tableKitIDs[kit.id] || 0}
+                        </div>
+                        <button
+                          className="kit-options-button kit-add-button"
+                          onClick={() => {
+                            this.props.updateTable("add", kit);
+                          }}
+                        >
+                          <b>+</b>
+                        </button>
                       </div>
-                      <button
-                        className="kit-options-button kit-add-button"
-                        onClick={() => {
-                          this.props.updateTable("add", kit);
-                        }}
-                      >
-                        <b>+</b>
-                      </button>
                     </div>
                   </div>
                 ))}
