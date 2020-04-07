@@ -58,7 +58,6 @@ class App extends Component {
     this.state = {
       loggedIn: false,
       allKits: [],
-      allConstantNames: [],
       rowCount: 0,
       currentSpecies: "No Species Selected",
       currentPosKits: [],
@@ -83,7 +82,7 @@ class App extends Component {
 
   componentDidMount = async () => {
     this.fetchLocalStorage();
-    await this.fetchKitsFromDatabase();
+    this.fetchKitsFromDatabase();
     this.getUser();
   };
 
@@ -159,8 +158,7 @@ class App extends Component {
 
     const allSpecies = this.extractAllSpecies(allKits).sort();
     const allKitIDs = this.createKitIDHash(allKits);
-    const allConstantNames = this.extractConstantNames(allKits);
-    await this.setState({ allKits, allConstantNames, allSpecies, allKitIDs });
+    await this.setState({ allKits, allSpecies, allKitIDs });
     console.log("All kits loaded.");
   };
 
@@ -170,26 +168,6 @@ class App extends Component {
       allKitIDs.add(kit.id);
     }
     return allKitIDs;
-  };
-
-  extractConstantNames = allKits => {
-    let allConstants = [];
-    for (let kit of allKits) {
-      allConstants.push(...kit.constants);
-    }
-
-    let constantNamesSet = new Set();
-    for (let constantPair of allConstants) {
-      constantNamesSet.add(constantPair[0]);
-    }
-
-    const constantNames = Array.from(constantNamesSet).sort();
-    const arrayedConstantNames = constantNames.map(constant => {
-      let arr = constant.split(" (");
-      arr[1] = "(".concat(arr[1]);
-      return arr;
-    });
-    return arrayedConstantNames;
   };
 
   extractAllSpecies = allKits => {
@@ -475,7 +453,6 @@ class App extends Component {
             path="/edit/:kitID"
             component={CreateOrEdit}
             loggedIn={this.state.loggedIn}
-            allConstantNames={this.state.allConstantNames}
             rowCount={this.state.rowCount}
             allKitIDs={this.state.allKitIDs}
             currentSpecies={this.state.currentSpecies}
@@ -489,8 +466,7 @@ class App extends Component {
             path="/create"
             component={CreateOrEdit}
             loggedIn={this.state.loggedIn}
-            allConstantNames={this.state.allConstantNames}
-            allKits={this.allKits}
+            allKits={this.state.allKits}
             rowCount={this.state.rowCount}
             allKitIDs={this.state.allKitIDs}
             currentSpecies={this.state.currentSpecies}

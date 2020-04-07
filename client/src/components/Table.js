@@ -55,15 +55,15 @@ class Table extends Component {
           {kit.constants.map((constant, idx) => {
             //if the constant is for time, a spin, or the final wash, just render it
             if (
-              constant[0].includes("(min)") ||
-              constant[0].includes("(times X mL)") ||
-              constant[0].includes("(g X min)")
+              constant[1].includes("min") ||
+              constant[1].includes("times X mL") ||
+              constant[1].includes("g X min")
             ) {
-              return <td key={idx}>{constant[1]}</td>;
+              return <td key={idx}>{constant[2]}</td>;
             }
             //otherwise, multiply the constant by the row's cell count. divide by 10 because the kit instructions use cell counts of 10^7
             const multiplied =
-              (Number(constant[1]) *
+              (Number(constant[2]) *
                 this.props.tableRowsHash[kit.species][rowKey][1]) /
               10;
             return (
@@ -148,7 +148,7 @@ class Table extends Component {
                       <th colSpan={2}>Constants:</th>
                       {/* using idx for the keys because constants can repeat */}
                       {kit.constants.map((constant, idx) => (
-                        <th key={idx}>{constant[1]}</th>
+                        <th key={idx}>{constant[2]}</th>
                       ))}
                     </tr>
                     <tr>
@@ -158,7 +158,9 @@ class Table extends Component {
                       </th>
                       {/* using idx for the keys because constants can repeat */}
                       {kit.constants.map((constant, idx) => (
-                        <th key={idx}>{constant[0]}</th>
+                        <th key={idx}>
+                          {constant[0] + " (" + constant[1] + ")"}
+                        </th>
                       ))}
                     </tr>
                   </thead>

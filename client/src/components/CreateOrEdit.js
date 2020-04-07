@@ -24,11 +24,7 @@ class CreateOrEdit extends Component {
     //if editing a kit, grab the kit data pushed into the history object (location.state). if the user just went to the url directly, i.e., didn't click in from a kit, there is no history so grab from localStorage
     if (this.props.match.params.kitID) {
       if (this.props.location.state) {
-        const constants = this.extractConstantNames(
-          this.props.location.state.constants
-        );
         await this.setState(this.props.location.state);
-        await this.setState({ constants });
       } else {
         console.log("Fetching saved update kit data...");
         const localForm = JSON.parse(localStorage.getItem("updateState"));
@@ -43,17 +39,6 @@ class CreateOrEdit extends Component {
       await this.setState(localForm);
       console.log("Saved create kit data loaded.");
     }
-  };
-
-  extractConstantNames = constants => {
-    const arrayedConstantNames = constants.map(constantPair => {
-      let arr = constantPair[0].split(" (");
-      arr[1] = "(".concat(arr[1]);
-      let withValue = [...arr, constantPair[1]];
-      return withValue;
-    });
-
-    return arrayedConstantNames;
   };
 
   updateLocalStorage = createOrUpdate => {
@@ -110,10 +95,7 @@ class CreateOrEdit extends Component {
     let speciesCap = this.capitalizeWords(species);
     let constantsCap = constants.map(constantGroup => {
       constantGroup[0] = this.capitalizeWords(constantGroup[0]);
-      let newConstantGroup = [];
-      newConstantGroup.push(constantGroup[0].concat(" " + constantGroup[1]));
-      newConstantGroup.push(constantGroup[2]);
-      return newConstantGroup;
+      return constantGroup;
     });
     return { nameCap, speciesCap, constantsCap };
   };
@@ -232,10 +214,14 @@ class CreateOrEdit extends Component {
     //NEED TO ALSO DELETE KIT FROM TABLE
   };
 
-  createArrayOfNonRepeatingElements = (array, indexToUse) => {
+  createArrayOfNonRepeatingElements = indexToUse => {
+    const allConstantGroups = this.props.allKits.reduce((finalArray, kit) => {
+      finalArray.push(...kit.constants);
+      return finalArray;
+    }, []);
     const set = new Set();
-    for (let el of array) {
-      set.add(el[indexToUse]);
+    for (let constantGroup of allConstantGroups) {
+      set.add(constantGroup[indexToUse]);
     }
     return Array.from(set).sort();
   };
@@ -348,9 +334,7 @@ class CreateOrEdit extends Component {
                 <tr>
                   <td colSpan={3}>Constants</td>
                 </tr>
-                <tr>
-                  <td colSpan={3}>Be sure to include units.</td>
-                </tr>
+
                 <tr>
                   <td>Name</td>
                   <td>Units</td>
@@ -369,10 +353,7 @@ class CreateOrEdit extends Component {
                         placeholder={constantRow[0] ? "" : "Reagent"}
                       />
                       <datalist id="constants-names">
-                        {this.createArrayOfNonRepeatingElements(
-                          this.props.allConstantNames,
-                          0
-                        ).map(name => (
+                        {this.createArrayOfNonRepeatingElements(0).map(name => (
                           <option key={name}>{name}</option>
                         ))}
                       </datalist>
@@ -389,10 +370,7 @@ class CreateOrEdit extends Component {
                         placeholder={constantRow[1] ? "" : "(unit)"}
                       />
                       <datalist id="units">
-                        {this.createArrayOfNonRepeatingElements(
-                          this.props.allConstantNames,
-                          1
-                        ).map(unit => (
+                        {this.createArrayOfNonRepeatingElements(1).map(unit => (
                           <option key={unit}>{unit}</option>
                         ))}
                       </datalist>
