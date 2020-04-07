@@ -89,14 +89,15 @@ class CreateOrEdit extends Component {
     return capitalizedArray.join(" ");
   };
 
-  capitalizeFields = (name, species, constants) => {
-    let nameCap = this.capitalizeWords(String(name));
-    let speciesCap = this.capitalizeWords(species);
-    let constantsCap = constants.map(constantGroup => {
+  processFields = (name, species, constants) => {
+    const namePrepped = this.capitalizeWords(String(name).trim());
+    const speciesPrepped = this.capitalizeWords(species.trim());
+    const constantsPrepped = constants.map(constantGroup => {
+      constantGroup = constantGroup.map(el => el.trim());
       constantGroup[0] = this.capitalizeWords(constantGroup[0]);
       return constantGroup;
     });
-    return { nameCap, speciesCap, constantsCap };
+    return { namePrepped, speciesPrepped, constantsPrepped };
   };
 
   checkForEmptyFields = (id, name, species, type, constants) => {
@@ -123,18 +124,18 @@ class CreateOrEdit extends Component {
     if (this.checkForEmptyFields(id, name, species, type, constants))
       return false;
 
-    let { nameCap, speciesCap, constantsCap } = this.capitalizeFields(
-      name,
-      species,
-      constants
-    );
+    const {
+      namePrepped,
+      speciesPrepped,
+      constantsPrepped
+    } = this.processFields(name, species, constants);
 
     return {
       id: String(id),
-      name: nameCap,
-      species: speciesCap,
+      name: namePrepped,
+      species: speciesPrepped,
       type,
-      constants: constantsCap
+      constants: constantsPrepped
     };
   };
 
