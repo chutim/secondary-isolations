@@ -10,7 +10,9 @@ class Home extends Component {
     return (
       <div className="page">
         <header>
-          <div className="page-title">Secondary Isolation Calculator</div>
+          <div className="page-title" id="home-title">
+            Secondary Isolation Calculator
+          </div>
           <div className="home-subtitle">
             For{" "}
             <a

@@ -8,6 +8,11 @@
 }
 
 /* ----------------TEXT---------------- */
+#home-title {
+  font-size: 32px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
 
 .home-subtitle {
   color: #585858;
@@ -41,6 +46,7 @@
 
 .species-button:hover {
   background-color: #eee8ff;
+  cursor: pointer;
 }
 
 .species-button:focus {

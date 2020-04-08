@@ -449,7 +449,7 @@ class CreateOrEdit extends Component {
         </div>
         <footer>
           <button
-            className="nav-button"
+            className="nav-button back-button"
             onClick={() => {
               this.props.history.goBack();
             }}

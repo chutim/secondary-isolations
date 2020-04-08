@@ -67,14 +67,17 @@ td {
 /* ----------------TEXT---------------- */
 .page-title {
   font-size: 28px;
-  font-weight: 700;
+  font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 2px;
   padding: 30px;
-  color: #000000;
 }
 
 /* --------------BUTTONS--------------- */
+button {
+  transition: 0.3s;
+}
+
 .nav-button {
   font-size: 18px;
   font-weight: 400;
@@ -88,6 +91,10 @@ td {
   margin: 5px;
   margin-top: 10px;
   margin-bottom: 10px;
+}
+
+.nav-button:hover {
+  cursor: pointer;
 }
 
 .nav-button:focus {
@@ -104,9 +111,54 @@ td {
 }
 
 .home-button {
-  background-color: peachpuff;
+  background-color: #947cff;
 }
 
-.logged-out {
+.home-button:hover {
+  background-color: #ae9bff;
+}
+
+.back-button {
+  background-color: #dfdfdf;
+}
+
+.back-button:hover {
+  background-color: #ffffff;
+}
+
+.create-button {
+  background-color: #d84aa1;
+}
+
+.create-button:hover {
+  background-color: #f06bbd;
+}
+
+.edit-button {
+  border: none;
+  border-radius: 5px;
+  color: white;
+  padding: 9px 11px;
+  font-size: 20px;
+  background-color: #f58fce;
+}
+
+.edit-button:hover {
+  background-color: #eb62b6;
+  cursor: pointer;
+}
+
+.edit-button:focus {
+  outline: none;
+  box-shadow: 0px 0px 7px #eb62b6;
+}
+
+.logged-out-edit-button {
+  visibility: hidden;
+  opacity: 0;
+  transition: 1s;
+}
+
+.logged-out-nav-button {
   display: none;
 }

@@ -24,47 +24,60 @@ class Kits extends Component {
         </header>
         <div className="kits-body scrollable-body">
           <div className="kit-section section-positive-selection">
-            <h5 className="kit-section-title">Positive Selection</h5>
+            <div className="kit-section-title">Positive Selection</div>
             <div className="kit-section-list">
               {this.props.currentPosKits &&
                 this.sortKitsByName(this.props.currentPosKits).map(kit => (
                   <div className="kit-info-container" key={kit.id}>
                     <div className="kit-name-container">
-                      <b>{kit.name}</b>
-                      <div>{kit.id}</div>
+                      <div className="kit-name">{kit.name}</div>
+                      <div>
+                        <a
+                          className="kit-id"
+                          href={`https://www.miltenyibiotec.com/US-en/search.html?search=${kit.id}&options=on#globalSearchFamilies=%5B%5D`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          {kit.id}
+                        </a>
+                      </div>
                     </div>
-                    <LinkButton
-                      to={`/edit/${kit.id}`}
-                      className={
-                        this.props.loggedIn ? "nav-button" : "logged-out"
-                      }
-                      //attaches kit object to props.location.state
-                      kit={kit}
-                    >
-                      Edit Kit
-                    </LinkButton>
-                    <div className="kit-options-container">
-                      <div>Samples</div>
-                      <div className="kit-options-row">
-                        <button
-                          className="kit-options-button kit-remove-button"
-                          onClick={() => {
-                            this.props.updateTable("subtract", kit);
-                          }}
-                        >
-                          <b>-</b>
-                        </button>
-                        <div className="kit-count">
-                          {this.props.tableKitIDs[kit.id] || 0}
+                    <div className="kit-info-container-right">
+                      <LinkButton
+                        to={`/edit/${kit.id}`}
+                        className={
+                          this.props.loggedIn
+                            ? "edit-button"
+                            : "edit-button logged-out-edit-button"
+                        }
+                        //attaches kit object to props.location.state
+                        kit={kit}
+                      >
+                        <i class="fas fa-pen"></i>
+                      </LinkButton>
+                      <div className="kit-options-container">
+                        {/* <div className="kit-options-title">Samples</div> */}
+                        <div className="kit-options-row">
+                          <button
+                            className="kit-options-button kit-remove-button"
+                            onClick={() => {
+                              this.props.updateTable("subtract", kit);
+                            }}
+                          >
+                            <div className="kits-add-subtract-text">-</div>
+                          </button>
+                          <div className="kit-count">
+                            {this.props.tableKitIDs[kit.id] || 0}
+                          </div>
+                          <button
+                            className="kit-options-button kit-add-button"
+                            onClick={() => {
+                              this.props.updateTable("add", kit);
+                            }}
+                          >
+                            <div className="kits-add-subtract-text">+</div>
+                          </button>
                         </div>
-                        <button
-                          className="kit-options-button kit-add-button"
-                          onClick={() => {
-                            this.props.updateTable("add", kit);
-                          }}
-                        >
-                          <b>+</b>
-                        </button>
                       </div>
                     </div>
                   </div>
@@ -72,47 +85,60 @@ class Kits extends Component {
             </div>
           </div>
           <div className="kit-section section-negative-selection">
-            <h5 className="kit-section-title">Negative Selection</h5>
+            <div className="kit-section-title">Negative Selection</div>
             <div className="kit-section-list">
               {this.props.currentNegKits &&
                 this.sortKitsByName(this.props.currentNegKits).map(kit => (
                   <div className="kit-info-container" key={kit.id}>
                     <div className="kit-name-container">
-                      <b>{kit.name}</b>
-                      <div>{kit.id}</div>
+                      <div className="kit-name">{kit.name}</div>
+                      <div>
+                        <a
+                          className="kit-id"
+                          href={`https://www.miltenyibiotec.com/US-en/search.html?search=${kit.id}&options=on#globalSearchFamilies=%5B%5D`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          {kit.id}
+                        </a>
+                      </div>
                     </div>
-                    <LinkButton
-                      to={`/edit/${kit.id}`}
-                      className={
-                        this.props.loggedIn ? "nav-button" : "logged-out"
-                      }
-                      //attaches kit object to props.location.state
-                      kit={kit}
-                    >
-                      Edit Kit
-                    </LinkButton>
-                    <div className="kit-options-container">
-                      <div>Samples</div>
-                      <div className="kit-options-row">
-                        <button
-                          className="kit-options-button kit-remove-button"
-                          onClick={() => {
-                            this.props.updateTable("subtract", kit);
-                          }}
-                        >
-                          <b>-</b>
-                        </button>
-                        <div className="kit-count">
-                          {this.props.tableKitIDs[kit.id] || 0}
+                    <div className="kit-info-container-right">
+                      <LinkButton
+                        to={`/edit/${kit.id}`}
+                        className={
+                          this.props.loggedIn
+                            ? "edit-button"
+                            : "edit-button logged-out-edit-button"
+                        }
+                        //attaches kit object to props.location.state
+                        kit={kit}
+                      >
+                        <i class="fas fa-pen"></i>
+                      </LinkButton>
+                      <div className="kit-options-container">
+                        {/* <div className="kit-options-title">Samples</div> */}
+                        <div className="kit-options-row">
+                          <button
+                            className="kit-options-button kit-remove-button"
+                            onClick={() => {
+                              this.props.updateTable("subtract", kit);
+                            }}
+                          >
+                            <div className="kits-add-subtract-text">-</div>
+                          </button>
+                          <div className="kit-count">
+                            {this.props.tableKitIDs[kit.id] || 0}
+                          </div>
+                          <button
+                            className="kit-options-button kit-add-button"
+                            onClick={() => {
+                              this.props.updateTable("add", kit);
+                            }}
+                          >
+                            +
+                          </button>
                         </div>
-                        <button
-                          className="kit-options-button kit-add-button"
-                          onClick={() => {
-                            this.props.updateTable("add", kit);
-                          }}
-                        >
-                          <b>+</b>
-                        </button>
                       </div>
                     </div>
                   </div>
@@ -123,7 +149,7 @@ class Kits extends Component {
 
         <footer>
           <button
-            className="nav-button"
+            className="nav-button back-button"
             onClick={() => {
               this.props.history.goBack();
             }}
@@ -135,7 +161,11 @@ class Kits extends Component {
           </LinkButton>
           <LinkButton
             to="/create"
-            className={this.props.loggedIn ? "nav-button" : "logged-out"}
+            className={
+              this.props.loggedIn
+                ? "nav-button create-button"
+                : "nav-button logged-out-nav-button"
+            }
           >
             Create Kit
           </LinkButton>

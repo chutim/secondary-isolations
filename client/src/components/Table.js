@@ -117,8 +117,8 @@ class Table extends Component {
                             to={`/edit/${kit.id}`}
                             className={
                               this.props.loggedIn
-                                ? "nav-button no-print"
-                                : "logged-out"
+                                ? "edit-button no-print"
+                                : "logged-out-edit-button"
                             }
                             //attaches kit object to props.location.state
                             kit={kit}
@@ -200,7 +200,7 @@ class Table extends Component {
 
         <footer>
           <button
-            className="nav-button"
+            className="nav-button back-button"
             onClick={() => {
               this.props.history.goBack();
             }}

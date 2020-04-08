@@ -51,6 +51,10 @@
   letter-spacing: 1.5px;
 }
 
+.login-button:hover {
+  cursor: pointer;
+}
+
 .login-button:focus {
   outline: none;
   box-shadow: 0px 0px 7px 1px #7647e4;
