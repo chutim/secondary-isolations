@@ -30,34 +30,44 @@
   border: 0px;
   border-radius: 7px;
   font-size: 14px;
+  letter-spacing: 0.5px;
   padding-left: 12px;
 }
 
 .login-input:focus {
   outline: none;
-  box-shadow: 0px 0px 6px 2px #916ee4;
+  box-shadow: 0px 0px 7px 1px #916ee4;
 }
 
 /* --------------BUTTONS--------------- */
 .login-button {
   width: 30%;
   font-size: 15px;
+  font-weight: 500;
   padding: auto;
   border: 0px;
   border-radius: 7px;
   color: white;
-  letter-spacing: 1px;
+  letter-spacing: 1.5px;
 }
 
 .login-button:focus {
   outline: none;
-  box-shadow: 0px 0px 6px 2px #7647e4;
+  box-shadow: 0px 0px 7px 1px #7647e4;
 }
 
 .logged-in-button {
   background-color: #b61377;
 }
 
+.logged-in-button:hover {
+  background-color: #ce3a95;
+}
+
 .logged-out-button {
   background-color: #3d8b95;
+}
+
+.logged-out-button:hover {
+  background-color: #58a8b3;
 }

@@ -25,14 +25,9 @@ class Login extends Component {
     e.preventDefault();
 
     if (action === "login") {
-      if (this.props.loggedIn) {
+      if (this.state.password === "")
         return this.setState({
-          password: "",
-          passwordPlaceholder: "Already logged in!"
-        });
-      } else if (this.state.password === "")
-        return this.setState({
-          passwordPlaceholder: "Password needed!"
+          passwordPlaceholder: "Please type a password"
         });
       apis
         .logIn({
@@ -50,7 +45,7 @@ class Login extends Component {
           console.log("Login error:", error);
           this.setState({
             password: "",
-            passwordPlaceholder: "Wrong password!"
+            passwordPlaceholder: "Wrong password"
           });
         });
     } else if (action === "logout") {

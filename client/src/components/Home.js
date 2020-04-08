@@ -28,7 +28,7 @@ class Home extends Component {
           {this.props.allSpecies.map(species => (
             <LinkButton
               to="/kits"
-              className="species-button big-input"
+              className="species-button"
               onClick={() => this.props.selectSpecies(species)}
               key={species}
             >

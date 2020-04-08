@@ -42,9 +42,6 @@ header {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: 25px;
-  letter-spacing: 2px;
-  color: #000000;
 }
 
 .scrollable-body {
@@ -70,19 +67,24 @@ td {
 /* ----------------TEXT---------------- */
 .page-title {
   font-size: 28px;
-  font-weight: bold;
+  font-weight: 700;
   text-transform: uppercase;
+  letter-spacing: 2px;
   padding: 30px;
+  color: #000000;
 }
 
 /* --------------BUTTONS--------------- */
 .nav-button {
-  font-size: 22px;
+  font-size: 18px;
+  font-weight: 400;
+  letter-spacing: 3px;
+  text-transform: uppercase;
   border: 0px;
   border-radius: 100px;
-  padding: 15px;
-  padding-left: 20px;
-  padding-right: 20px;
+  padding: 20px;
+  padding-left: 25px;
+  padding-right: 25px;
   margin: 5px;
   margin-top: 10px;
   margin-bottom: 10px;
@@ -90,15 +92,14 @@ td {
 
 .nav-button:focus {
   outline: none;
-  box-shadow: 0px 0px 10px 3px #7647e4;
-}
-
-.big-input:focus {
-  outline: none;
-  box-shadow: 0px 0px 10px 2px #b9add4;
+  box-shadow: 0px 0px 10px 2px #7647e4;
 }
 
 .table-button {
+  background-color: #59bcc9;
+}
+
+.table-button:hover {
   background-color: #6bd6e4;
 }
 
