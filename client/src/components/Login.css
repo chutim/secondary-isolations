@@ -36,7 +36,7 @@
 
 .login-input:focus {
   outline: none;
-  box-shadow: 0px 0px 7px 1px #916ee4;
+  box-shadow: 0px 0px 7px 2px #a281f0;
 }
 
 /* --------------BUTTONS--------------- */
@@ -57,7 +57,7 @@
 
 .login-button:focus {
   outline: none;
-  box-shadow: 0px 0px 7px 1px #7647e4;
+  box-shadow: 0px 0px 7px 2px #8154eb;
 }
 
 .logged-in-button {

@@ -57,7 +57,7 @@
   align-items: center;
   letter-spacing: 1px;
   padding: 10px;
-  width: 270px;
+  width: 267px;
 }
 
 .kit-info-container-right {
@@ -66,7 +66,7 @@
   align-items: center;
   width: 195px;
   justify-content: space-between;
-  padding-right: 7px;
+  padding-right: 10px;
 }
 
 .kit-options-container {
@@ -134,18 +134,18 @@
   cursor: pointer;
 }
 
-.kit-options-button:focus {
-  outline: none;
-  box-shadow: 0px 0px 4px #dccfff;
-}
-
 .kit-add-button {
-  background-color: #abfddb;
+  background-color: #8ff0e3;
   border-radius: 5px 20px 20px 5px;
 }
 
 .kit-add-button:hover {
-  background-color: #77ecbc;
+  background-color: #5fd8c8;
+}
+
+.kit-add-button:focus {
+  outline: none;
+  box-shadow: 0px 0px 5px #5fd8c8;
 }
 
 .kit-remove-button {
@@ -155,4 +155,9 @@
 
 .kit-remove-button:hover {
   background-color: #ff8998;
+}
+
+.kit-remove-button:focus {
+  outline: none;
+  box-shadow: 0px 0px 5px #ff8998;
 }

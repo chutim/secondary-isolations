@@ -161,11 +161,7 @@ class Kits extends Component {
           </LinkButton>
           <LinkButton
             to="/create"
-            className={
-              this.props.loggedIn
-                ? "nav-button create-button"
-                : "nav-button logged-out-nav-button"
-            }
+            id={this.props.loggedIn ? "fadedIn" : "fadedOut"}
           >
             Create Kit
           </LinkButton>

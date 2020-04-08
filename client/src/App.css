@@ -162,3 +162,30 @@ button {
 .logged-out-nav-button {
   display: none;
 }
+
+#fadedOut {
+  background-color: #37138c;
+  font-size: 0px;
+  text-transform: uppercase;
+  border: 0px;
+  padding: 0px;
+  opacity: 0;
+  transition: 1.3s;
+}
+#fadedIn {
+  background-color: #d84aa1;
+  font-size: 18px;
+  font-weight: 400;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  border: 0px;
+  border-radius: 100px;
+  padding: 20px;
+  padding-left: 25px;
+  padding-right: 25px;
+  margin: 5px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  opacity: 1;
+  transition: 0.4s;
+}
