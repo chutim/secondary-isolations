@@ -3,17 +3,18 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  width: 80vw;
-  background-color: blanchedalmond;
+  width: 100%;
+  background-color: rgb(255, 255, 255);
 }
 
 /* ----------------TEXT---------------- */
-.page-title {
-  margin-bottom: 0;
-}
 
 .home-subtitle {
-  color: #4b4b4b;
+  color: #585858;
+  margin: 0px;
+  font-size: 20px;
+  margin-top: -25px;
+  padding-bottom: 30px;
 }
 
 .miltenyi-link {
@@ -23,10 +24,14 @@
 
 /* --------------BUTTONS--------------- */
 .species-button {
-  font-size: calc(10px + 2vmin);
-  margin: 2vw;
-  padding: 2vw;
-  min-width: 15vw;
-  border-radius: 100vw;
-  background-color: #f5f5dc;
+  font-size: 22px;
+  letter-spacing: 2px;
+  margin: 20px;
+  padding: 15px;
+  padding-left: 25px;
+  padding-right: 25px;
+  min-width: 180px;
+  border-radius: 20px;
+  text-align: center;
+  background-color: #f7f4ff;
 }

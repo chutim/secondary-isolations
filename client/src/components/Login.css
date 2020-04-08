@@ -3,30 +3,34 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  padding: 4vmin;
   background-color: #37138c;
+  border-radius: 20px 20px 0 0;
+  height: 60px;
 }
 
 .login-input-container {
-  width: 25%;
+  width: 30%;
   display: flex;
   justify-content: space-between;
+  padding: 15px;
 }
 
 /* ----------------TEXT---------------- */
 .login-mode {
   color: white;
-  font-size: calc(10px + 2vmin);
-  letter-spacing: 0.4vmin;
+  font-size: 22px;
+  letter-spacing: 5px;
+  padding: 15px;
+  padding-left: 40px;
 }
 
 .login-input {
-  width: 62%;
-  padding: 1vmin;
-  border: 1vmin;
-  border-radius: 1.5vmin;
-  font-size: calc(10px + 1vmin);
-  padding-left: 1.5vmin;
+  width: 60%;
+  padding: 7px;
+  border: 0px;
+  border-radius: 7px;
+  font-size: 14px;
+  padding-left: 12px;
 }
 
 .login-input:focus {
@@ -37,12 +41,12 @@
 /* --------------BUTTONS--------------- */
 .login-button {
   width: 30%;
-  font-size: calc(10px + 1vmin);
-  padding: 1vmin;
-  border: 1vmin;
-  border-radius: 1.5vmin;
+  font-size: 15px;
+  padding: auto;
+  border: 0px;
+  border-radius: 7px;
   color: white;
-  letter-spacing: 0.2vmin;
+  letter-spacing: 1px;
 }
 
 .login-button:focus {

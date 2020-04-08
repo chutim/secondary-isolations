@@ -54,8 +54,8 @@ class Table extends Component {
             //if the constant is for time, a spin, or the final wash, just render it
             if (
               constant[1].includes("min") ||
-              constant[1].includes("times X mL") ||
-              constant[1].includes("g X min")
+              constant[1].includes("times x mL") ||
+              constant[1].includes("g x min")
             ) {
               return <td key={idx}>{constant[2]}</td>;
             }
@@ -83,7 +83,7 @@ class Table extends Component {
   render() {
     return (
       <div className="page">
-        <div className="groups-container" id="divToPrint">
+        <div className="groups-container scrollable-body" id="divToPrint">
           {/* generate a new table group for each species */}
           {this.props.arrayedKitData.map(speciesGroup => (
             <div className="tables-container" key={speciesGroup[0]}>

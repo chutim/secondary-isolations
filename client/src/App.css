@@ -6,6 +6,7 @@
     visibility: hidden;
   }
   #divToPrint {
+    overflow: visible;
     visibility: visible;
   }
 }
@@ -13,7 +14,14 @@
 /* ----------------CONTAINERS--------------- */
 #root {
   width: 1100px;
-  margin: auto;
+  height: 770px;
+  position: absolute;
+  top: 10px;
+  margin-left: auto;
+  margin-right: auto;
+  left: 0;
+  right: 0;
+  border-radius: 20px;
 }
 
 .page {
@@ -22,24 +30,34 @@
   text-align: center;
   align-items: center;
   width: 100%;
+  /* height = root height - root top - (header height + footer height) */
+  height: 620px;
+  background-color: white;
 }
 
 header {
-  background-color: #dfdfdf;
-  min-height: 30vh;
+  background-color: #ffffff;
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+  font-size: 25px;
+  letter-spacing: 2px;
   color: #000000;
 }
 
+.scrollable-body {
+  overflow: auto;
+}
+
 footer {
-  /* bottom: 0; */
-  background-color: #dfdfdf;
+  position: absolute;
+  bottom: 10px;
+  background-color: #37138c;
   width: 100%;
+  border-radius: 0 0 20px 20px;
+  height: 80px;
 }
 
 table,
@@ -50,17 +68,29 @@ td {
 }
 
 /* ----------------TEXT---------------- */
+.page-title {
+  font-size: 28px;
+  font-weight: bold;
+  text-transform: uppercase;
+  padding: 30px;
+}
 
 /* --------------BUTTONS--------------- */
 .nav-button {
-  font-size: calc(10px + 2vmin);
-  border-radius: 100vw;
-  padding: 2vw;
+  font-size: 22px;
+  border: 0px;
+  border-radius: 100px;
+  padding: 15px;
+  padding-left: 20px;
+  padding-right: 20px;
+  margin: 5px;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 .nav-button:focus {
   outline: none;
-  box-shadow: 0px 0px 10px #01b0db;
+  box-shadow: 0px 0px 10px 3px #7647e4;
 }
 
 .big-input:focus {
@@ -69,7 +99,7 @@ td {
 }
 
 .table-button {
-  background-color: #01b0db;
+  background-color: #6bd6e4;
 }
 
 .home-button {

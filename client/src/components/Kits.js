@@ -20,9 +20,9 @@ class Kits extends Component {
     return (
       <div className="page">
         <header>
-          <h3 className="page-title">{this.props.currentSpecies}</h3>
+          <div className="page-title">{this.props.currentSpecies} Kits</div>
         </header>
-        <div className="kits-body">
+        <div className="kits-body scrollable-body">
           <div className="kit-section section-positive-selection">
             <h5 className="kit-section-title">Positive Selection</h5>
             <div className="kit-section-list">
@@ -122,10 +122,17 @@ class Kits extends Component {
         </div>
 
         <footer>
+          <button
+            className="nav-button"
+            onClick={() => {
+              this.props.history.goBack();
+            }}
+          >
+            Back
+          </button>
           <LinkButton to="/" className="nav-button home-button">
             Home
           </LinkButton>
-
           <LinkButton
             to="/create"
             className={this.props.loggedIn ? "nav-button" : "logged-out"}

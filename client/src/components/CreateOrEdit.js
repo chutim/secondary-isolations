@@ -244,7 +244,7 @@ class CreateOrEdit extends Component {
     return (
       <div className="page">
         <header>
-          <h3 className="page-title">
+          <div className="page-title">
             {this.props.match.params.kitID ? (
               <>
                 Edit Kit (
@@ -260,9 +260,9 @@ class CreateOrEdit extends Component {
             ) : (
               "Create Kit"
             )}
-          </h3>
+          </div>
         </header>
-        <div className="create-body">
+        <div className="create-body scrollable-body">
           <div>All fields required.</div>
           <form
             className="create-form"

@@ -72,7 +72,7 @@ class Login extends Component {
     return (
       <div className="login-container">
         <div className="login-mode">
-          {this.props.loggedIn ? "Full Access Mode" : "Visitor Mode"}
+          {this.props.loggedIn ? "Full Access" : "Visitor"}
         </div>
         <div className="login-input-container">
           <input

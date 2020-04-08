@@ -10,8 +10,8 @@ class Home extends Component {
     return (
       <div className="page">
         <header>
-          <h3 className="page-title">Secondary Isolation Calculator</h3>
-          <h5 className="home-subtitle">
+          <div className="page-title">Secondary Isolation Calculator</div>
+          <div className="home-subtitle">
             For{" "}
             <a
               className="miltenyi-link"
@@ -22,9 +22,9 @@ class Home extends Component {
               Miltenyi Biotec
             </a>{" "}
             Kits
-          </h5>
+          </div>
         </header>
-        <div className="home-container-species-buttons">
+        <div className="home-container-species-buttons scrollable-body">
           {this.props.allSpecies.map(species => (
             <LinkButton
               to="/kits"
