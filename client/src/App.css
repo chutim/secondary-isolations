@@ -126,14 +126,6 @@ button {
   background-color: #ffffff;
 }
 
-.create-button {
-  background-color: #d84aa1;
-}
-
-.create-button:hover {
-  background-color: #f06bbd;
-}
-
 .edit-button {
   border: none;
   border-radius: 5px;
@@ -163,7 +155,7 @@ button {
   display: none;
 }
 
-#fadedOut {
+#create-button-faded-out {
   background-color: #37138c;
   font-size: 0px;
   text-transform: uppercase;
@@ -172,7 +164,8 @@ button {
   opacity: 0;
   transition: 1.3s;
 }
-#fadedIn {
+
+#create-button-faded-in {
   background-color: #d84aa1;
   font-size: 18px;
   font-weight: 400;
@@ -187,5 +180,14 @@ button {
   margin-top: 10px;
   margin-bottom: 10px;
   opacity: 1;
-  transition: 0.4s;
+  transition: 0.3s;
+}
+
+#create-button-faded-in:hover {
+  background-color: #f06bbd;
+}
+
+#create-button-faded-in:focus {
+  outline: none;
+  box-shadow: 0px 0px 10px 2px #7647e4;
 }

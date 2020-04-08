@@ -461,7 +461,8 @@ class CreateOrEdit extends Component {
           </LinkButton>
 
           <LinkButton to="/table" className="nav-button table-button">
-            Table &#40;{this.props.rowCount} Samples&#41;
+            Table &#40;{this.props.rowCount}{" "}
+            {this.props.rowCount === 1 ? "Sample" : "Samples"}&#41;
           </LinkButton>
         </footer>
       </div>
