@@ -1,3 +1,4 @@
+//the Login component persists at the top of the app to allow the user to see their login status and change it if needed. the user can enter the lab password and change access from 'visitor mode' to 'full access mode', which will allow rendering of 'edit' and 'create' kit buttons.
 import React, { Component } from "react";
 import apis from "../api";
 import "./Login.css";
@@ -69,24 +70,32 @@ class Login extends Component {
   };
   render() {
     return (
-      <div>
-        <input
-          onChange={this.handleChange}
-          name="password"
-          autoComplete="off"
-          value={this.state.password}
-          placeholder={this.state.passwordPlaceholder}
-        ></input>
-        <button
-          className="nav-button"
-          onClick={e => {
-            this.handleSubmit(e, this.props.loggedIn ? "logout" : "login");
-          }}
-        >
-          {this.props.loggedIn ? "Log Out" : "Log In"}
-        </button>
-
-        <div>{this.props.loggedIn ? "Full Access Mode" : "Visitor Mode"}</div>
+      <div className="login-container">
+        <div className="login-mode">
+          {this.props.loggedIn ? "Full Access Mode" : "Visitor Mode"}
+        </div>
+        <div className="login-input-container">
+          <input
+            className="login-input"
+            onChange={this.handleChange}
+            name="password"
+            autoComplete="off"
+            value={this.state.password}
+            placeholder={this.state.passwordPlaceholder}
+          ></input>
+          <button
+            className={
+              this.props.loggedIn
+                ? "login-button logged-in-button"
+                : "login-button logged-out-button"
+            }
+            onClick={e => {
+              this.handleSubmit(e, this.props.loggedIn ? "logout" : "login");
+            }}
+          >
+            {this.props.loggedIn ? "Log Out" : "Log In"}
+          </button>
+        </div>
       </div>
     );
   }

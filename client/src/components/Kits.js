@@ -1,4 +1,4 @@
-//the Kits component lists all positive & negative kits for the selected species, and allows user to add kits to the Table, to edit/create kits, to go Home, and to go to the Table. the number of kits currently in the Table is displayed.
+//the Kits component lists all positive & negative kits for the selected species, and allows user to add kits to the Table and modify the number of samples for each kit. if the user is logged in, 'edit' buttons are visible for each kit, as well as a 'create kit' button on the page.
 import React, { Component } from "react";
 import LinkButton from "./LinkButton.jsx";
 import "./Kits.css";

@@ -1,3 +1,4 @@
+//the CreateOrEdit component allows the user to create a new kit or update/delete an existing kit, depending on where they navigated from. validation checks before submission ensure that all fields are filled, IDs are not re-used, appropriate fields are capitalized, and trailing/leading whitespace is deleted. submitting a new kit or an updated kit will update the App state as well as the database.
 import React, { Component } from "react";
 import LinkButton from "./LinkButton.jsx";
 import { cloneDeep } from "lodash";
