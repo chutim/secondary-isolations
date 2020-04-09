@@ -7,33 +7,127 @@
 .create-add-subtract-container {
   display: flex;
   flex-direction: row;
+  justify-content: center;
 }
 
 .form-top-input {
   width: calc(100% - 4px);
-  font-size: 14px;
-  padding: 0px;
+  font-size: 16px;
+  padding: 4px;
 }
 
-/* select.form-top-input {
-  width: 100%;
-  text-align: center;
-} */
+.form-bottom-input {
+  font-size: 14px;
+  padding: 3px;
+}
+
+.form-top-input:focus,
+.form-bottom-input:focus {
+  outline: none;
+  border: 2px solid #93f3e6;
+  box-shadow: 0px 0px 5px 2px #5fd8c8;
+}
 
 .select-type {
-  color: transparent;
-  text-shadow: 0 0 0 #000;
+  cursor: pointer;
+  caret-color: transparent;
 }
 
-.select-type:focus {
-  outline: none;
+.select-type option {
+  cursor: pointer;
+}
+
+.error {
+  background-color: #f86489;
 }
 
 /* ----------------TEXT---------------- */
-.error {
-  background-color: red;
+.edit-kit-id {
+  text-decoration: none;
+  color: #5525c5;
+  transition: 0.5s;
 }
+
+.edit-kit-id:hover {
+  color: #8266ff;
+}
+
+.create-form-header {
+  font-size: 20px;
+  font-weight: 500;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 10px;
+}
+
+.create-form-label {
+  letter-spacing: 2px;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.fields-required {
+  color: #f86489;
+}
+
 /* --------------BUTTONS--------------- */
-.create-row-button {
-  font-size: calc(10px + 1vmin);
+.create-add-subtract-row-button {
+  font-size: 18px;
+  padding: 8px;
+  padding-left: 12px;
+  padding-right: 12px;
+  margin: 3px;
+  border-radius: 6px;
+  border: none;
+}
+
+.create-master-button {
+  font-size: 18px;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  padding: 7px;
+  padding-left: 10px;
+  padding-right: 10px;
+  margin: 2px;
+  border-radius: 6px;
+  border: none;
+  transition: 0.3s;
+}
+
+.create-clear-button {
+  background-color: #58a8b3;
+}
+
+.create-clear-button:hover {
+  background-color: #3d8b95;
+}
+
+.create-clear-button:focus {
+  background-color: #3d8b95;
+}
+
+.create-create-update-button {
+  background-color: #f06bbd;
+}
+
+.create-create-update-button:hover {
+  background-color: #d84aa1;
+}
+
+.create-create-update-button:focus {
+  outline: none;
+  box-shadow: 0px 0px 7px #d84aa1;
+}
+
+.create-delete-button {
+  background-color: #f86489;
+}
+
+.create-delete-button:hover {
+  background-color: #dd3d65;
+}
+
+.create-delete-button:focus {
+  outline: none;
+  box-shadow: 0px 0px 7px #dd3d65;
 }

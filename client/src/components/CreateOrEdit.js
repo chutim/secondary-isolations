@@ -18,6 +18,7 @@ class CreateOrEdit extends Component {
       constants: [[null, null, null]],
       duplicateID: false
     };
+    //ref for kit type HTML input. used to clear the input's value on click, to allow showing the user both options ("Positive" and "Negative") immediately, as opposed to only suggesting mastching options
     this.typeRef = React.createRef();
   }
 
@@ -248,15 +249,15 @@ class CreateOrEdit extends Component {
           <div className="page-title">
             {this.props.match.params.kitID ? (
               <>
-                Edit Kit (
+                Edit{" "}
                 <a
+                  className="edit-kit-id"
                   href={`https://www.miltenyibiotec.com/US-en/search.html?search=${this.props.match.params.kitID}&options=on#globalSearchFamilies=%5B%5D`}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
                   {this.props.match.params.kitID}
                 </a>
-                )
               </>
             ) : (
               "Create Kit"
@@ -264,7 +265,9 @@ class CreateOrEdit extends Component {
           </div>
         </header>
         <div className="create-body scrollable-body">
-          <div>All fields required.</div>
+          <div className="create-form-header fields-required">
+            All fields required
+          </div>
           <form
             className="create-form"
             autoComplete="off"
@@ -278,7 +281,9 @@ class CreateOrEdit extends Component {
             <table>
               <tbody>
                 <tr>
-                  <td align="right">ID:</td>
+                  <td className="create-form-label" align="right">
+                    ID:
+                  </td>
                   <td align="left" colSpan={2}>
                     <input
                       type="text"
@@ -297,7 +302,9 @@ class CreateOrEdit extends Component {
                   </td>
                 </tr>
                 <tr>
-                  <td align="right">Name:</td>
+                  <td className="create-form-label" align="right">
+                    Name:
+                  </td>
                   <td align="left" colSpan={2}>
                     <input
                       className="form-top-input"
@@ -310,7 +317,9 @@ class CreateOrEdit extends Component {
                   </td>
                 </tr>
                 <tr>
-                  <td align="right">Species:</td>
+                  <td className="create-form-label" align="right">
+                    Species:
+                  </td>
                   <td align="left" colSpan={2}>
                     <input
                       className="form-top-input"
@@ -329,20 +338,10 @@ class CreateOrEdit extends Component {
                   </td>
                 </tr>
                 <tr>
-                  <td align="right">Type:</td>
+                  <td className="create-form-label" align="right">
+                    Type:
+                  </td>
                   <td align="left" colSpan={2}>
-                    {/* <select
-                      className="form-top-input"
-                      name="type"
-                      value={
-                        this.state.type === "Positive"
-                          ? "Positive"
-                          : this.state.type === "Negative"
-                          ? "Negative"
-                          : "Select one:"
-                      }
-                      onChange={this.handleInput}
-                    > */}
                     <input
                       className="form-top-input select-type"
                       type="text"
@@ -361,26 +360,27 @@ class CreateOrEdit extends Component {
                       placeholder={this.state.type ? "" : "Select one:"}
                     />
                     <datalist id="type-choices">
-                      {/* <option hidden>Select one:</option> */}
                       <option value="Positive">Positive</option>
                       <option value="Negative">Negative</option>
-                      {/* </select> */}
                     </datalist>
                   </td>
                 </tr>
                 <tr>
-                  <td colSpan={3}>Constants</td>
+                  <td className="create-form-header" colSpan={3}>
+                    Constants
+                  </td>
                 </tr>
 
                 <tr>
-                  <td>Name</td>
-                  <td>Units</td>
-                  <td>Constant</td>
+                  <td className="create-form-label">Name</td>
+                  <td className="create-form-label">Units</td>
+                  <td className="create-form-label">Constant</td>
                 </tr>
                 {this.state.constants.map((constantRow, idx) => (
                   <tr key={idx}>
                     <td align="right">
                       <input
+                        className="form-bottom-input"
                         type="text"
                         list="constants-names"
                         onChange={e => {
@@ -398,6 +398,7 @@ class CreateOrEdit extends Component {
 
                     <td>
                       <input
+                        className="form-bottom-input"
                         type="text"
                         list="units"
                         onChange={e => {
@@ -415,6 +416,7 @@ class CreateOrEdit extends Component {
 
                     <td align="left">
                       <input
+                        className="form-bottom-input"
                         type="text"
                         onChange={e => {
                           this.handleInput(e, idx, "constantValue");
@@ -429,24 +431,29 @@ class CreateOrEdit extends Component {
             </table>
             <div className="create-add-subtract-container">
               <button
-                className="create-row-button add-row-button"
+                className="create-add-subtract-row-button add-button"
                 type="button"
                 onClick={() => this.modifyConstantRows("add")}
               >
                 Add Row
               </button>
               <button
-                className="create-row-button subtract-row-button"
+                className="create-add-subtract-row-button subtract-button"
                 type="button"
                 onClick={() => this.modifyConstantRows("subtract")}
               >
                 Subtract Row
               </button>
             </div>
-            <button type="button" onClick={this.clearStateAndStorage}>
+            <button
+              className="create-master-button create-clear-button"
+              type="button"
+              onClick={this.clearStateAndStorage}
+            >
               Clear All
             </button>
             <input
+              className="create-master-button create-create-update-button"
               type="submit"
               value={
                 this.props.match.params.kitID ? "Update Kit" : "Create Kit"
@@ -455,6 +462,7 @@ class CreateOrEdit extends Component {
             {/* only show delete button if editing a kit */}
             {this.props.match.params.kitID ? (
               <button
+                className="create-master-button create-delete-button"
                 type="button"
                 onClick={() => {
                   if (

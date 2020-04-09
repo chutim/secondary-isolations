@@ -59,7 +59,7 @@ class Kits extends Component {
                         {/* <div className="kit-options-title">Samples</div> */}
                         <div className="kit-options-row">
                           <button
-                            className="kit-options-button kit-remove-button"
+                            className="kit-options-button kit-remove-button subtract-button"
                             onClick={() => {
                               this.props.updateTable("subtract", kit);
                             }}
@@ -70,7 +70,7 @@ class Kits extends Component {
                             {this.props.tableKitIDs[kit.id] || 0}
                           </div>
                           <button
-                            className="kit-options-button kit-add-button"
+                            className="kit-options-button kit-add-button add-button"
                             onClick={() => {
                               this.props.updateTable("add", kit);
                             }}
@@ -120,7 +120,7 @@ class Kits extends Component {
                         {/* <div className="kit-options-title">Samples</div> */}
                         <div className="kit-options-row">
                           <button
-                            className="kit-options-button kit-remove-button"
+                            className="kit-options-button kit-remove-button subtract-button"
                             onClick={() => {
                               this.props.updateTable("subtract", kit);
                             }}
@@ -131,7 +131,7 @@ class Kits extends Component {
                             {this.props.tableKitIDs[kit.id] || 0}
                           </div>
                           <button
-                            className="kit-options-button kit-add-button"
+                            className="kit-options-button kit-add-button add-button"
                             onClick={() => {
                               this.props.updateTable("add", kit);
                             }}

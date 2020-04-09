@@ -136,29 +136,9 @@
 }
 
 .kit-add-button {
-  background-color: #8ff0e3;
   border-radius: 5px 20px 20px 5px;
 }
 
-.kit-add-button:hover {
-  background-color: #5fd8c8;
-}
-
-.kit-add-button:focus {
-  outline: none;
-  box-shadow: 0px 0px 5px #5fd8c8;
-}
-
 .kit-remove-button {
-  background-color: #ffb6c0;
   border-radius: 20px 5px 5px 20px;
-}
-
-.kit-remove-button:hover {
-  background-color: #ff8998;
-}
-
-.kit-remove-button:focus {
-  outline: none;
-  box-shadow: 0px 0px 5px #ff8998;
 }

@@ -183,18 +183,18 @@ class Table extends Component {
                       <td colSpan={kit.constants.length + 2}>
                         <div className="kit-table-footer">
                           <button
-                            className="kit-table-row-button table-remove-row-button"
+                            className="kit-table-row-button add-button"
+                            onClick={() => this.props.updateTable("add", kit)}
+                          >
+                            Add Row
+                          </button>
+                          <button
+                            className="kit-table-row-button subtract-button"
                             onClick={() =>
                               this.props.updateTable("subtract", kit)
                             }
                           >
                             Remove Row
-                          </button>
-                          <button
-                            className="kit-table-row-button table-add-row-button"
-                            onClick={() => this.props.updateTable("add", kit)}
-                          >
-                            Add Row
                           </button>
                         </div>
                       </td>

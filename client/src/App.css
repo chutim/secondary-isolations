@@ -187,3 +187,29 @@ button {
   outline: none;
   box-shadow: 0px 0px 10px 2px #7647e4;
 }
+
+.add-button {
+  background-color: #8ff0e3;
+}
+
+.add-button:hover {
+  background-color: #5fd8c8;
+}
+
+.add-button:focus {
+  outline: none;
+  box-shadow: 0px 0px 6px #5fd8c8;
+}
+
+.subtract-button {
+  background-color: #ffb6c0;
+}
+
+.subtract-button:hover {
+  background-color: #ff8998;
+}
+
+.subtract-button:focus {
+  outline: none;
+  box-shadow: 0px 0px 6px #ff8998;
+}

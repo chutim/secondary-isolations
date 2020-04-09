@@ -87,10 +87,6 @@ tr.kit-multipliers-row th,
   /* background-color: #bbfff7; */
 }
 
-.user-input-cell:focus {
-  background-color: red;
-}
-
 .kit-table-footer {
   display: flex;
   flex-direction: row;
@@ -105,9 +101,6 @@ tr.kit-multipliers-row th,
   width: 92px;
 }
 
-td input {
-  background: none;
-}
 /* ----------------TEXT---------------- */
 .tables-header-spacer {
   padding: 26px;
@@ -226,30 +219,4 @@ td {
   margin-bottom: 5px;
   border-radius: 6px;
   border: none;
-}
-
-.table-add-row-button {
-  background-color: #8ff0e3;
-}
-
-.table-add-row-button:hover {
-  background-color: #5fd8c8;
-}
-
-.table-add-row-button:focus {
-  outline: none;
-  box-shadow: 0px 0px 5px #5fd8c8;
-}
-
-.table-remove-row-button {
-  background-color: #ffb6c0;
-}
-
-.table-remove-row-button:hover {
-  background-color: #ff8998;
-}
-
-.table-remove-row-button:focus {
-  outline: none;
-  box-shadow: 0px 0px 5px #ff8998;
 }
