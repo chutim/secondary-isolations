@@ -163,7 +163,7 @@ class Table extends Component {
                     </tr>
                     <tr>
                       <th className="medium-cell">Sample ID</th>
-                      <th className="short-cell">
+                      <th className="short-cell superscript-cell">
                         Cell Count (10<sup>6</sup>)
                       </th>
                       {/* using idx for the keys because constants can repeat */}
