@@ -289,8 +289,8 @@ class CreateOrEdit extends Component {
                       onBlur={this.checkID}
                       className={
                         this.state.duplicateID && !this.props.match.params.kitID
-                          ? "error"
-                          : ""
+                          ? "form-top-input error"
+                          : "form-top-input"
                       }
                     />
                   </td>
@@ -299,6 +299,7 @@ class CreateOrEdit extends Component {
                   <td align="right">Name:</td>
                   <td align="left" colSpan={2}>
                     <input
+                      className="form-top-input"
                       type="text"
                       value={this.state.name}
                       name="name"
@@ -311,6 +312,7 @@ class CreateOrEdit extends Component {
                   <td align="right">Species:</td>
                   <td align="left" colSpan={2}>
                     <input
+                      className="form-top-input"
                       type="text"
                       list="species-choices"
                       name="species"
@@ -329,6 +331,7 @@ class CreateOrEdit extends Component {
                   <td align="right">Type:</td>
                   <td align="left" colSpan={2}>
                     <select
+                      className="form-top-input"
                       name="type"
                       value={
                         this.state.type === "Positive"

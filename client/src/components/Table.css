@@ -1,8 +1,5 @@
 /* ----------------CONTAINERS--------------- */
-table,
-th,
-td {
-  border: 2px solid #bebef1;
+table {
   border-collapse: collapse;
 }
 
@@ -24,9 +21,14 @@ td {
 
 .tables-container {
   margin: 10px;
-  background-color: #e2daff;
+  background-color: #d5c8ff;
   border-radius: 20px;
-  padding: 13px;
+  padding: 12px;
+  transition: 0.5s;
+}
+
+.tables-container:hover {
+  background-color: #e2ddff;
 }
 
 .tables-header {
@@ -39,10 +41,16 @@ td {
 .kit-table {
   background-color: white;
   width: 100%;
+  border-radius: 15px;
+  padding: 10px;
 }
 
 .kit-table + .kit-table {
   margin-top: 10px;
+}
+
+.kit-table-header-container {
+  padding: 0px;
 }
 
 .kit-table-header {
@@ -50,7 +58,6 @@ td {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  background-color: white;
 }
 
 .kit-table-header-text-container {
@@ -63,6 +70,12 @@ tr.kit-multipliers-row th {
   background-color: #81ece0;
   font-weight: 500;
   font-size: 14px;
+}
+
+tr.kit-multipliers-row th,
+.kit-constant-names-row th,
+.table-variables-row td {
+  border: 1px solid #c6b5ff;
 }
 
 .superscript-cell {
@@ -178,7 +191,6 @@ td {
 
 .delete-button {
   border: none;
-  border-radius: 5px;
   color: white;
   background-color: #f86489;
   padding: 10px 16px;
@@ -195,10 +207,12 @@ td {
 
 .delete-species {
   font-size: 24px;
+  border-radius: 7px;
 }
 
 .delete-kit {
   font-size: 20px;
+  border-radius: 5px;
   padding: 9px 13px;
 }
 

@@ -16,7 +16,7 @@ class Table extends Component {
       const rowKey = kit.id + " " + rowID;
 
       rows.push(
-        <tr key={rowID}>
+        <tr className="table-variables-row" key={rowID}>
           <td className="user-input-cell medium-cell">
             <input
               className="user-input medium-cell"
@@ -111,7 +111,10 @@ class Table extends Component {
                 <table className="kit-table" key={kit.id}>
                   <thead>
                     <tr>
-                      <th colSpan={kit.constants.length + 2}>
+                      <th
+                        className="kit-table-header-container"
+                        colSpan={kit.constants.length + 2}
+                      >
                         <div className="kit-table-header">
                           <LinkButton
                             to={`/edit/${kit.id}`}
@@ -161,7 +164,7 @@ class Table extends Component {
                         <th key={idx}>{constant[2]}</th>
                       ))}
                     </tr>
-                    <tr>
+                    <tr className="kit-constant-names-row">
                       <th className="medium-cell">Sample ID</th>
                       <th className="short-cell superscript-cell">
                         Cell Count (10<sup>6</sup>)

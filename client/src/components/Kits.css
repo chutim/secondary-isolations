@@ -11,12 +11,12 @@
   flex-direction: column;
   width: 49.6%;
   height: 100%;
-  background-color: #e2daff;
+  background-color: #e0d8fc;
   transition: 0.5s;
 }
 
 .kit-section:hover {
-  background-color: #ebe8fc;
+  background-color: #eae8fa;
 }
 
 .kit-section-list {
