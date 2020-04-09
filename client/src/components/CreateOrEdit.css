@@ -15,8 +15,18 @@
   padding: 0px;
 }
 
-select.form-top-input {
+/* select.form-top-input {
   width: 100%;
+  text-align: center;
+} */
+
+.select-type {
+  color: transparent;
+  text-shadow: 0 0 0 #000;
+}
+
+.select-type:focus {
+  outline: none;
 }
 
 /* ----------------TEXT---------------- */

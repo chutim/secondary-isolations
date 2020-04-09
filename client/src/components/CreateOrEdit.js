@@ -18,6 +18,7 @@ class CreateOrEdit extends Component {
       constants: [[null, null, null]],
       duplicateID: false
     };
+    this.typeRef = React.createRef();
   }
 
   componentDidMount = async () => {
@@ -330,7 +331,7 @@ class CreateOrEdit extends Component {
                 <tr>
                   <td align="right">Type:</td>
                   <td align="left" colSpan={2}>
-                    <select
+                    {/* <select
                       className="form-top-input"
                       name="type"
                       value={
@@ -341,11 +342,30 @@ class CreateOrEdit extends Component {
                           : "Select one:"
                       }
                       onChange={this.handleInput}
-                    >
-                      <option hidden>Select one:</option>
+                    > */}
+                    <input
+                      className="form-top-input select-type"
+                      type="text"
+                      list="type-choices"
+                      name="type"
+                      onKeyDown={e => {
+                        e.preventDefault();
+                      }}
+                      ref={this.typeRef}
+                      onMouseDown={() => {
+                        this.typeRef.current.value = "";
+                        this.setState({ type: "" });
+                      }}
+                      onChange={this.handleInput}
+                      value={this.state.type}
+                      placeholder={this.state.type ? "" : "Select one:"}
+                    />
+                    <datalist id="type-choices">
+                      {/* <option hidden>Select one:</option> */}
                       <option value="Positive">Positive</option>
                       <option value="Negative">Negative</option>
-                    </select>
+                      {/* </select> */}
+                    </datalist>
                   </td>
                 </tr>
                 <tr>
