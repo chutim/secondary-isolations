@@ -1,83 +1,229 @@
 /* ----------------CONTAINERS--------------- */
+table,
+th,
+td {
+  border: 2px solid #bebef1;
+  border-collapse: collapse;
+}
+
+th {
+  font-weight: normal;
+  font-size: 12px;
+  padding: 3px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+td {
+  font-size: 18px;
+  height: 20px;
+}
+
 .groups-container {
 }
 
 .tables-container {
+  margin: 10px;
+  background-color: #e2daff;
+  border-radius: 20px;
+  padding: 13px;
 }
 
 .tables-header {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  margin-bottom: 10px;
 }
 
 .kit-table {
+  background-color: white;
+  width: 100%;
 }
 
-.kit-table-title {
-  padding: calc(10px + 0.1vmin);
+.kit-table-header {
+  padding: 10px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  background-color: white;
 }
 
-.kit-multipliers-row {
-  background-color: rgb(175, 209, 253);
+.kit-table-header-text-container {
+  letter-spacing: 1px;
+  font-weight: 400;
+  font-size: 16px;
+}
+
+tr.kit-multipliers-row th {
+  background-color: #81ece0;
+  font-weight: 500;
+  font-size: 14px;
 }
 
 .user-input-cell {
   padding: 0;
+  /* background-color: #bbfff7; */
+}
+
+.user-input-cell:focus {
+  background-color: red;
 }
 
 .kit-table-footer {
   display: flex;
   flex-direction: row;
-  justify-content: flex-end;
+  justify-content: center;
+}
+
+.medium-cell {
+  width: 150px;
+}
+
+.short-cell {
+  width: 92px;
+}
+
+td input {
+  background: none;
 }
 /* ----------------TEXT---------------- */
-.species-name {
-  font-size: calc(10px + 2vmin);
-  color: rgb(14, 46, 224);
+.tables-header-spacer {
+  padding: 26px;
+}
+
+.kit-table-header-name {
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.kit-table-header-id {
+  text-decoration: none;
+  color: #5525c5;
+  transition: 0.5s;
+}
+
+.kit-table-header-id:hover {
+  color: #8266ff;
+}
+
+.kit-table-header-selection {
+  color: #5e5e5e;
+}
+
+.kit-constants-title {
+  letter-spacing: 2px;
+  text-transform: uppercase;
 }
 
 .user-input {
   border: none;
   text-align: center;
-  font-size: calc(10px + 1vmin);
+  font-size: 14px;
+  padding: 0px;
+  width: 100%;
+  height: 100%;
+}
+
+.user-input:focus {
+  outline: none;
+  box-shadow: 0px 0px 5px 2px #5fd8c8;
 }
 
 td {
-  font-size: calc(10px + 1vmin);
+  font-size: 14px;
 }
+
 /* --------------BUTTONS--------------- */
+.species-name {
+  font-size: 24px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin: 10px;
+  padding: 0px;
+  border: none;
+  background: none;
+}
+
+.species-name:hover {
+  color: #6b4cf5;
+  cursor: pointer;
+}
+
 .clear-table-button {
-  background-color: red;
+  background-color: #dd3d65;
+}
+
+.clear-table-button:hover {
+  background-color: #f86489;
+}
+
+.print-button {
+  background-color: #59bcc9;
+}
+
+.print-button:hover {
+  background-color: #6bd6e4;
 }
 
 .delete-button {
-  background-color: rgb(255, 101, 101);
-  border-radius: 100vh;
-  height: calc(30px + 1vmin);
-  width: calc(30px + 1vmin);
+  border: none;
+  border-radius: 5px;
+  color: white;
+  background-color: #f86489;
+  padding: 10px 16px;
+}
+
+.delete-button:hover {
+  background-color: #dd3d65;
+}
+
+.delete-button:focus {
+  outline: none;
+  box-shadow: 0px 0px 7px #dd3d65;
 }
 
 .delete-species {
-  font-size: calc(10px + 2vmin);
+  font-size: 24px;
 }
 
 .delete-kit {
-  font-size: calc(10px + 1vmin);
+  font-size: 20px;
+  padding: 9px 13px;
 }
 
 .kit-table-row-button {
-  font-size: calc(10px + 1vmin);
-  padding: calc(10px + 0.1vmin);
+  font-size: 15px;
+  padding: 7px;
+  padding-left: 10px;
+  padding-right: 10px;
+  margin: 4px;
+  border-radius: 6px;
 }
 
-.add-row-button {
-  background-color: rgb(91, 189, 91);
+.table-add-row-button {
+  background-color: #8ff0e3;
 }
 
-.subtract-row-button {
-  background-color: rgb(228, 110, 110);
+.table-add-row-button:hover {
+  background-color: #5fd8c8;
+}
+
+.table-add-row-button:focus {
+  outline: none;
+  box-shadow: 0px 0px 5px #5fd8c8;
+}
+
+.table-remove-row-button {
+  background-color: #ffb6c0;
+}
+
+.table-remove-row-button:hover {
+  background-color: #ff8998;
+}
+
+.table-remove-row-button:focus {
+  outline: none;
+  box-shadow: 0px 0px 5px #ff8998;
 }

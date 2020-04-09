@@ -17,9 +17,9 @@ class Table extends Component {
 
       rows.push(
         <tr key={rowID}>
-          <td className="user-input-cell">
+          <td className="user-input-cell medium-cell">
             <input
-              className="user-input"
+              className="user-input medium-cell"
               onChange={e =>
                 this.props.updateRowCellCount(
                   "sampleID",
@@ -31,9 +31,9 @@ class Table extends Component {
               value={this.props.tableRowsHash[kit.species][rowKey][0] || ""}
             ></input>
           </td>
-          <td className="user-input-cell">
+          <td className="user-input-cell short-cell">
             <input
-              className="user-input"
+              className="user-input short-cell"
               // only allow numbers and decimals
               onKeyPress={e => {
                 if ((e.charCode < 48 && e.charCode !== 46) || e.charCode > 57)
@@ -88,7 +88,7 @@ class Table extends Component {
           {this.props.arrayedKitData.map(speciesGroup => (
             <div className="tables-container" key={speciesGroup[0]}>
               <div className="tables-header">
-                <div></div>
+                <div className="tables-header-spacer"></div>
                 <LinkButton
                   to="/kits"
                   className="species-name"
@@ -98,12 +98,12 @@ class Table extends Component {
                   {speciesGroup[0]}
                 </LinkButton>
                 <button
-                  className="delete-button delete-species no-print"
+                  className="delete-button delete-species no-print-spacer"
                   onClick={() =>
                     this.props.deleteSpeciesFromTable(speciesGroup[0])
                   }
                 >
-                  x
+                  <i class="fas fa-trash-alt"></i>
                 </button>
               </div>
               {/* generate a table for each kit in the species group */}
@@ -112,23 +112,24 @@ class Table extends Component {
                   <thead>
                     <tr>
                       <th colSpan={kit.constants.length + 2}>
-                        <div className="kit-table-title">
+                        <div className="kit-table-header">
                           <LinkButton
                             to={`/edit/${kit.id}`}
                             className={
                               this.props.loggedIn
-                                ? "edit-button no-print"
-                                : "logged-out-edit-button"
+                                ? "edit-button no-print-spacer"
+                                : "edit-button logged-out-edit-button"
                             }
                             //attaches kit object to props.location.state
                             kit={kit}
                           >
-                            Edit Kit
+                            <i class="fas fa-pen"></i>
                           </LinkButton>
-                          <div>
-                            <div>
+                          <div className="kit-table-header-text-container">
+                            <div className="kit-table-header-name">
                               {kit.name}:{" "}
                               <a
+                                className="kit-table-header-id"
                                 href={`https://www.miltenyibiotec.com/US-en/search.html?search=${kit.id}&options=on#globalSearchFamilies=%5B%5D`}
                                 target="_blank"
                                 rel="noopener noreferrer"
@@ -136,29 +137,33 @@ class Table extends Component {
                                 {kit.id}
                               </a>
                             </div>
-                            <div>({kit.type} Selection)</div>
+                            <div className="kit-table-header-selection">
+                              ({kit.type} Selection)
+                            </div>
                           </div>
                           <button
-                            className="delete-button delete-kit no-print"
+                            className="delete-button delete-kit no-print-spacer"
                             onClick={() =>
                               this.props.deleteKitFromTable(kit.id, kit.species)
                             }
                           >
-                            x
+                            <i class="fas fa-trash-alt"></i>
                           </button>
                         </div>
                       </th>
                     </tr>
-                    <tr className="kit-multipliers-row">
-                      <th colSpan={2}>Constants:</th>
+                    <tr className="kit-multipliers-row no-print">
+                      <th className="kit-constants-title" colSpan={2}>
+                        Constants:
+                      </th>
                       {/* using idx for the keys because constants can repeat */}
                       {kit.constants.map((constant, idx) => (
                         <th key={idx}>{constant[2]}</th>
                       ))}
                     </tr>
                     <tr>
-                      <th>Sample ID</th>
-                      <th>
+                      <th className="medium-cell">Sample ID</th>
+                      <th className="short-cell">
                         Cell Count (10<sup>6</sup>)
                       </th>
                       {/* using idx for the keys because constants can repeat */}
@@ -175,18 +180,18 @@ class Table extends Component {
                       <td colSpan={kit.constants.length + 2}>
                         <div className="kit-table-footer">
                           <button
-                            className="kit-table-row-button add-row-button"
-                            onClick={() => this.props.updateTable("add", kit)}
-                          >
-                            Add Row
-                          </button>
-                          <button
-                            className="kit-table-row-button subtract-row-button"
+                            className="kit-table-row-button table-remove-row-button"
                             onClick={() =>
                               this.props.updateTable("subtract", kit)
                             }
                           >
-                            Subtract Row
+                            Remove Row
+                          </button>
+                          <button
+                            className="kit-table-row-button table-add-row-button"
+                            onClick={() => this.props.updateTable("add", kit)}
+                          >
+                            Add Row
                           </button>
                         </div>
                       </td>
@@ -219,7 +224,7 @@ class Table extends Component {
             Clear Table
           </button>
           <button
-            className="nav-button"
+            className="nav-button print-button"
             onClick={() => {
               window.print();
             }}

@@ -15,7 +15,7 @@
 }
 
 .home-subtitle {
-  color: #585858;
+  color: #727272;
   margin: 0px;
   font-size: 20px;
   margin-top: -25px;
@@ -26,6 +26,11 @@
 .miltenyi-link {
   color: #37138c;
   text-decoration: none;
+  transition: 0.2s;
+}
+
+.miltenyi-link:hover {
+  color: #6b4cf5;
 }
 
 /* --------------BUTTONS--------------- */

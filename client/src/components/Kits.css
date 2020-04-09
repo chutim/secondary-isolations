@@ -9,7 +9,7 @@
 .kit-section {
   display: flex;
   flex-direction: column;
-  width: 50%;
+  width: 49.6%;
   height: 100%;
   background-color: #e2daff;
   transition: 0.5s;
@@ -29,12 +29,10 @@
 }
 
 .section-positive-selection {
-  margin-right: 3px;
   border-radius: 0 10px 0 0;
 }
 
 .section-negative-selection {
-  margin-left: 3px;
   border-radius: 10px 0 0 0;
 }
 
@@ -57,7 +55,7 @@
   align-items: center;
   letter-spacing: 1px;
   padding: 10px;
-  width: 267px;
+  width: 320px;
 }
 
 .kit-info-container-right {
@@ -90,14 +88,20 @@
 }
 
 .kit-name {
-  font-weight: 400;
+  font-weight: 500;
   margin-bottom: 5px;
 }
 
 .kit-id {
-  color: #37138c;
+  color: #642de6;
   text-decoration: none;
-  font-weight: 300;
+  font-weight: 400;
+  transition: 0.5s;
+}
+
+.kit-id:hover {
+  color: #8970f8;
+  font-size: 15px;
 }
 
 /* .kits-add-subtract-text {
