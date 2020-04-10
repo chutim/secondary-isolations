@@ -94,7 +94,6 @@ header {
 footer {
   position: absolute;
   bottom: 10px;
-  /* background-color: #37138c; */
   background-image: linear-gradient(20deg, #0c051f, #290779);
   width: 100%;
   border-radius: 0 0 20px 20px;

@@ -93,25 +93,11 @@
 .form-top-input:focus,
 .form-bottom-input:focus {
   outline: none;
-  /* border: 1px solid #73ecd2; */
   box-shadow: 0px 0px 5px 1px #73ecd2;
-}
-
-.form-top-row {
 }
 
 .form-top-row .create-form-label {
   padding-right: 5px;
-}
-
-.form-bottom-row {
-  /* background-color: red; */
-}
-
-.form-bottom-row-top {
-}
-
-.form-bottom-row-bottom {
 }
 
 .select-type {

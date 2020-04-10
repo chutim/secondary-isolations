@@ -287,7 +287,7 @@ class CreateOrEdit extends Component {
                 </tr>
               </thead>
               <tbody>
-                <tr className="form-top-row">
+                <tr>
                   <td className="create-form-label" align="right">
                     ID
                   </td>
@@ -308,7 +308,7 @@ class CreateOrEdit extends Component {
                     />
                   </td>
                 </tr>
-                <tr className="form-top-row">
+                <tr>
                   <td className="create-form-label" align="right">
                     Name
                   </td>
@@ -323,7 +323,7 @@ class CreateOrEdit extends Component {
                     />
                   </td>
                 </tr>
-                <tr className="form-top-row">
+                <tr>
                   <td className="create-form-label" align="right">
                     Species
                   </td>
@@ -344,7 +344,7 @@ class CreateOrEdit extends Component {
                     </datalist>
                   </td>
                 </tr>
-                <tr className="form-top-row">
+                <tr>
                   <td className="create-form-label" align="right">
                     Selection
                   </td>
@@ -372,7 +372,7 @@ class CreateOrEdit extends Component {
                     </datalist>
                   </td>
                 </tr>
-                <tr className="form-bottom-row form-bottom-row-top">
+                <tr>
                   <td
                     className="create-form-header constants-header"
                     colSpan={3}
@@ -385,7 +385,7 @@ class CreateOrEdit extends Component {
             <div className="scrollable-body table-of-constants-container">
               <table className="table-of-constants">
                 <thead className="toc-head">
-                  <tr className="form-bottom-row toc-header">
+                  <tr className="toc-header">
                     <th className="toc-name-col create-form-label">Name</th>
                     <th className="create-form-label">Units</th>
                     <th className="create-form-label">Constant</th>
@@ -393,7 +393,7 @@ class CreateOrEdit extends Component {
                 </thead>
                 <tbody>
                   {this.state.constants.map((constantRow, idx) => (
-                    <tr className="form-bottom-row" key={idx}>
+                    <tr key={idx}>
                       <td>
                         <input
                           className="form-bottom-input"
@@ -453,7 +453,7 @@ class CreateOrEdit extends Component {
               </table>
             </div>
 
-            <div className="create-add-subtract-container form-bottom-row form-bottom-row-bottom">
+            <div className="create-add-subtract-container">
               <button
                 className="create-add-subtract-row-button create-add-button"
                 type="button"

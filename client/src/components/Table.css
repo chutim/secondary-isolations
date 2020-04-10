@@ -83,10 +83,6 @@ tr.kit-multipliers-row th,
   padding-bottom: 5px;
 }
 
-.user-input-cell {
-  /* background-color: #bbfff7; */
-}
-
 .kit-table-footer {
   display: flex;
   flex-direction: row;

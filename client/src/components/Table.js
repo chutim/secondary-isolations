@@ -17,7 +17,7 @@ class Table extends Component {
 
       rows.push(
         <tr className="table-variables-row" key={rowID}>
-          <td className="user-input-cell medium-cell">
+          <td className="medium-cell">
             <input
               className="user-input medium-cell"
               onChange={e =>
@@ -31,7 +31,7 @@ class Table extends Component {
               value={this.props.tableRowsHash[kit.species][rowKey][0] || ""}
             ></input>
           </td>
-          <td className="user-input-cell short-cell">
+          <td className="short-cell">
             <input
               className="user-input short-cell"
               // only allow numbers and decimals
