@@ -115,15 +115,12 @@
 /* --------------BUTTONS--------------- */
 .kit-options-button {
   border: none;
-  text-align: center;
-  vertical-align: middle;
-  line-height: 43px;
   height: 43px;
   width: 43px;
   font-size: 33px;
   font-weight: 200;
   line-height: 0px;
-  padding-top: 2px;
+  padding-bottom: 6px;
 }
 
 .kit-options-button:hover {
@@ -132,8 +129,10 @@
 
 .kit-add-button {
   border-radius: 5px 20px 20px 5px;
+  padding-right: 10px;
 }
 
 .kit-remove-button {
   border-radius: 20px 5px 5px 20px;
+  padding-left: 11px;
 }

@@ -63,7 +63,8 @@ class Kits extends Component {
                             this.props.updateTable("subtract", kit);
                           }}
                         >
-                          <div className="kits-add-subtract-text">-</div>
+                          -
+                          {/* <div className="kits-add-subtract-text">-</div> */}
                         </button>
                         <div className="kit-count">
                           {this.props.tableKitIDs[kit.id] || 0}
@@ -74,7 +75,8 @@ class Kits extends Component {
                             this.props.updateTable("add", kit);
                           }}
                         >
-                          <div className="kits-add-subtract-text">+</div>
+                          +
+                          {/* <div className="kits-add-subtract-text">+</div> */}
                         </button>
                       </div>
                     </div>
@@ -122,7 +124,8 @@ class Kits extends Component {
                             this.props.updateTable("subtract", kit);
                           }}
                         >
-                          <div className="kits-add-subtract-text">-</div>
+                          -
+                          {/* <div className="kits-add-subtract-text">-</div> */}
                         </button>
                         <div className="kit-count">
                           {this.props.tableKitIDs[kit.id] || 0}
