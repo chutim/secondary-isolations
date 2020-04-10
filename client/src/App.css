@@ -56,7 +56,7 @@
 
 /* ----------------CONTAINERS--------------- */
 #root {
-  width: 1000px;
+  width: 1100px;
   height: 770px;
   position: absolute;
   top: 10px;
@@ -94,7 +94,8 @@ header {
 footer {
   position: absolute;
   bottom: 10px;
-  background-color: #37138c;
+  /* background-color: #37138c; */
+  background-image: linear-gradient(20deg, #0c051f, #290779);
   width: 100%;
   border-radius: 0 0 20px 20px;
   height: 80px;
@@ -147,11 +148,11 @@ button {
 }
 
 .home-button {
-  background-color: #947cff;
+  background-color: #8886ff;
 }
 
 .home-button:hover {
-  background-color: #ae9bff;
+  background-color: #a2a0fd;
 }
 
 .back-button {
@@ -168,17 +169,17 @@ button {
   color: white;
   padding: 9px 11px;
   font-size: 20px;
-  background-color: #f58fce;
+  background-color: #ffc786;
 }
 
 .edit-button:hover {
-  background-color: #eb62b6;
+  background-color: #ffb223;
   cursor: pointer;
 }
 
 .edit-button:focus {
   outline: none;
-  box-shadow: 0px 0px 7px #eb62b6;
+  box-shadow: 0px 0px 7px #ffb223;
 }
 
 .logged-out-edit-button {
@@ -192,7 +193,7 @@ button {
 }
 
 #create-button-faded-out {
-  background-color: #37138c;
+  background-color: #0c051f;
   font-size: 0px;
   text-transform: uppercase;
   border: 0px;
@@ -202,7 +203,7 @@ button {
 }
 
 #create-button-faded-in {
-  background-color: #d84aa1;
+  background-color: #e9aa61;
   font-size: 18px;
   font-weight: 400;
   letter-spacing: 3px;
@@ -220,7 +221,7 @@ button {
 }
 
 #create-button-faded-in:hover {
-  background-color: #f06bbd;
+  background-color: #ffc582;
 }
 
 #create-button-faded-in:focus {
@@ -229,27 +230,27 @@ button {
 }
 
 .add-button {
-  background-color: #8ff0e3;
+  background-color: #a1f2f8;
 }
 
 .add-button:hover {
-  background-color: #5fd8c8;
+  background-color: #7ce6e6;
 }
 
 .add-button:focus {
   outline: none;
-  box-shadow: 0px 0px 6px #5fd8c8;
+  box-shadow: 0px 0px 6px #7ce6e6;
 }
 
 .subtract-button {
-  background-color: #ffb6c0;
+  background-color: #ffe798;
 }
 
 .subtract-button:hover {
-  background-color: #ff8998;
+  background-color: #fcd75d;
 }
 
 .subtract-button:focus {
   outline: none;
-  box-shadow: 0px 0px 6px #ff8998;
+  box-shadow: 0px 0px 6px #fcd75d;
 }

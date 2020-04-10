@@ -3,7 +3,13 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  background-color: #37138c;
+  /* background-color: #37138c; */
+  background-image: linear-gradient(
+    40deg,
+    #170c30 0%,
+    #37138c 50%,
+    #39198f 100%
+  );
   border-radius: 20px 20px 0 0;
   height: 60px;
 }
@@ -43,12 +49,13 @@
 .login-button {
   width: 30%;
   font-size: 15px;
-  font-weight: 500;
+  font-weight: 400;
   padding: auto;
   border: 0px;
   border-radius: 7px;
   color: white;
-  letter-spacing: 1.5px;
+  letter-spacing: 1.3px;
+  text-transform: uppercase;
 }
 
 .login-button:hover {
@@ -61,11 +68,11 @@
 }
 
 .logged-in-button {
-  background-color: #b61377;
+  background-color: #ec9f10;
 }
 
 .logged-in-button:hover {
-  background-color: #ce3a95;
+  background-color: #fabe4f;
 }
 
 .logged-out-button {

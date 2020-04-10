@@ -21,14 +21,14 @@ td {
 
 .tables-container {
   margin: 10px;
-  background-color: #d5c8ff;
+  background-color: #d1d2ff;
   border-radius: 20px;
   padding: 12px;
   transition: 0.5s;
 }
 
 .tables-container:hover {
-  background-color: #e2ddff;
+  background-color: #ffe7b8;
 }
 
 .tables-header {
@@ -67,7 +67,7 @@ td {
 }
 
 tr.kit-multipliers-row th {
-  background-color: #81ece0;
+  background-color: #fff5bc;
   font-weight: 500;
   font-size: 14px;
 }
@@ -142,7 +142,7 @@ tr.kit-multipliers-row th,
 
 .user-input:focus {
   outline: none;
-  box-shadow: 0px 0px 5px 2px #5fd8c8;
+  box-shadow: 0px 0px 5px 1px #73ecd2;
 }
 
 td {
@@ -167,11 +167,11 @@ td {
 }
 
 .clear-table-button {
-  background-color: #dd3d65;
+  background-color: #fc574c;
 }
 
 .clear-table-button:hover {
-  background-color: #f86489;
+  background-color: #fd7a63;
 }
 
 .print-button {
@@ -185,17 +185,17 @@ td {
 .delete-button {
   border: none;
   color: white;
-  background-color: #f86489;
+  background-color: #ff7158;
   padding: 10px 16px;
 }
 
 .delete-button:hover {
-  background-color: #dd3d65;
+  background-color: #f5462f;
 }
 
 .delete-button:focus {
   outline: none;
-  box-shadow: 0px 0px 7px #dd3d65;
+  box-shadow: 0px 0px 7px #f5462f;
 }
 
 .delete-species {

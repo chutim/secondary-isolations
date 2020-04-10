@@ -455,14 +455,14 @@ class CreateOrEdit extends Component {
 
             <div className="create-add-subtract-container form-bottom-row form-bottom-row-bottom">
               <button
-                className="create-add-subtract-row-button add-button"
+                className="create-add-subtract-row-button create-add-button"
                 type="button"
                 onClick={() => this.modifyConstantRows("add")}
               >
                 Add Row
               </button>
               <button
-                className="create-add-subtract-row-button subtract-button"
+                className="create-add-subtract-row-button create-subtract-button"
                 type="button"
                 onClick={() => this.modifyConstantRows("subtract")}
               >

@@ -45,12 +45,14 @@
   min-width: 180px;
   border-radius: 15px;
   text-align: center;
-  background-color: #ebe8fc;
+  background-color: #e4e1ff;
   border: 1px solid #dfd7f3;
 }
 
 .species-button:hover {
-  background-color: #e2daff;
+  background-color: #fff0d3;
+  border: 1px solid #f1ddb5;
+
   cursor: pointer;
 }
 
