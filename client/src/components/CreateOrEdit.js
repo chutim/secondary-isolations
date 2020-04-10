@@ -384,20 +384,14 @@ class CreateOrEdit extends Component {
             </table>
             <div className="scrollable-body table-of-constants-container">
               <table className="table-of-constants">
-                <thead className="toc">
-                  <tr className="form-bottom-row table-of-constants-header">
-                    <th className="table-of-constants-name-col create-form-label">
-                      Name
-                    </th>
-                    <th className="table-of-constants-units-col create-form-label">
-                      Units
-                    </th>
-                    <th className="table-of-constants-constants-col create-form-label">
-                      Constant
-                    </th>
+                <thead className="toc-head">
+                  <tr className="form-bottom-row toc-header">
+                    <th className="toc-name-col create-form-label">Name</th>
+                    <th className="create-form-label">Units</th>
+                    <th className="create-form-label">Constant</th>
                   </tr>
                 </thead>
-                <tbody className="table-of-constants-body">
+                <tbody>
                   {this.state.constants.map((constantRow, idx) => (
                     <tr className="form-bottom-row" key={idx}>
                       <td>

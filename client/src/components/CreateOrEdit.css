@@ -1,5 +1,4 @@
 /* ----------------CONTAINERS--------------- */
-
 .create-form {
   width: 90%;
   height: 500px;
@@ -8,15 +7,24 @@
 }
 
 .create-section-left {
-  width: 80%;
+  width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
   border-radius: 25px;
   background-color: #e0d8fc;
-  margin-left: 17%;
-  margin-right: 17%;
+  margin-left: 23%;
+  margin-right: 23%;
   transition: 0.7s;
+}
+
+.create-section-right {
+  width: 14%;
+  height: 50%;
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  right: 9%;
 }
 
 .create-section-left:hover {
@@ -42,41 +50,22 @@
   background-color: inherit;
 }
 
-.toc {
+.toc-head {
   background-color: inherit;
 }
 
-.table-of-constants-header {
+.toc-header {
   background-color: inherit;
 }
 
-.table-of-constants-header th {
+.toc-header th {
   position: sticky;
   top: 0;
   background-color: inherit;
 }
 
-/* .table-of-constants-body {
-  height: 180px;
-  display: block;
-} */
-
-.table-of-constants-name-col {
-  width: 250px;
-}
-
-.table-of-constants-units-col {
-  /* width: 50px; */
-}
-
-.table-of-constants-constants-col {
-  /* width: 50px; */
-}
-
-.create-section-right {
-  width: 20%;
-  display: flex;
-  flex-direction: column;
+.toc-name-col {
+  width: 260px;
 }
 
 .create-add-subtract-container {
@@ -192,13 +181,15 @@
   font-size: 18px;
   text-transform: uppercase;
   letter-spacing: 3px;
-  padding: 7px;
-  padding-left: 10px;
-  padding-right: 10px;
+  padding: 13px;
   margin: 2px;
-  border-radius: 6px;
+  border-radius: 13px;
   border: none;
   transition: 0.3s;
+}
+
+.create-master-button + .create-master-button {
+  margin-top: 12px;
 }
 
 .create-clear-button {
@@ -210,7 +201,8 @@
 }
 
 .create-clear-button:focus {
-  background-color: #3d8b95;
+  outline: none;
+  box-shadow: 0px 0px 10px 1px #3d8b95;
 }
 
 .create-create-update-button {
@@ -223,7 +215,7 @@
 
 .create-create-update-button:focus {
   outline: none;
-  box-shadow: 0px 0px 7px #d84aa1;
+  box-shadow: 0px 0px 10px 1px #d84aa1;
 }
 
 .create-delete-button {
@@ -236,5 +228,5 @@
 
 .create-delete-button:focus {
   outline: none;
-  box-shadow: 0px 0px 7px #dd3d65;
+  box-shadow: 0px 0px 10px 1px #dd3d65;
 }

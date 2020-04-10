@@ -2,8 +2,15 @@
   body {
     visibility: hidden;
   }
+  button.edit-button {
+    padding: 3px;
+  }
+  .kit-constant-names-row th {
+    font-size: 11px;
+  }
   .no-print-spacer {
     visibility: hidden;
+    padding: 0px;
   }
   .no-print {
     display: none;
@@ -12,11 +19,44 @@
     overflow: visible;
     visibility: visible;
   }
+  .tables-header {
+    margin: 0px;
+  }
+  .tables-container {
+    padding: 0px;
+  }
+  .tables-container:first-child {
+    padding-top: 0.2in;
+  }
+  .login-container {
+    display: none;
+  }
+  .kit-table {
+    width: calc(100% - 1in);
+    table-layout: fixed;
+    margin-left: 0.5in;
+    margin-right: 0.5in;
+  }
+  .kit-table-header {
+    padding: 0px;
+  }
+  .kit-table-header-text-container {
+    display: flex;
+  }
+  .kit-table-header-selection {
+    padding-left: 5px;
+  }
+}
+
+@page {
+  size: portrait;
+  margin: 0in;
+  /* this affects the margin in the printer settings. this removes the standard header/footers when printing (website, date, page count) */
 }
 
 /* ----------------CONTAINERS--------------- */
 #root {
-  width: 1200px;
+  width: 1000px;
   height: 770px;
   position: absolute;
   top: 10px;
