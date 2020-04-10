@@ -1,5 +1,80 @@
 /* ----------------CONTAINERS--------------- */
+
 .create-form {
+  width: 90%;
+  height: 500px;
+  display: flex;
+  flex-direction: row;
+}
+
+.create-section-left {
+  width: 80%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  border-radius: 25px;
+  background-color: #e0d8fc;
+  margin-left: 17%;
+  margin-right: 17%;
+  transition: 0.7s;
+}
+
+.create-section-left:hover {
+  background-color: #e8e4ff;
+}
+
+#create-edit-table {
+  margin-left: 7%;
+  margin-right: 7%;
+  margin-top: 2%;
+}
+
+.table-of-constants-container {
+  margin-left: 7%;
+  margin-right: 7%;
+  background-color: inherit;
+  height: 206px;
+}
+
+.table-of-constants {
+  width: 100%;
+  table-layout: fixed;
+  background-color: inherit;
+}
+
+.toc {
+  background-color: inherit;
+}
+
+.table-of-constants-header {
+  background-color: inherit;
+}
+
+.table-of-constants-header th {
+  position: sticky;
+  top: 0;
+  background-color: inherit;
+}
+
+/* .table-of-constants-body {
+  height: 180px;
+  display: block;
+} */
+
+.table-of-constants-name-col {
+  width: 250px;
+}
+
+.table-of-constants-units-col {
+  /* width: 50px; */
+}
+
+.table-of-constants-constants-col {
+  /* width: 50px; */
+}
+
+.create-section-right {
+  width: 20%;
   display: flex;
   flex-direction: column;
 }
@@ -8,17 +83,22 @@
   display: flex;
   flex-direction: row;
   justify-content: center;
+  margin-top: 5px;
+  margin-bottom: 11px;
 }
 
 .form-top-input {
-  width: calc(100% - 4px);
+  width: 76%;
   font-size: 16px;
   padding: 4px;
+  padding-left: 6px;
 }
 
 .form-bottom-input {
-  font-size: 14px;
+  font-size: 13px;
   padding: 3px;
+  padding-left: 5px;
+  width: calc(100% - 16px);
 }
 
 .form-top-input:focus,
@@ -26,6 +106,23 @@
   outline: none;
   border: 2px solid #93f3e6;
   box-shadow: 0px 0px 5px 2px #5fd8c8;
+}
+
+.form-top-row {
+}
+
+.form-top-row .create-form-label {
+  padding-right: 5px;
+}
+
+.form-bottom-row {
+  /* background-color: red; */
+}
+
+.form-bottom-row-top {
+}
+
+.form-bottom-row-bottom {
 }
 
 .select-type {
@@ -54,10 +151,15 @@
 
 .create-form-header {
   font-size: 20px;
-  font-weight: 500;
+  font-weight: 400;
   letter-spacing: 2px;
   text-transform: uppercase;
-  padding: 10px;
+}
+
+.constants-header {
+  padding-top: 20px;
+  /* padding-bottom: 10px; */
+  font-weight: 600;
 }
 
 .create-form-label {
@@ -66,8 +168,13 @@
   font-weight: 500;
 }
 
+.create-form-head {
+  text-align: center;
+}
 .fields-required {
   color: #f86489;
+  padding-top: 13px;
+  padding-bottom: 15px;
 }
 
 /* --------------BUTTONS--------------- */

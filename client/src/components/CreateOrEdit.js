@@ -264,25 +264,32 @@ class CreateOrEdit extends Component {
             )}
           </div>
         </header>
-        <div className="create-body scrollable-body">
-          <div className="create-form-header fields-required">
-            All fields required
-          </div>
-          <form
-            className="create-form"
-            autoComplete="off"
-            onSubmit={e => {
-              this.handleSubmit(
-                e,
-                this.props.match.params.kitID ? "update" : "create"
-              );
-            }}
-          >
-            <table>
+        <form
+          className="create-form"
+          autoComplete="off"
+          onSubmit={e => {
+            this.handleSubmit(
+              e,
+              this.props.match.params.kitID ? "update" : "create"
+            );
+          }}
+        >
+          <div className="create-section-left">
+            <table id="create-edit-table">
+              <thead>
+                <tr className="create-form-head">
+                  <th
+                    colSpan={3}
+                    className="create-form-header fields-required"
+                  >
+                    All fields required
+                  </th>
+                </tr>
+              </thead>
               <tbody>
-                <tr>
+                <tr className="form-top-row">
                   <td className="create-form-label" align="right">
-                    ID:
+                    ID
                   </td>
                   <td align="left" colSpan={2}>
                     <input
@@ -301,9 +308,9 @@ class CreateOrEdit extends Component {
                     />
                   </td>
                 </tr>
-                <tr>
+                <tr className="form-top-row">
                   <td className="create-form-label" align="right">
-                    Name:
+                    Name
                   </td>
                   <td align="left" colSpan={2}>
                     <input
@@ -316,9 +323,9 @@ class CreateOrEdit extends Component {
                     />
                   </td>
                 </tr>
-                <tr>
+                <tr className="form-top-row">
                   <td className="create-form-label" align="right">
-                    Species:
+                    Species
                   </td>
                   <td align="left" colSpan={2}>
                     <input
@@ -337,9 +344,9 @@ class CreateOrEdit extends Component {
                     </datalist>
                   </td>
                 </tr>
-                <tr>
+                <tr className="form-top-row">
                   <td className="create-form-label" align="right">
-                    Type:
+                    Selection
                   </td>
                   <td align="left" colSpan={2}>
                     <input
@@ -365,71 +372,94 @@ class CreateOrEdit extends Component {
                     </datalist>
                   </td>
                 </tr>
-                <tr>
-                  <td className="create-form-header" colSpan={3}>
+                <tr className="form-bottom-row form-bottom-row-top">
+                  <td
+                    className="create-form-header constants-header"
+                    colSpan={3}
+                  >
                     Constants
                   </td>
                 </tr>
-
-                <tr>
-                  <td className="create-form-label">Name</td>
-                  <td className="create-form-label">Units</td>
-                  <td className="create-form-label">Constant</td>
-                </tr>
-                {this.state.constants.map((constantRow, idx) => (
-                  <tr key={idx}>
-                    <td align="right">
-                      <input
-                        className="form-bottom-input"
-                        type="text"
-                        list="constants-names"
-                        onChange={e => {
-                          this.handleInput(e, idx, "constantName");
-                        }}
-                        value={constantRow[0] || ""}
-                        placeholder={constantRow[0] ? "" : "Fireball Cocktail"}
-                      />
-                      <datalist id="constants-names">
-                        {this.createArrayOfNonRepeatingElements(0).map(name => (
-                          <option key={name}>{name}</option>
-                        ))}
-                      </datalist>
-                    </td>
-
-                    <td>
-                      <input
-                        className="form-bottom-input"
-                        type="text"
-                        list="units"
-                        onChange={e => {
-                          this.handleInput(e, idx, "constantUnit");
-                        }}
-                        value={constantRow[1] || ""}
-                        placeholder={constantRow[1] ? "" : "cups"}
-                      />
-                      <datalist id="units">
-                        {this.createArrayOfNonRepeatingElements(1).map(unit => (
-                          <option key={unit}>{unit}</option>
-                        ))}
-                      </datalist>
-                    </td>
-
-                    <td align="left">
-                      <input
-                        className="form-bottom-input"
-                        type="text"
-                        onChange={e => {
-                          this.handleInput(e, idx, "constantValue");
-                        }}
-                        value={constantRow[2] || ""}
-                        placeholder={constantRow[2] ? "" : "000"}
-                      />
-                    </td>
-                  </tr>
-                ))}
               </tbody>
             </table>
-            <div className="create-add-subtract-container">
+            <div className="scrollable-body table-of-constants-container">
+              <table className="table-of-constants">
+                <thead className="toc">
+                  <tr className="form-bottom-row table-of-constants-header">
+                    <th className="table-of-constants-name-col create-form-label">
+                      Name
+                    </th>
+                    <th className="table-of-constants-units-col create-form-label">
+                      Units
+                    </th>
+                    <th className="table-of-constants-constants-col create-form-label">
+                      Constant
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="table-of-constants-body">
+                  {this.state.constants.map((constantRow, idx) => (
+                    <tr className="form-bottom-row" key={idx}>
+                      <td>
+                        <input
+                          className="form-bottom-input"
+                          type="text"
+                          list="constants-names"
+                          onChange={e => {
+                            this.handleInput(e, idx, "constantName");
+                          }}
+                          value={constantRow[0] || ""}
+                          placeholder={
+                            constantRow[0] ? "" : "Fireball Cocktail"
+                          }
+                        />
+                        <datalist id="constants-names">
+                          {this.createArrayOfNonRepeatingElements(0).map(
+                            name => (
+                              <option key={name}>{name}</option>
+                            )
+                          )}
+                        </datalist>
+                      </td>
+
+                      <td>
+                        <input
+                          className="form-bottom-input"
+                          type="text"
+                          list="units"
+                          onChange={e => {
+                            this.handleInput(e, idx, "constantUnit");
+                          }}
+                          value={constantRow[1] || ""}
+                          placeholder={constantRow[1] ? "" : "cups"}
+                        />
+                        <datalist id="units">
+                          {this.createArrayOfNonRepeatingElements(1).map(
+                            unit => (
+                              <option key={unit}>{unit}</option>
+                            )
+                          )}
+                        </datalist>
+                      </td>
+
+                      <td>
+                        <input
+                          className="form-bottom-input"
+                          type="text"
+                          onChange={e => {
+                            this.handleInput(e, idx, "constantValue");
+                          }}
+                          value={constantRow[2] || ""}
+                          placeholder={constantRow[2] ? "" : "000"}
+                        />
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            <div className="create-add-subtract-container form-bottom-row form-bottom-row-bottom">
               <button
                 className="create-add-subtract-row-button add-button"
                 type="button"
@@ -445,6 +475,8 @@ class CreateOrEdit extends Component {
                 Subtract Row
               </button>
             </div>
+          </div>
+          <div className="create-section-right">
             <button
               className="create-master-button create-clear-button"
               type="button"
@@ -476,8 +508,8 @@ class CreateOrEdit extends Component {
                 Delete Kit
               </button>
             ) : null}
-          </form>
-        </div>
+          </div>
+        </form>
         <footer>
           <button
             className="nav-button back-button"
