@@ -13,8 +13,8 @@
   flex-direction: column;
   border-radius: 25px;
   background-color: #e1e3ff;
-  margin-left: 23%;
-  margin-right: 23%;
+  margin-left: 20%;
+  margin-right: 20%;
   transition: 0.7s;
 }
 
@@ -38,8 +38,8 @@
 }
 
 .table-of-constants-container {
-  margin-left: 7%;
-  margin-right: 7%;
+  margin-left: 3%;
+  margin-right: 3%;
   background-color: inherit;
   height: 206px;
 }
@@ -65,7 +65,11 @@
 }
 
 .toc-name-col {
-  width: 230px;
+  width: 240px;
+}
+
+.toc-cells-col {
+  width: 65px;
 }
 
 .create-add-subtract-container {

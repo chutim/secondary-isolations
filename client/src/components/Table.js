@@ -52,18 +52,16 @@ class Table extends Component {
           </td>
           {kit.constants.map((constant, idx) => {
             //if the constant is for time, a spin, or the final wash, just render it
-            if (
-              constant[1].includes("min") ||
-              constant[1].includes("times x mL") ||
-              constant[1].includes("g x min")
-            ) {
+            if (constant[3] === "n/a") {
               return <td key={idx}>{constant[2]}</td>;
             }
-            //otherwise, multiply the constant by the row's cell count. divide by 10 because the kit instructions use cell counts of 10^7
+            //otherwise, convert the cell count multiplier into 10^n, and divide the product of the cell count and constants by it
+            const cellMultiplier =
+              10 ** ((constant[3] && constant[3].slice(3)) - 6); //6 corresponds to 10^6
             const multiplied =
               (Number(constant[2]) *
                 this.props.tableRowsHash[kit.species][rowKey][1]) /
-              10;
+              cellMultiplier;
             return (
               <td key={idx}>
                 {multiplied

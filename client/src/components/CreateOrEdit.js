@@ -15,7 +15,7 @@ class CreateOrEdit extends Component {
       name: "",
       species: "",
       type: "",
-      constants: [[null, null, null]],
+      constants: [[null, null, null, null]],
       duplicateID: false
     };
     //ref for kit type HTML input. used to clear the input's value on click, to allow showing the user both options ("Positive" and "Negative") immediately, as opposed to only suggesting mastching options
@@ -60,6 +60,8 @@ class CreateOrEdit extends Component {
         constants[constantRow][1] = e.target.value;
       } else if (constantNameOrValue === "constantValue") {
         constants[constantRow][2] = e.target.value;
+      } else if (constantNameOrValue === "constantCells") {
+        constants[constantRow][3] = e.target.value;
       }
       await this.setState({ constants });
     }
@@ -106,7 +108,8 @@ class CreateOrEdit extends Component {
   checkForEmptyFields = (id, name, species, type, constants) => {
     let constantsEmpty = false;
     for (let constant of constants) {
-      if (!constant[0] || !constant[1] || !constant[2]) constantsEmpty = true;
+      if (!constant[0] || !constant[1] || !constant[2] || !constant[3])
+        constantsEmpty = true;
     }
     if (
       id === "" ||
@@ -197,14 +200,14 @@ class CreateOrEdit extends Component {
       name: "",
       species: "",
       type: "",
-      constants: [[null, null, null]]
+      constants: [[null, null, null, null]]
     });
   };
 
   modifyConstantRows = async modification => {
     if (modification === "add")
       await this.setState({
-        constants: [...this.state.constants, [null, null, null]]
+        constants: [...this.state.constants, [null, null, null, null]]
       });
     else if (modification === "subtract")
       await this.setState({ constants: this.state.constants.slice(0, -1) });
@@ -376,6 +379,7 @@ class CreateOrEdit extends Component {
                     <th className="toc-name-col create-form-label">Name</th>
                     <th className="create-form-label">Units</th>
                     <th className="create-form-label">Constant</th>
+                    <th className="toc-cells-col create-form-label">Cells</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -433,6 +437,25 @@ class CreateOrEdit extends Component {
                           value={constantRow[2] || ""}
                           placeholder={constantRow[2] ? "" : "000"}
                         />
+                      </td>
+                      <td>
+                        <input
+                          className="form-bottom-input"
+                          type="text"
+                          list="cells"
+                          onChange={e => {
+                            this.handleInput(e, idx, "constantCells");
+                          }}
+                          value={constantRow[3] || ""}
+                          placeholder={constantRow[3] ? "" : "10^00"}
+                        />
+                        <datalist id="cells">
+                          {this.createArrayOfNonRepeatingElements(3).map(
+                            cells => (
+                              <option key={cells}>{cells}</option>
+                            )
+                          )}
+                        </datalist>
                       </td>
                     </tr>
                   ))}
