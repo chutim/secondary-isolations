@@ -58,10 +58,11 @@ class Table extends Component {
             //otherwise, convert the cell count multiplier into 10^n, and divide the product of the cell count and constants by it
             const cellMultiplier =
               10 ** ((constant[3] && constant[3].slice(3)) - 6); //6 corresponds to 10^6
-            const multiplied =
+            let multiplied =
               (Number(constant[2]) *
                 this.props.tableRowsHash[kit.species][rowKey][1]) /
               cellMultiplier;
+            if (multiplied > 50000) multiplied = 50000;
             return (
               <td key={idx}>
                 {multiplied
