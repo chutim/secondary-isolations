@@ -276,16 +276,6 @@ class CreateOrEdit extends Component {
         >
           <div className="create-section-left">
             <table id="create-edit-table">
-              <thead>
-                <tr className="create-form-head">
-                  <th
-                    colSpan={3}
-                    className="create-form-header fields-required"
-                  >
-                    All fields required
-                  </th>
-                </tr>
-              </thead>
               <tbody>
                 <tr>
                   <td className="create-form-label" align="right">
@@ -373,10 +363,7 @@ class CreateOrEdit extends Component {
                   </td>
                 </tr>
                 <tr>
-                  <td
-                    className="create-form-header constants-header"
-                    colSpan={3}
-                  >
+                  <td className="constants-header" colSpan={3}>
                     Constants
                   </td>
                 </tr>

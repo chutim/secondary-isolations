@@ -505,7 +505,12 @@ class App extends Component {
             )}
           ></Route>
 
-          <Route path="/error" render={props => <Error {...props} />}></Route>
+          <Route
+            path="/error"
+            render={props => (
+              <Error {...props} rowCount={this.state.rowCount} />
+            )}
+          ></Route>
         </Switch>
       </Router>
     );

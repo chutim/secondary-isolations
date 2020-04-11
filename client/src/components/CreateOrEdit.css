@@ -1,7 +1,7 @@
 /* ----------------CONTAINERS--------------- */
 .create-form {
   width: 90%;
-  height: 500px;
+  height: 415px;
   display: flex;
   flex-direction: row;
 }
@@ -34,7 +34,7 @@
 #create-edit-table {
   margin-left: 7%;
   margin-right: 7%;
-  margin-top: 2%;
+  margin-top: 3%;
 }
 
 .table-of-constants-container {
@@ -78,9 +78,10 @@
 
 .form-top-input {
   width: 76%;
-  font-size: 16px;
+  font-size: 14px;
   padding: 4px;
   padding-left: 6px;
+  margin-left: 4px;
 }
 
 .form-bottom-input {
@@ -128,32 +129,26 @@
   color: #8266ff;
 }
 
-.create-form-header {
-  font-size: 20px;
-  font-weight: 400;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-}
-
 .constants-header {
-  padding-top: 20px;
-  padding-bottom: 6px;
+  font-size: 18px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  padding-top: 17px;
+  padding-bottom: 4px;
   font-weight: 600;
 }
 
 .create-form-label {
   letter-spacing: 2px;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 500;
 }
 
-.create-form-head {
-  text-align: center;
-}
 .fields-required {
   color: #f86e64;
   padding-top: 13px;
-  padding-bottom: 15px;
+  padding-bottom: 12px;
+  font-size: 17px;
 }
 
 /* --------------BUTTONS--------------- */

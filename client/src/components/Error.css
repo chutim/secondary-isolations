@@ -1,0 +1,54 @@
+/* ----------------CONTAINERS--------------- */
+.error-container {
+  margin-top: 105px;
+}
+
+.lock-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.lock-loop {
+  width: 76px;
+  height: 80px;
+  border: 17px solid #a2a1dd;
+  border-bottom: none;
+  border-radius: 100px 100px 0 0;
+}
+
+.lock-body {
+  margin-top: -2px;
+  width: 150px;
+  height: 120px;
+  border: 14px solid #a2a1dd;
+  border-radius: 45px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: none;
+}
+
+.lock-hole-top {
+  width: 0px;
+  height: 0px;
+  border: 16px solid #c8c5eb;
+  border-radius: 16px;
+}
+
+.lock-hole-bottom {
+  margin-top: -2px;
+  width: 0px;
+  height: 20px;
+  border: 7px solid #c8c5eb;
+  border-radius: 0 0 7px 7px;
+}
+
+/* ----------------TEXT---------------- */
+.error-text {
+  font-size: 22px;
+  letter-spacing: 2px;
+  margin-top: 24px;
+  font-weight: 400;
+}

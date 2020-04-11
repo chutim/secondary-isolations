@@ -17,7 +17,7 @@ const PrivateRoute = ({
           <PrivateComponent {...props} {...rest} />
         ) : (
           //Error component shouldn't ever show up in normal use (because the 'edit' and 'create' buttons shouldn't even render), only if the user tries to access the component directly through URL
-          <Error />
+          <Error {...props} {...rest} />
         )
       }
     />

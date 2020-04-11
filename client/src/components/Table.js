@@ -83,7 +83,7 @@ class Table extends Component {
   render() {
     return (
       <div className="page">
-        <div className="groups-container scrollable-body" id="divToPrint">
+        <div className="scrollable-body" id="divToPrint">
           {/* generate a new table group for each species */}
           {this.props.arrayedKitData.map(speciesGroup => (
             <div className="tables-container" key={speciesGroup[0]}>
