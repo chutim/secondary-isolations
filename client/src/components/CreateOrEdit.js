@@ -50,15 +50,20 @@ class CreateOrEdit extends Component {
       localStorage.setItem("updateState", JSON.stringify(this.state));
   };
 
-  handleInput = async (e, constantRow, constantNameOrValue, units) => {
+  handleInput = async (e, constantRow, constantNameOrValue) => {
     const constants = cloneDeep(this.state.constants);
     //if we're modifying a constant, modify the corresponding sub-array on state
     if (constantNameOrValue) {
       if (constantNameOrValue === "constantName") {
-        const values = e.target.value.split(" (");
-        constants[constantRow][0] = values[0];
-        constants[constantRow][1] = values[1].slice(0, -1);
-        console.log(constants);
+        //split the input value to see if the user selected a suggestion. note that user will not be able to type "(".
+        const values = e.target.value.split("(");
+        //if there is something on the other side of the (, the user must have selected a suggestion. or copy and pasted, not likely.
+        if (values[1]) {
+          constants[constantRow][0] = values[0].trim();
+          constants[constantRow][1] = values[1].slice(0, -1);
+        } else {
+          constants[constantRow][0] = values[0];
+        }
       } else if (constantNameOrValue === "constantUnit") {
         constants[constantRow][1] = e.target.value;
       } else if (constantNameOrValue === "constantValue") {
@@ -237,6 +242,7 @@ class CreateOrEdit extends Component {
   };
 
   createArrayOfNonRepeatingElements = (indexToUse, appendUnits) => {
+    console.log("happening");
     const allConstantGroups = this.props.allKits.reduce((finalArray, kit) => {
       finalArray.push(...kit.constants);
       return finalArray;
@@ -247,16 +253,21 @@ class CreateOrEdit extends Component {
     const units = [];
 
     for (let constantGroup of allConstantGroups) {
-      const addHappened = set.add(constantGroup[indexToUse]);
+      let preAddSize;
+      if (appendUnits) preAddSize = set.size;
+      const newSet = set.add(constantGroup[indexToUse]);
       //if working on the constant names column, and a unique name was added to the set, also store its corresponding units
-      if (appendUnits && addHappened) units.push(constantGroup[1]);
+      if (appendUnits && newSet.size !== preAddSize)
+        units.push(constantGroup[1]);
     }
-    let sortedArr = Array.from(set).sort();
+    let array = Array.from(set);
+
     //if working on the constant names column, include the units
     if (appendUnits) {
-      sortedArr = sortedArr.map((name, idx) => name + " (" + units[idx] + ")");
+      array = array.map((name, idx) => name + " (" + units[idx] + ")");
     }
-    return sortedArr;
+
+    return array.sort();
   };
 
   render() {
@@ -405,7 +416,7 @@ class CreateOrEdit extends Component {
                           type="text"
                           list="constants-names"
                           onChange={e => {
-                            this.handleInput(e, idx, "constantName", this);
+                            this.handleInput(e, idx, "constantName");
                           }}
                           value={constantRow[0] || ""}
                           placeholder="Fireball Cocktail"
@@ -414,9 +425,7 @@ class CreateOrEdit extends Component {
                           {/* command the createArrayOfNonRepeatingElements fcn to store the corresponding units */}
                           {this.createArrayOfNonRepeatingElements(0, true).map(
                             nameAndUnits => (
-                              <option key={nameAndUnits} value={nameAndUnits}>
-                                {nameAndUnits}
-                              </option>
+                              <option key={nameAndUnits}>{nameAndUnits}</option>
                             )
                           )}
                         </datalist>

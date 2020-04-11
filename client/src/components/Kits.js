@@ -53,7 +53,7 @@ class Kits extends Component {
                         //attaches kit object to props.location.state
                         kit={kit}
                       >
-                        <i class="fas fa-pen"></i>
+                        <i className="fas fa-pen"></i>
                       </LinkButton>
 
                       <div className="kit-options-row">
@@ -112,7 +112,7 @@ class Kits extends Component {
                         //attaches kit object to props.location.state
                         kit={kit}
                       >
-                        <i class="fas fa-pen"></i>
+                        <i className="fas fa-pen"></i>
                       </LinkButton>
 
                       <div className="kit-options-row">

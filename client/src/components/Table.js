@@ -102,7 +102,7 @@ class Table extends Component {
                     this.props.deleteSpeciesFromTable(speciesGroup[0])
                   }
                 >
-                  <i class="fas fa-trash-alt"></i>
+                  <i className="fas fa-trash-alt"></i>
                 </button>
               </div>
               {/* generate a table for each kit in the species group */}
@@ -125,7 +125,7 @@ class Table extends Component {
                             //attaches kit object to props.location.state
                             kit={kit}
                           >
-                            <i class="fas fa-pen"></i>
+                            <i className="fas fa-pen"></i>
                           </LinkButton>
                           <div className="kit-table-header-text-container">
                             <div className="kit-table-header-name">
