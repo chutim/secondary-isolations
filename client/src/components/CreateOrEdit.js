@@ -453,7 +453,7 @@ class CreateOrEdit extends Component {
                 type="button"
                 onClick={() => this.modifyConstantRows("subtract")}
               >
-                Subtract Row
+                Remove Row
               </button>
             </div>
           </div>
