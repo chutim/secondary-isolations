@@ -13,7 +13,7 @@
   width: 30%;
   display: flex;
   justify-content: space-between;
-  padding: 15px;
+  padding: 12px;
 }
 
 /* ----------------TEXT---------------- */
@@ -26,11 +26,11 @@
 }
 
 .login-input {
-  width: 60%;
+  width: 61.5%;
   padding: 7px;
   border: 0px;
   border-radius: 7px;
-  font-size: 13px;
+  font-size: 14px;
   letter-spacing: 0.5px;
   padding-left: 9px;
   transition: 0.3s;
