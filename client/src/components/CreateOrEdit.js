@@ -50,12 +50,15 @@ class CreateOrEdit extends Component {
       localStorage.setItem("updateState", JSON.stringify(this.state));
   };
 
-  handleInput = async (e, constantRow, constantNameOrValue) => {
+  handleInput = async (e, constantRow, constantNameOrValue, units) => {
     const constants = cloneDeep(this.state.constants);
     //if we're modifying a constant, modify the corresponding sub-array on state
     if (constantNameOrValue) {
       if (constantNameOrValue === "constantName") {
-        constants[constantRow][0] = e.target.value;
+        const values = e.target.value.split(" (");
+        constants[constantRow][0] = values[0];
+        constants[constantRow][1] = values[1].slice(0, -1);
+        console.log(constants);
       } else if (constantNameOrValue === "constantUnit") {
         constants[constantRow][1] = e.target.value;
       } else if (constantNameOrValue === "constantValue") {
@@ -233,16 +236,27 @@ class CreateOrEdit extends Component {
     console.log("Kit deleted from database.");
   };
 
-  createArrayOfNonRepeatingElements = indexToUse => {
+  createArrayOfNonRepeatingElements = (indexToUse, appendUnits) => {
     const allConstantGroups = this.props.allKits.reduce((finalArray, kit) => {
       finalArray.push(...kit.constants);
       return finalArray;
     }, []);
+
     const set = new Set();
+    //to be used if working on the constant names column
+    const units = [];
+
     for (let constantGroup of allConstantGroups) {
-      set.add(constantGroup[indexToUse]);
+      const addHappened = set.add(constantGroup[indexToUse]);
+      //if working on the constant names column, and a unique name was added to the set, also store its corresponding units
+      if (appendUnits && addHappened) units.push(constantGroup[1]);
     }
-    return Array.from(set).sort();
+    let sortedArr = Array.from(set).sort();
+    //if working on the constant names column, include the units
+    if (appendUnits) {
+      sortedArr = sortedArr.map((name, idx) => name + " (" + units[idx] + ")");
+    }
+    return sortedArr;
   };
 
   render() {
@@ -328,7 +342,7 @@ class CreateOrEdit extends Component {
                       name="species"
                       onChange={this.handleInput}
                       value={this.state.species}
-                      placeholder={this.state.species ? "" : "Dragon"}
+                      placeholder="Dragon"
                     />
                     <datalist id="species-choices">
                       {this.props.allSpecies.map(species => (
@@ -357,7 +371,7 @@ class CreateOrEdit extends Component {
                       }}
                       onChange={this.handleInput}
                       value={this.state.type}
-                      placeholder={this.state.type ? "" : "Select one:"}
+                      placeholder="Select one:"
                     />
                     <datalist id="type-choices">
                       <option value="Positive">Positive</option>
@@ -391,17 +405,18 @@ class CreateOrEdit extends Component {
                           type="text"
                           list="constants-names"
                           onChange={e => {
-                            this.handleInput(e, idx, "constantName");
+                            this.handleInput(e, idx, "constantName", this);
                           }}
                           value={constantRow[0] || ""}
-                          placeholder={
-                            constantRow[0] ? "" : "Fireball Cocktail"
-                          }
+                          placeholder="Fireball Cocktail"
                         />
                         <datalist id="constants-names">
-                          {this.createArrayOfNonRepeatingElements(0).map(
-                            name => (
-                              <option key={name}>{name}</option>
+                          {/* command the createArrayOfNonRepeatingElements fcn to store the corresponding units */}
+                          {this.createArrayOfNonRepeatingElements(0, true).map(
+                            nameAndUnits => (
+                              <option key={nameAndUnits} value={nameAndUnits}>
+                                {nameAndUnits}
+                              </option>
                             )
                           )}
                         </datalist>
@@ -416,7 +431,7 @@ class CreateOrEdit extends Component {
                             this.handleInput(e, idx, "constantUnit");
                           }}
                           value={constantRow[1] || ""}
-                          placeholder={constantRow[1] ? "" : "cups"}
+                          placeholder="cups"
                         />
                         <datalist id="units">
                           {this.createArrayOfNonRepeatingElements(1).map(
@@ -435,7 +450,7 @@ class CreateOrEdit extends Component {
                             this.handleInput(e, idx, "constantValue");
                           }}
                           value={constantRow[2] || ""}
-                          placeholder={constantRow[2] ? "" : "000"}
+                          placeholder="000"
                         />
                       </td>
                       <td>
@@ -447,7 +462,7 @@ class CreateOrEdit extends Component {
                             this.handleInput(e, idx, "constantCells");
                           }}
                           value={constantRow[3] || ""}
-                          placeholder={constantRow[3] ? "" : "10^00"}
+                          placeholder="10^00"
                         />
                         <datalist id="cells">
                           {this.createArrayOfNonRepeatingElements(3).map(
