@@ -175,7 +175,7 @@ td {
 }
 
 .clear-table-button:hover {
-  background-color: #fd7a63;
+  background-color: #ff7e67;
 }
 
 .print-button {
@@ -223,7 +223,7 @@ td {
   padding-right: 12px;
   margin: 3px;
   margin-top: 5px;
-  margin-bottom: 5px;
+  margin-bottom: 7px;
   border-radius: 6px;
   border: none;
 }

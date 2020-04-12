@@ -149,7 +149,7 @@ class Table extends Component {
                               this.props.deleteKitFromTable(kit.id, kit.species)
                             }
                           >
-                            <i class="fas fa-trash-alt"></i>
+                            <i className="fas fa-trash-alt"></i>
                           </button>
                         </div>
                       </th>
@@ -185,7 +185,7 @@ class Table extends Component {
                             className="kit-table-row-button add-button"
                             onClick={() => this.props.updateTable("add", kit)}
                           >
-                            Add Row
+                            Add Sample
                           </button>
                           <button
                             className="kit-table-row-button subtract-button"
@@ -193,7 +193,7 @@ class Table extends Component {
                               this.props.updateTable("subtract", kit)
                             }
                           >
-                            Remove Row
+                            Remove Sample
                           </button>
                         </div>
                       </td>

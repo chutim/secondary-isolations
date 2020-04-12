@@ -27,7 +27,6 @@ class CreateOrEdit extends Component {
   }
 
   componentDidMount = async () => {
-    await this.generateConstantsDatalists();
     //if editing a kit, grab the kit data pushed into the history object (location.state). if the user just went to the url directly, i.e., didn't click in from a kit, there is no history so grab from localStorage
     if (this.props.match.params.kitID) {
       if (this.props.location.state) {
@@ -59,13 +58,6 @@ class CreateOrEdit extends Component {
     const constantCells = this.createArrayOfNonRepeatingElements(allKits, 3);
     return { constantNames, constantUnits, constantCells };
   });
-
-  // generateConstantsDatalists = async () => {
-  //   const constantNames = await this.createArrayOfNonRepeatingElements(0, true);
-  //   const constantUnits = await this.createArrayOfNonRepeatingElements(1);
-  //   const constantCells = await this.createArrayOfNonRepeatingElements(3);
-  //   await this.setState({ constantNames, constantUnits, constantCells });
-  // };
 
   createArrayOfNonRepeatingElements = (allKits, indexToUse, appendUnits) => {
     const allConstantGroups = allKits.reduce((finalArray, kit) => {

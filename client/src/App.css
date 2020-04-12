@@ -94,7 +94,7 @@ header {
 footer {
   position: absolute;
   bottom: 10px;
-  background-color: #5554a8;
+  background-color: #6d6fc2;
   width: 100%;
   border-radius: 0 0 10px 10px;
   height: 80px;
@@ -147,19 +147,19 @@ button {
 }
 
 .home-button {
-  background-color: #8886ff;
+  background-color: #9593fd;
 }
 
 .home-button:hover {
-  background-color: #a2a0fd;
+  background-color: #a9a8ff;
 }
 
 .back-button {
-  background-color: #dfdfdf;
+  background-color: #cecece;
 }
 
 .back-button:hover {
-  background-color: #ffffff;
+  background-color: #e6e6e6;
 }
 
 .edit-button {
@@ -192,7 +192,7 @@ button {
 }
 
 #create-button-faded-out {
-  background-color: #ab92eb;
+  background-color: #6d6fc2;
   font-size: 0px;
   text-transform: uppercase;
   border: 0px;

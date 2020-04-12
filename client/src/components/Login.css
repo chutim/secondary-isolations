@@ -3,7 +3,7 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  background-color: #5554a8;
+  background-color: #6d6fc2;
 
   border-radius: 10px 10px 0 0;
   height: 55px;
@@ -39,7 +39,7 @@
 
 .login-input:focus {
   outline: none;
-  box-shadow: 0px 0px 7px 2px #9d9cfc;
+  box-shadow: 0px 0px 8px 2px #aaa7ff;
 }
 
 /* --------------BUTTONS--------------- */
