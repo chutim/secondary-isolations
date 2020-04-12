@@ -498,6 +498,7 @@ class App extends Component {
             render={props => (
               <Home
                 {...props}
+                loggedIn={this.state.loggedIn}
                 rowCount={this.state.rowCount}
                 allSpecies={this.state.allSpecies}
                 selectSpecies={this.selectSpecies}

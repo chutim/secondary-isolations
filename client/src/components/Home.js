@@ -39,6 +39,16 @@ class Home extends Component {
           ))}
         </div>
         <footer>
+          <LinkButton
+            to="/create"
+            id={
+              this.props.loggedIn
+                ? "create-button-faded-in"
+                : "create-button-faded-out"
+            }
+          >
+            Create Kit
+          </LinkButton>
           <LinkButton to="/table" className="nav-button table-button">
             Table &#40;{this.props.rowCount}{" "}
             {this.props.rowCount === 1 ? "Sample" : "Samples"}&#41;
