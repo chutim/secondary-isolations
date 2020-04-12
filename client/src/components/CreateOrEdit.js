@@ -2,6 +2,7 @@
 import React, { Component } from "react";
 import LinkButton from "./LinkButton.jsx";
 import { cloneDeep } from "lodash";
+import memoize from "memoize-one";
 import apis from "../api";
 import "./CreateOrEdit.css";
 
@@ -16,13 +17,17 @@ class CreateOrEdit extends Component {
       species: "",
       type: "",
       constants: [[null, null, null, null]],
-      duplicateID: false
+      duplicateID: false,
+      constantNames: [],
+      constantUnits: [],
+      constantCells: []
     };
     //ref for kit type HTML input. used to clear the input's value on click, to allow showing the user both options ("Positive" and "Negative") immediately, as opposed to only suggesting mastching options
     this.typeRef = React.createRef();
   }
 
   componentDidMount = async () => {
+    await this.generateConstantsDatalists();
     //if editing a kit, grab the kit data pushed into the history object (location.state). if the user just went to the url directly, i.e., didn't click in from a kit, there is no history so grab from localStorage
     if (this.props.match.params.kitID) {
       if (this.props.location.state) {
@@ -41,6 +46,53 @@ class CreateOrEdit extends Component {
       await this.setState(localForm);
       console.log("Saved create kit data loaded.");
     }
+  };
+
+  generateConstantsDatalists = memoize(allKits => {
+    if (!allKits) return;
+    const constantNames = this.createArrayOfNonRepeatingElements(
+      allKits,
+      0,
+      true
+    );
+    const constantUnits = this.createArrayOfNonRepeatingElements(allKits, 1);
+    const constantCells = this.createArrayOfNonRepeatingElements(allKits, 3);
+    return { constantNames, constantUnits, constantCells };
+  });
+
+  // generateConstantsDatalists = async () => {
+  //   const constantNames = await this.createArrayOfNonRepeatingElements(0, true);
+  //   const constantUnits = await this.createArrayOfNonRepeatingElements(1);
+  //   const constantCells = await this.createArrayOfNonRepeatingElements(3);
+  //   await this.setState({ constantNames, constantUnits, constantCells });
+  // };
+
+  createArrayOfNonRepeatingElements = (allKits, indexToUse, appendUnits) => {
+    const allConstantGroups = allKits.reduce((finalArray, kit) => {
+      finalArray.push(...kit.constants);
+      return finalArray;
+    }, []);
+
+    const set = new Set();
+    //to be used if working on the constant names column
+    const units = [];
+
+    for (let constantGroup of allConstantGroups) {
+      let preAddSize;
+      if (appendUnits) preAddSize = set.size;
+      const newSet = set.add(constantGroup[indexToUse]);
+      //if working on the constant names column, and a unique name was added to the set, also store its corresponding units
+      if (appendUnits && newSet.size !== preAddSize)
+        units.push(constantGroup[1]);
+    }
+    let array = Array.from(set);
+
+    //if working on the constant names column, include the units
+    if (appendUnits) {
+      array = array.map((name, idx) => name + " (" + units[idx] + ")");
+    }
+
+    return array.sort();
   };
 
   updateLocalStorage = createOrUpdate => {
@@ -241,36 +293,8 @@ class CreateOrEdit extends Component {
     console.log("Kit deleted from database.");
   };
 
-  createArrayOfNonRepeatingElements = (indexToUse, appendUnits) => {
-    console.log("happening");
-    const allConstantGroups = this.props.allKits.reduce((finalArray, kit) => {
-      finalArray.push(...kit.constants);
-      return finalArray;
-    }, []);
-
-    const set = new Set();
-    //to be used if working on the constant names column
-    const units = [];
-
-    for (let constantGroup of allConstantGroups) {
-      let preAddSize;
-      if (appendUnits) preAddSize = set.size;
-      const newSet = set.add(constantGroup[indexToUse]);
-      //if working on the constant names column, and a unique name was added to the set, also store its corresponding units
-      if (appendUnits && newSet.size !== preAddSize)
-        units.push(constantGroup[1]);
-    }
-    let array = Array.from(set);
-
-    //if working on the constant names column, include the units
-    if (appendUnits) {
-      array = array.map((name, idx) => name + " (" + units[idx] + ")");
-    }
-
-    return array.sort();
-  };
-
   render() {
+    const datalists = this.generateConstantsDatalists(this.props.allKits);
     return (
       <div className="page">
         <header>
@@ -422,12 +446,9 @@ class CreateOrEdit extends Component {
                           placeholder="Fireball Cocktail"
                         />
                         <datalist id="constants-names">
-                          {/* command the createArrayOfNonRepeatingElements fcn to store the corresponding units */}
-                          {this.createArrayOfNonRepeatingElements(0, true).map(
-                            nameAndUnits => (
-                              <option key={nameAndUnits}>{nameAndUnits}</option>
-                            )
-                          )}
+                          {datalists.constantNames.map(nameAndUnits => (
+                            <option key={nameAndUnits}>{nameAndUnits}</option>
+                          ))}
                         </datalist>
                       </td>
 
@@ -443,11 +464,9 @@ class CreateOrEdit extends Component {
                           placeholder="cups"
                         />
                         <datalist id="units">
-                          {this.createArrayOfNonRepeatingElements(1).map(
-                            unit => (
-                              <option key={unit}>{unit}</option>
-                            )
-                          )}
+                          {datalists.constantUnits.map(unit => (
+                            <option key={unit}>{unit}</option>
+                          ))}
                         </datalist>
                       </td>
 
@@ -474,11 +493,9 @@ class CreateOrEdit extends Component {
                           placeholder="10^00"
                         />
                         <datalist id="cells">
-                          {this.createArrayOfNonRepeatingElements(3).map(
-                            cells => (
-                              <option key={cells}>{cells}</option>
-                            )
-                          )}
+                          {datalists.constantCells.map(cells => (
+                            <option key={cells}>{cells}</option>
+                          ))}
                         </datalist>
                       </td>
                     </tr>
