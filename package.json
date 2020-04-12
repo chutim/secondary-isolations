@@ -33,7 +33,6 @@
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "express-session": "^1.17.0",
-    "http-proxy-middleware": "^1.0.3",
     "lodash": "^4.17.15",
     "memoize-one": "^5.1.1",
     "mongoose": "^5.9.6",
