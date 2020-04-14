@@ -9,15 +9,15 @@ class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: "admin",
+      username: "labmin",
       password: "",
-      passwordPlaceholder: ""
+      passwordPlaceholder: "",
     };
   }
 
-  handleChange = e => {
+  handleChange = (e) => {
     this.setState({
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
@@ -27,37 +27,37 @@ class Login extends Component {
     if (action === "login") {
       if (this.state.password === "")
         return this.setState({
-          passwordPlaceholder: "Please type a password"
+          passwordPlaceholder: "Please type a password",
         });
       apis
         .logIn({
           username: this.state.username,
-          password: this.state.password
+          password: this.state.password,
         })
-        .then(response => {
+        .then((response) => {
           if (response.status === 200) {
             // update App.js state so user is logged in everywhere
             this.props.setLoggedInStatus(true);
             this.setState({ password: "", passwordPlaceholder: "" });
           }
         })
-        .catch(error => {
+        .catch((error) => {
           console.log("Login error:", error);
           this.setState({
             password: "",
-            passwordPlaceholder: "Wrong password"
+            passwordPlaceholder: "Wrong password",
           });
         });
     } else if (action === "logout") {
       apis
         .logOut()
-        .then(response => {
+        .then((response) => {
           if (response.status === 200) {
             // update App.js state so user is logged out everywhere
             this.props.setLoggedInStatus(false);
           }
         })
-        .catch(error => {
+        .catch((error) => {
           console.log("login error: ");
           console.log(error);
         });
@@ -84,7 +84,7 @@ class Login extends Component {
                 ? "login-button logged-in-button"
                 : "login-button logged-out-button"
             }
-            onClick={e => {
+            onClick={(e) => {
               this.handleSubmit(e, this.props.loggedIn ? "logout" : "login");
             }}
           >
