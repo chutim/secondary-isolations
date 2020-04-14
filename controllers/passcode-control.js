@@ -19,9 +19,9 @@ logIn = [
 ];
 
 updatePasscode = async (req, res, next) => {
-  const passcode = req.body.passcode;
+  const newPasscode = req.body.newPasscode;
 
-  if (!passcode) {
+  if (!newPasscode) {
     return res.status(400).json({
       success: false,
       error: "You must provide a passcode to update.",
@@ -35,7 +35,7 @@ updatePasscode = async (req, res, next) => {
         message: "User not found!",
       });
     }
-    user.password = passcode;
+    user.password = newPasscode;
     user
       .save()
       .then(() => {

@@ -12,6 +12,7 @@ class Login extends Component {
       username: "labmin",
       password: "",
       passwordPlaceholder: "",
+      newPassword: "",
     };
   }
 
@@ -63,11 +64,33 @@ class Login extends Component {
         });
     }
   };
+
+  handleUpdate = () => {
+    apis
+      .updatePasscode({
+        username: this.state.username,
+        newPasscode: this.state.newPassword,
+      })
+      .then((response) => {
+        if (response.status === 200) {
+          console.log("updated pw");
+        }
+      })
+      .catch((error) => {
+        console.log("login error: ");
+        console.log(error);
+      });
+  };
+
   render() {
     return (
       <div className="login-container">
         <div className="login-mode">
           {this.props.loggedIn ? "Full Access" : "Visitor"}
+        </div>
+        <div>
+          <input onChange={this.handleChange} name="newPassword"></input>
+          <button onClick={this.handleUpdate}>update</button>
         </div>
         <div className="login-input-container">
           <input
