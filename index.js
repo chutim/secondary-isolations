@@ -10,6 +10,7 @@ const db = require("./db");
 const router = require("./routes");
 
 const app = express();
+app.disable("x-powered-by");
 const apiPort = process.env.PORT || 8000;
 
 app.use(express.static(path.join(__dirname, "client", "build")));
@@ -22,7 +23,7 @@ const origin =
 app.use(
   cors({
     credentials: true,
-    origin
+    origin,
   })
 );
 
@@ -31,10 +32,11 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(
   session({
-    secret: "the best secret",
+    secret: process.env.SESSION_SECRET || "the bestest secret of all secrets",
+    name: "sessionID",
     store: new MongoStore({ mongooseConnection: db }),
     resave: false,
-    saveUninitialized: false
+    saveUninitialized: false,
   })
 );
 
