@@ -11,7 +11,7 @@ const router = require("./routes");
 
 const app = express();
 app.disable("x-powered-by");
-const apiPort = process.env.PORT || 8000;
+const PORT = process.env.PORT || 8000;
 
 app.use(express.static(path.join(__dirname, "client", "build")));
 
@@ -59,4 +59,4 @@ app.use((err, req, res, next) => {
   res.status(err.status || 500).send(err.message || "Internal server error.");
 });
 
-app.listen(apiPort, () => console.log(`Server running on port ${apiPort}`));
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

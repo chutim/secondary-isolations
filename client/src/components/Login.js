@@ -59,7 +59,7 @@ class Login extends Component {
           }
         })
         .catch((error) => {
-          console.log("login error: ");
+          console.log("Login error: ");
           console.log(error);
         });
     }
@@ -73,11 +73,11 @@ class Login extends Component {
       })
       .then((response) => {
         if (response.status === 200) {
-          console.log("updated pw");
+          console.log("Updated password.");
         }
       })
       .catch((error) => {
-        console.log("login error: ");
+        console.log("Update error: ");
         console.log(error);
       });
   };

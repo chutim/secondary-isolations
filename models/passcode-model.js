@@ -12,7 +12,6 @@ const Passcode = new Schema({
 Passcode.methods = {
   checkPassword: function (inputPassword) {
     return bcrypt.compareSync(inputPassword, this.password);
-    // return inputPassword === this.password;
   },
   hashPassword: (plainTextPassword) => {
     return bcrypt.hashSync(plainTextPassword, 10);
@@ -20,7 +19,6 @@ Passcode.methods = {
 };
 
 Passcode.pre("save", function (next) {
-  console.log(this);
   if (!this.password) {
     console.log("No passcode provided.");
     next();

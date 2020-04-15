@@ -47,7 +47,7 @@ updatePasscode = async (req, res, next) => {
       .catch((error) => {
         return res.status(404).json({
           error,
-          message: "Passcode not updated!",
+          message: "Passcode not updated.",
         });
       });
   });

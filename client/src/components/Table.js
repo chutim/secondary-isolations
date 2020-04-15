@@ -6,7 +6,7 @@ import "./Table.css";
 //THINGS TO DO:
 
 class Table extends Component {
-  generateRows = kit => {
+  generateRows = (kit) => {
     const numRows = this.props.tableKitIDs[kit.id];
     let row = 1;
     const rows = [];
@@ -20,7 +20,7 @@ class Table extends Component {
           <td className="medium-cell">
             <input
               className="user-input medium-cell"
-              onChange={e =>
+              onChange={(e) =>
                 this.props.updateRowCellCount(
                   "sampleID",
                   kit.species,
@@ -35,11 +35,11 @@ class Table extends Component {
             <input
               className="user-input short-cell"
               // only allow numbers and decimals
-              onKeyPress={e => {
+              onKeyPress={(e) => {
                 if ((e.charCode < 48 && e.charCode !== 46) || e.charCode > 57)
                   e.preventDefault();
               }}
-              onChange={e =>
+              onChange={(e) =>
                 this.props.updateRowCellCount(
                   "cellCount",
                   kit.species,
@@ -55,18 +55,32 @@ class Table extends Component {
             if (constant[3] === "n/a") {
               return <td key={idx}>{constant[2]}</td>;
             }
-            //otherwise, convert the cell count multiplier into 10^n, and divide the product of the cell count and constants by it
-            const cellMultiplier =
-              10 ** ((constant[3] && constant[3].slice(3)) - 6); //6 corresponds to 10^6
-            let multiplied =
-              (Number(constant[2]) *
-                this.props.tableRowsHash[kit.species][rowKey][1]) /
-              cellMultiplier;
-            if (multiplied > 50000) multiplied = 50000;
+
+            //otherwise, a calculation is needed
+            //grab the kit constant and the user-inputted cell count
+            const cellCount = this.props.tableRowsHash[kit.species][rowKey][1];
+            const kitConstant = constant[2];
+
+            //grab the exponent from the kit cell divisor and convert into powers of 10 above 10^6
+            const kitCellDivisor =
+              10 ** ((constant[3] && constant[3].split("^")[1]) - 6); //6 corresponds to 10^6
+
+            let normalizedCellCount = cellCount / kitCellDivisor;
+
+            //if the constant is for a "up to 10^XX" kind of parameter, round up
+            if (constant[3].includes("up to")) {
+              normalizedCellCount = Math.ceil(normalizedCellCount);
+            }
+
+            let finalVol = kitConstant * normalizedCellCount;
+            //cap the volume at 50 mL - lab protocol
+            if (finalVol > 50000) finalVol = 50000;
+
             return (
               <td key={idx}>
-                {multiplied
-                  ? multiplied.toLocaleString("en", { useGrouping: true })
+                {finalVol
+                  ? //add comma separators for visibility
+                    finalVol.toLocaleString("en", { useGrouping: true })
                   : ""}
               </td>
             );
@@ -84,7 +98,7 @@ class Table extends Component {
       <div className="page">
         <div className="scrollable-body" id="divToPrint">
           {/* generate a new table group for each species */}
-          {this.props.arrayedKitData.map(speciesGroup => (
+          {this.props.arrayedKitData.map((speciesGroup) => (
             <div className="tables-container" key={speciesGroup[0]}>
               <div className="tables-header">
                 <div className="tables-header-spacer"></div>
@@ -106,7 +120,7 @@ class Table extends Component {
                 </button>
               </div>
               {/* generate a table for each kit in the species group */}
-              {speciesGroup[1].map(kit => (
+              {speciesGroup[1].map((kit) => (
                 <table className="kit-table" key={kit.id}>
                   <thead>
                     <tr>
