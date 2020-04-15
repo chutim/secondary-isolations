@@ -146,7 +146,7 @@ td.short-cell {
 
 .user-input:focus {
   outline: none;
-  box-shadow: 0px 0px 5px 1px #73ecd2;
+  box-shadow: 0px 0px 5px 2px #87ddff;
 }
 
 td {
@@ -208,7 +208,7 @@ td {
 }
 
 .delete-kit {
-  background-color: #fc8a76;
+  background-color: #ff7f68;
 
   font-size: 20px;
   border-radius: 5px;
