@@ -69,7 +69,7 @@ logOut = async (req, res, next) => {
 
 module.exports = {
   logIn,
-  updatePasscode,
+  // updatePasscode,
   checkLoginStatus,
   logOut,
 };
