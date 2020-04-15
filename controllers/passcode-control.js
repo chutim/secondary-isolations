@@ -18,40 +18,40 @@ logIn = [
   },
 ];
 
-updatePasscode = async (req, res, next) => {
-  const newPasscode = req.body.newPasscode;
+// updatePasscode = async (req, res, next) => {
+//   const newPasscode = req.body.newPasscode;
 
-  if (!newPasscode) {
-    return res.status(400).json({
-      success: false,
-      error: "You must provide a passcode to update.",
-    });
-  }
+//   if (!newPasscode) {
+//     return res.status(400).json({
+//       success: false,
+//       error: "You must provide a passcode to update.",
+//     });
+//   }
 
-  Passcode.findOne({ username: req.body.username }, (err, user) => {
-    if (err) {
-      return res.status(404).json({
-        err,
-        message: "User not found!",
-      });
-    }
-    user.password = newPasscode;
-    user
-      .save()
-      .then(() => {
-        return res.status(200).json({
-          success: true,
-          message: "Passcode updated!",
-        });
-      })
-      .catch((error) => {
-        return res.status(404).json({
-          error,
-          message: "Passcode not updated.",
-        });
-      });
-  });
-};
+//   Passcode.findOne({ username: req.body.username }, (err, user) => {
+//     if (err) {
+//       return res.status(404).json({
+//         err,
+//         message: "User not found!",
+//       });
+//     }
+//     user.password = newPasscode;
+//     user
+//       .save()
+//       .then(() => {
+//         return res.status(200).json({
+//           success: true,
+//           message: "Passcode updated!",
+//         });
+//       })
+//       .catch((error) => {
+//         return res.status(404).json({
+//           error,
+//           message: "Passcode not updated.",
+//         });
+//       });
+//   });
+// };
 
 checkLoginStatus = (req, res, next) => {
   if (req.user) {

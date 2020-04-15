@@ -13,7 +13,7 @@ router.get("/kits", KitControl.getAllKits); //in use
 const PasscodeControl = require("../controllers/passcode-control");
 
 router.post("/login", PasscodeControl.logIn);
-router.put("/login", PasscodeControl.updatePasscode);
+// router.put("/login", PasscodeControl.updatePasscode);
 router.get("/login", PasscodeControl.checkLoginStatus);
 router.post("/logout", PasscodeControl.logOut);
 
