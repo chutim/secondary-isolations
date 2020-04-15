@@ -10,7 +10,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "npm --prefix client run build",
     "start-dev": "NODE_ENV='development' concurrently --kill-others-on-fail \"npm --prefix client run start\" \"npm run server\"",
-    "server": "nodemon index.js",
+    "server": "NODE_ENV='production' nodemon index.js",
     "start": "NODE_ENV='production' node index.js"
   },
   "repository": {
