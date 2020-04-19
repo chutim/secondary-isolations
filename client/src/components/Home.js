@@ -1,4 +1,4 @@
-//the Home component contains button links to different species' kits and a button link to the Table component, which also displays how many current kits are in the Table.
+//the Home component contains button links to different species' kits, a button to create a new kit (CreateOrEdit component), and a button link to the Table component, which also displays how many current kits are in the Table.
 import React, { Component } from "react";
 import LinkButton from "./LinkButton.jsx";
 import "./Home.css";
@@ -27,7 +27,7 @@ class Home extends Component {
           </div>
         </header>
         <div className="home-container-species-buttons scrollable-body">
-          {this.props.allSpecies.map(species => (
+          {this.props.allSpecies.map((species) => (
             <LinkButton
               to="/kits"
               className="species-button"
