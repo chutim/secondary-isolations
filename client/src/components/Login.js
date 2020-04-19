@@ -1,4 +1,4 @@
-//the Login component persists at the top of the app to allow the user to see their login status and change it if needed. the user can enter the lab password and change access from 'visitor mode' to 'full access mode', which will allow rendering of 'edit' and 'create' kit buttons.
+//the Login component persists at the top of the app to allow the user to see their login status and change it if needed. the user can enter the lab password and change access from 'visitor' to 'full access', which will allow rendering/use of 'edit' and 'create' kit buttons.
 import React, { Component } from "react";
 import apis from "../api";
 import "./Login.css";
@@ -22,65 +22,78 @@ class Login extends Component {
     });
   };
 
-  handleSubmit = async (e, action) => {
+  handleSubmit = (e, action) => {
     e.preventDefault();
-
     if (action === "login") {
-      if (this.state.password === "")
-        return this.setState({
-          passwordPlaceholder: "Please type a password",
-        });
-      apis
-        .logIn({
-          username: this.state.username,
-          password: this.state.password,
-        })
-        .then((response) => {
-          if (response.status === 200) {
-            // update App.js state so user is logged in everywhere
-            this.props.setLoggedInStatus(true);
-            this.setState({ password: "", passwordPlaceholder: "" });
-          }
-        })
-        .catch((error) => {
-          console.log("Login error:", error);
-          this.setState({
-            password: "",
-            passwordPlaceholder: "Wrong password",
-          });
-        });
+      this.logIn();
     } else if (action === "logout") {
-      apis
-        .logOut()
-        .then((response) => {
-          if (response.status === 200) {
-            // update App.js state so user is logged out everywhere
-            this.props.setLoggedInStatus(false);
-          }
-        })
-        .catch((error) => {
-          console.log("Login error: ");
-          console.log(error);
-        });
+      this.logOut();
     }
   };
 
-  // handleUpdate = () => {
-  //   apis
-  //     .updatePasscode({
-  //       username: this.state.username,
-  //       newPasscode: this.state.newPassword,
-  //     })
-  //     .then((response) => {
-  //       if (response.status === 200) {
-  //         console.log("Updated password.");
-  //       }
-  //     })
-  //     .catch((error) => {
-  //       console.log("Update error: ");
-  //       console.log(error);
-  //     });
-  // };
+  logIn = () => {
+    if (this.state.password === "")
+      return this.setState({
+        passwordPlaceholder: "Please type a password",
+      });
+
+    apis
+      .logIn({
+        username: this.state.username,
+        password: this.state.password,
+      })
+      .then((response) => {
+        if (response.status === 200) {
+          // update App.js state so user is logged in everywhere
+          this.props.setLoggedInStatus(true);
+          this.setState({ password: "", passwordPlaceholder: "" });
+          console.log("Logged in.");
+        }
+      })
+      .catch((error) => {
+        console.log("Login error:", error);
+        this.setState({
+          password: "",
+          passwordPlaceholder: "Wrong password",
+        });
+      });
+  };
+
+  logOut = () => {
+    apis
+      .logOut()
+      .then((response) => {
+        if (response.status === 200) {
+          // update App.js state so user is logged out everywhere
+          this.props.setLoggedInStatus(false);
+          console.log("Logged out.");
+        }
+      })
+      .catch((error) => {
+        console.log("Login error: ");
+        console.log(error);
+      });
+  };
+
+  //toggle this function and the div in render, to update password
+  /*
+  handleUpdate = () => {
+    apis
+      .updatePasscode({
+        username: this.state.username,
+        newPasscode: this.state.newPassword,
+      })
+      .then((response) => {
+        if (response.status === 200) {
+          console.log("Updated password.");
+        }
+      })
+      .catch((error) => {
+        console.log("Update error: ");
+        console.log(error);
+      });
+  };
+  // */
 
   render() {
     return (
