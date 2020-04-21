@@ -6,20 +6,21 @@ import "./Table.css";
 //THINGS TO DO:
 
 class Table extends Component {
-  calculateVolume = (constantArr, cellCount) => {
-    //grab the kit constant
-    const kitConstant = constantArr[2];
-    //grab the exponent from the kit cell multiplier and convert into powers of 10 above 10^6
+  normalizeCellCount = (constantCellDivisor, cellCount) => {
+    //grab the exponent from the kit cell divisor and convert into powers of 10 above 10^6
     const kitCellDivisor =
-      10 ** ((constantArr[3] && constantArr[3].split("^")[1]) - 6); //6 corresponds to 10^6
+      10 ** ((constantCellDivisor && constantCellDivisor.split("^")[1]) - 6); //6 corresponds to 10^6
 
     let normalizedCellCount = cellCount / kitCellDivisor;
 
     //if the constant is for a "up to 10^XX" kind of parameter, round up
-    if (constantArr[3].includes("up to")) {
+    if (constantCellDivisor.includes("up to")) {
       normalizedCellCount = Math.ceil(normalizedCellCount);
     }
+    return normalizedCellCount;
+  };
 
+  calculateVolume = (normalizedCellCount, kitConstant) => {
     let finalVol = kitConstant * normalizedCellCount;
     //cap the volume at 50 mL -> lab protocol
     if (finalVol > 50000) finalVol = 50000;
@@ -29,15 +30,24 @@ class Table extends Component {
 
   generateCalculatedCells = (kit, rowKey) => {
     return kit.constants.map((constantArr, idx) => {
+      const constantCellDivisor = constantArr[3];
+      const kitConstant = constantArr[2];
       //if the constant is for time, a spin, or the final wash, just render it
-      if (constantArr[3] === "n/a") {
+      if (constantCellDivisor === "n/a") {
         return <td key={idx}>{constantArr[2]}</td>;
       }
 
       //otherwise, a calculation is needed
       //grab the user-inputted cell count, then calculate the volume
       const cellCount = this.props.tableRowsHash[kit.species][rowKey][1];
-      const calculatedVol = this.calculateVolume(constantArr, cellCount);
+      const normalizedCellCount = this.normalizeCellCount(
+        constantCellDivisor,
+        cellCount
+      );
+      const calculatedVol = this.calculateVolume(
+        normalizedCellCount,
+        kitConstant
+      );
 
       return (
         <td key={idx}>
