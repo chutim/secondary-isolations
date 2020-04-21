@@ -1,6 +1,7 @@
 //the Table component displays all of the kits selected and allows the user to input sample IDs and cell counts to generate the corresponding constants. the Table can then be printed. a "clear table" button is provided to clear the Table. if the user is logged in, 'edit' buttons are rendered on each kit.
 import React from "react";
 import LinkButton from "./LinkButton.jsx";
+import Footer from "./Footer";
 import "./Table.css";
 
 //THINGS TO DO:
@@ -251,38 +252,7 @@ const Table = (props) => {
         ))}
       </div>
 
-      <footer>
-        <button
-          className="nav-button back-button"
-          onClick={() => {
-            props.history.goBack();
-          }}
-        >
-          Back
-        </button>
-
-        <LinkButton to="/" className="nav-button home-button">
-          Home
-        </LinkButton>
-
-        <button
-          className="nav-button clear-table-button"
-          onClick={() => {
-            props.clearTable();
-          }}
-        >
-          Clear Table
-        </button>
-
-        <button
-          className="nav-button print-button"
-          onClick={() => {
-            window.print();
-          }}
-        >
-          Print
-        </button>
-      </footer>
+      <Footer {...props} currComponent={"Table"} />
     </div>
   );
 };

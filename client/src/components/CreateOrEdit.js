@@ -1,6 +1,6 @@
 //the CreateOrEdit component allows the user to create a new kit or update/delete an existing kit, depending on where they navigated from. validation checks before submission ensure that all fields are filled, IDs are not re-used, appropriate fields are capitalized, and trailing/leading whitespace is deleted. submitting a new kit or an updated kit will update the App state as well as the database.
 import React, { Component } from "react";
-import LinkButton from "./LinkButton.jsx";
+import Footer from "./Footer";
 import { cloneDeep } from "lodash";
 import memoize from "memoize-one";
 import apis from "../api";
@@ -20,7 +20,7 @@ class CreateOrEdit extends Component {
       duplicateID: false,
       constantNames: [],
       constantUnits: [],
-      constantCells: []
+      constantCells: [],
     };
     //ref for kit type HTML input. used to clear the input's value on click, to allow showing the user both options ("Positive" and "Negative") immediately, as opposed to only suggesting mastching options
     this.typeRef = React.createRef();
@@ -47,7 +47,7 @@ class CreateOrEdit extends Component {
     }
   };
 
-  generateConstantsDatalists = memoize(allKits => {
+  generateConstantsDatalists = memoize((allKits) => {
     if (!allKits) return;
     const constantNames = this.createArrayOfNonRepeatingElements(
       allKits,
@@ -87,7 +87,7 @@ class CreateOrEdit extends Component {
     return array.sort();
   };
 
-  updateLocalStorage = createOrUpdate => {
+  updateLocalStorage = (createOrUpdate) => {
     if (createOrUpdate === "create")
       localStorage.setItem("createState", JSON.stringify(this.state));
     else if (createOrUpdate === "update")
@@ -138,9 +138,9 @@ class CreateOrEdit extends Component {
     }
   };
 
-  capitalizeWords = string => {
+  capitalizeWords = (string) => {
     const arrayOfWords = string.split(" ");
-    const capitalizedArray = arrayOfWords.map(word => {
+    const capitalizedArray = arrayOfWords.map((word) => {
       return word[0].toUpperCase() + word.slice(1);
     });
     return capitalizedArray.join(" ");
@@ -149,8 +149,8 @@ class CreateOrEdit extends Component {
   processFields = (name, species, constants) => {
     const namePrepped = this.capitalizeWords(String(name).trim());
     const speciesPrepped = this.capitalizeWords(species.trim());
-    const constantsPrepped = constants.map(constantGroup => {
-      constantGroup = constantGroup.map(el => el.trim());
+    const constantsPrepped = constants.map((constantGroup) => {
+      constantGroup = constantGroup.map((el) => el.trim());
       constantGroup[0] = this.capitalizeWords(constantGroup[0]);
       return constantGroup;
     });
@@ -185,7 +185,7 @@ class CreateOrEdit extends Component {
     const {
       namePrepped,
       speciesPrepped,
-      constantsPrepped
+      constantsPrepped,
     } = this.processFields(name, species, constants);
 
     return {
@@ -193,7 +193,7 @@ class CreateOrEdit extends Component {
       name: namePrepped,
       species: speciesPrepped,
       type,
-      constants: constantsPrepped
+      constants: constantsPrepped,
     };
   };
 
@@ -207,14 +207,14 @@ class CreateOrEdit extends Component {
           name,
           species,
           type,
-          constants
+          constants,
         })
       : await apis.createKit({
           id,
           name,
           species,
           type,
-          constants
+          constants,
         });
     //if this was an update on a kit, make sure it gets updated in Table if present
     if (updateOrCreate === "update") {
@@ -224,7 +224,7 @@ class CreateOrEdit extends Component {
           name,
           species,
           type,
-          constants
+          constants,
         },
         "update"
       );
@@ -252,14 +252,14 @@ class CreateOrEdit extends Component {
       name: "",
       species: "",
       type: "",
-      constants: [[null, null, null, null]]
+      constants: [[null, null, null, null]],
     });
   };
 
-  modifyConstantRows = async modification => {
+  modifyConstantRows = async (modification) => {
     if (modification === "add")
       await this.setState({
-        constants: [...this.state.constants, [null, null, null, null]]
+        constants: [...this.state.constants, [null, null, null, null]],
       });
     else if (modification === "subtract")
       await this.setState({ constants: this.state.constants.slice(0, -1) });
@@ -268,7 +268,7 @@ class CreateOrEdit extends Component {
     );
   };
 
-  deleteKit = async kitID => {
+  deleteKit = async (kitID) => {
     const { id, name, species, type, constants } = cloneDeep(this.state);
     this.clearStateAndStorage();
     await apis.deleteKitById(kitID);
@@ -311,7 +311,7 @@ class CreateOrEdit extends Component {
         <form
           className="create-form"
           autoComplete="off"
-          onSubmit={e => {
+          onSubmit={(e) => {
             this.handleSubmit(
               e,
               this.props.match.params.kitID ? "update" : "create"
@@ -372,7 +372,7 @@ class CreateOrEdit extends Component {
                       placeholder="Dragon"
                     />
                     <datalist id="species-choices">
-                      {this.props.allSpecies.map(species => (
+                      {this.props.allSpecies.map((species) => (
                         <option key={species}>{species}</option>
                       ))}
                     </datalist>
@@ -388,7 +388,7 @@ class CreateOrEdit extends Component {
                       type="text"
                       list="type-choices"
                       name="type"
-                      onKeyDown={e => {
+                      onKeyDown={(e) => {
                         e.preventDefault();
                       }}
                       ref={this.typeRef}
@@ -431,14 +431,14 @@ class CreateOrEdit extends Component {
                           className="form-bottom-input"
                           type="text"
                           list="constants-names"
-                          onChange={e => {
+                          onChange={(e) => {
                             this.handleInput(e, idx, "constantName");
                           }}
                           value={constantRow[0] || ""}
                           placeholder="Fireball Cocktail"
                         />
                         <datalist id="constants-names">
-                          {datalists.constantNames.map(nameAndUnits => (
+                          {datalists.constantNames.map((nameAndUnits) => (
                             <option key={nameAndUnits}>{nameAndUnits}</option>
                           ))}
                         </datalist>
@@ -449,14 +449,14 @@ class CreateOrEdit extends Component {
                           className="form-bottom-input"
                           type="text"
                           list="units"
-                          onChange={e => {
+                          onChange={(e) => {
                             this.handleInput(e, idx, "constantUnit");
                           }}
                           value={constantRow[1] || ""}
                           placeholder="cups"
                         />
                         <datalist id="units">
-                          {datalists.constantUnits.map(unit => (
+                          {datalists.constantUnits.map((unit) => (
                             <option key={unit}>{unit}</option>
                           ))}
                         </datalist>
@@ -466,7 +466,7 @@ class CreateOrEdit extends Component {
                         <input
                           className="form-bottom-input"
                           type="text"
-                          onChange={e => {
+                          onChange={(e) => {
                             this.handleInput(e, idx, "constantValue");
                           }}
                           value={constantRow[2] || ""}
@@ -478,14 +478,14 @@ class CreateOrEdit extends Component {
                           className="form-bottom-input"
                           type="text"
                           list="cells"
-                          onChange={e => {
+                          onChange={(e) => {
                             this.handleInput(e, idx, "constantCells");
                           }}
                           value={constantRow[3] || ""}
                           placeholder="10^00"
                         />
                         <datalist id="cells">
-                          {datalists.constantCells.map(cells => (
+                          {datalists.constantCells.map((cells) => (
                             <option key={cells}>{cells}</option>
                           ))}
                         </datalist>
@@ -547,24 +547,8 @@ class CreateOrEdit extends Component {
             ) : null}
           </div>
         </form>
-        <footer>
-          <button
-            className="nav-button back-button"
-            onClick={() => {
-              this.props.history.goBack();
-            }}
-          >
-            Back
-          </button>
-          <LinkButton to="/" className="nav-button home-button">
-            Home
-          </LinkButton>
 
-          <LinkButton to="/table" className="nav-button table-button">
-            Table &#40;{this.props.rowCount}{" "}
-            {this.props.rowCount === 1 ? "Sample" : "Samples"}&#41;
-          </LinkButton>
-        </footer>
+        <Footer {...this.props} currComponent={"CreateOrEdit"} />
       </div>
     );
   }

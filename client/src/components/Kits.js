@@ -1,6 +1,7 @@
 //the Kits component lists all positive & negative kits for the selected species, and allows user to add kits to the Table and modify the number of samples for each kit. if the user is logged in, 'edit' buttons are visible for each kit, as well as a 'create kit' button on the page.
 import React from "react";
 import LinkButton from "./LinkButton.jsx";
+import Footer from "./Footer";
 import "./Kits.css";
 
 //THINGS TO DO
@@ -102,36 +103,7 @@ const Kits = (props) => {
         {generatePosKitSection(false)}
       </div>
 
-      <footer>
-        <button
-          className="nav-button back-button"
-          onClick={() => {
-            props.history.goBack();
-          }}
-        >
-          Back
-        </button>
-
-        <LinkButton to="/" className="nav-button home-button">
-          Home
-        </LinkButton>
-
-        <LinkButton
-          to="/create"
-          id={
-            props.loggedIn
-              ? "create-button-faded-in"
-              : "create-button-faded-out"
-          }
-        >
-          Create Kit
-        </LinkButton>
-
-        <LinkButton to="/table" className="nav-button table-button">
-          Table &#40;{props.rowCount}{" "}
-          {props.rowCount === 1 ? "Sample" : "Samples"}&#41;
-        </LinkButton>
-      </footer>
+      <Footer {...props} currComponent={"Kits"} />
     </div>
   );
 };

@@ -105,54 +105,6 @@ button {
   transition: 0.3s;
 }
 
-.nav-button {
-  font-size: 18px;
-  font-weight: 400;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  border: 0px;
-  border-radius: 100px;
-  padding: 20px;
-  padding-left: 25px;
-  padding-right: 25px;
-  margin: 5px;
-  margin-top: 10px;
-  margin-bottom: 10px;
-}
-
-.nav-button:hover {
-  cursor: pointer;
-}
-
-.nav-button:focus {
-  outline: none;
-  box-shadow: 0px 0px 10px 2px #8e8cff;
-}
-
-.table-button {
-  background-color: #59bcc9;
-}
-
-.table-button:hover {
-  background-color: #6bd6e4;
-}
-
-.home-button {
-  background-color: #9593fd;
-}
-
-.home-button:hover {
-  background-color: #a9a8ff;
-}
-
-.back-button {
-  background-color: #cecece;
-}
-
-.back-button:hover {
-  background-color: #e6e6e6;
-}
-
 .edit-button {
   border: none;
   border-radius: 5px;
@@ -180,43 +132,6 @@ button {
 
 .logged-out-nav-button {
   display: none;
-}
-
-#create-button-faded-out {
-  background-color: #6d6fc2;
-  font-size: 0px;
-  text-transform: uppercase;
-  border: 0px;
-  padding: 0px;
-  opacity: 0;
-  transition: 1.3s;
-}
-
-#create-button-faded-in {
-  background-color: #e9aa61;
-  font-size: 18px;
-  font-weight: 400;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  border: 0px;
-  border-radius: 100px;
-  padding: 20px;
-  padding-left: 25px;
-  padding-right: 25px;
-  margin: 5px;
-  margin-top: 10px;
-  margin-bottom: 10px;
-  opacity: 1;
-  transition: 0.3s;
-}
-
-#create-button-faded-in:hover {
-  background-color: #ffc582;
-}
-
-#create-button-faded-in:focus {
-  outline: none;
-  box-shadow: 0px 0px 10px 2px #ab92eb;
 }
 
 .add-button {

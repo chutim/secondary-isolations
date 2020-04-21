@@ -170,22 +170,6 @@ td {
   cursor: pointer;
 }
 
-.clear-table-button {
-  background-color: #fc574c;
-}
-
-.clear-table-button:hover {
-  background-color: #ff7e67;
-}
-
-.print-button {
-  background-color: #59bcc9;
-}
-
-.print-button:hover {
-  background-color: #6bd6e4;
-}
-
 .delete-button {
   border: none;
   color: white;
