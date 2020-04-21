@@ -6,7 +6,7 @@ import "./Kits.css";
 //THINGS TO DO
 
 class Kits extends Component {
-  sortKitsByName = kitArray => {
+  sortKitsByName = (kitArray) => {
     return kitArray.sort((a, b) => {
       const aName = a.name.toUpperCase();
       const bName = b.name.toUpperCase();
@@ -27,10 +27,11 @@ class Kits extends Component {
             <div className="kit-section-title">Positive Selection</div>
             <div className="kit-section-list">
               {this.props.currentPosKits &&
-                this.sortKitsByName(this.props.currentPosKits).map(kit => (
+                this.sortKitsByName(this.props.currentPosKits).map((kit) => (
                   <div className="kit-info-container" key={kit.id}>
                     <div className="kit-name-container">
                       <div className="kit-name">{kit.name}</div>
+
                       <div>
                         <a
                           className="kit-id"
@@ -50,7 +51,7 @@ class Kits extends Component {
                             ? "edit-button"
                             : "edit-button logged-out-edit-button"
                         }
-                        //attaches kit object to props.location.state
+                        //attaches kit object to props.location.state, passing into CreateOrEdit
                         kit={kit}
                       >
                         <i className="fas fa-pen"></i>
@@ -65,9 +66,11 @@ class Kits extends Component {
                         >
                           -
                         </button>
+
                         <div className="kit-count">
                           {this.props.tableKitIDs[kit.id] || 0}
                         </div>
+
                         <button
                           className="kit-options-button kit-add-button add-button"
                           onClick={() => {
@@ -86,10 +89,11 @@ class Kits extends Component {
             <div className="kit-section-title">Negative Selection</div>
             <div className="kit-section-list">
               {this.props.currentNegKits &&
-                this.sortKitsByName(this.props.currentNegKits).map(kit => (
+                this.sortKitsByName(this.props.currentNegKits).map((kit) => (
                   <div className="kit-info-container" key={kit.id}>
                     <div className="kit-name-container">
                       <div className="kit-name">{kit.name}</div>
+
                       <div>
                         <a
                           className="kit-id"
@@ -101,6 +105,7 @@ class Kits extends Component {
                         </a>
                       </div>
                     </div>
+
                     <div className="kit-info-container-right">
                       <LinkButton
                         to={`/edit/${kit.id}`}
@@ -109,7 +114,7 @@ class Kits extends Component {
                             ? "edit-button"
                             : "edit-button logged-out-edit-button"
                         }
-                        //attaches kit object to props.location.state
+                        //attaches kit object to props.location.state, passing into CreateOrEdit
                         kit={kit}
                       >
                         <i className="fas fa-pen"></i>
@@ -124,9 +129,11 @@ class Kits extends Component {
                         >
                           -
                         </button>
+
                         <div className="kit-count">
                           {this.props.tableKitIDs[kit.id] || 0}
                         </div>
+
                         <button
                           className="kit-options-button kit-add-button add-button"
                           onClick={() => {
@@ -152,9 +159,11 @@ class Kits extends Component {
           >
             Back
           </button>
+
           <LinkButton to="/" className="nav-button home-button">
             Home
           </LinkButton>
+
           <LinkButton
             to="/create"
             id={
@@ -165,6 +174,7 @@ class Kits extends Component {
           >
             Create Kit
           </LinkButton>
+
           <LinkButton to="/table" className="nav-button table-button">
             Table &#40;{this.props.rowCount}{" "}
             {this.props.rowCount === 1 ? "Sample" : "Samples"}&#41;

@@ -6,7 +6,51 @@ import "./Table.css";
 //THINGS TO DO:
 
 class Table extends Component {
-  generateRows = (kit) => {
+  calculateVolume = (constantArr, cellCount) => {
+    //grab the kit constant
+    const kitConstant = constantArr[2];
+    //grab the exponent from the kit cell multiplier and convert into powers of 10 above 10^6
+    const kitCellDivisor =
+      10 ** ((constantArr[3] && constantArr[3].split("^")[1]) - 6); //6 corresponds to 10^6
+
+    let normalizedCellCount = cellCount / kitCellDivisor;
+
+    //if the constant is for a "up to 10^XX" kind of parameter, round up
+    if (constantArr[3].includes("up to")) {
+      normalizedCellCount = Math.ceil(normalizedCellCount);
+    }
+
+    let finalVol = kitConstant * normalizedCellCount;
+    //cap the volume at 50 mL -> lab protocol
+    if (finalVol > 50000) finalVol = 50000;
+
+    return finalVol;
+  };
+
+  generateCalculatedCells = (kit, rowKey) => {
+    return kit.constants.map((constantArr, idx) => {
+      //if the constant is for time, a spin, or the final wash, just render it
+      if (constantArr[3] === "n/a") {
+        return <td key={idx}>{constantArr[2]}</td>;
+      }
+
+      //otherwise, a calculation is needed
+      //grab the user-inputted cell count, then calculate the volume
+      const cellCount = this.props.tableRowsHash[kit.species][rowKey][1];
+      const calculatedVol = this.calculateVolume(constantArr, cellCount);
+
+      return (
+        <td key={idx}>
+          {calculatedVol
+            ? //add comma separators for visibility
+              calculatedVol.toLocaleString("en", { useGrouping: true })
+            : ""}
+        </td>
+      );
+    });
+  };
+
+  generateSampleRows = (kit) => {
     const numRows = this.props.tableKitIDs[kit.id];
     let row = 1;
     const rows = [];
@@ -50,44 +94,10 @@ class Table extends Component {
               value={this.props.tableRowsHash[kit.species][rowKey][1] || ""}
             ></input>
           </td>
-          {kit.constants.map((constant, idx) => {
-            //if the constant is for time, a spin, or the final wash, just render it
-            if (constant[3] === "n/a") {
-              return <td key={idx}>{constant[2]}</td>;
-            }
-
-            //otherwise, a calculation is needed
-            //grab the kit constant and the user-inputted cell count
-            const cellCount = this.props.tableRowsHash[kit.species][rowKey][1];
-            const kitConstant = constant[2];
-
-            //grab the exponent from the kit cell divisor and convert into powers of 10 above 10^6
-            const kitCellDivisor =
-              10 ** ((constant[3] && constant[3].split("^")[1]) - 6); //6 corresponds to 10^6
-
-            let normalizedCellCount = cellCount / kitCellDivisor;
-
-            //if the constant is for a "up to 10^XX" kind of parameter, round up
-            if (constant[3].includes("up to")) {
-              normalizedCellCount = Math.ceil(normalizedCellCount);
-            }
-
-            let finalVol = kitConstant * normalizedCellCount;
-            //cap the volume at 50 mL - lab protocol
-            if (finalVol > 50000) finalVol = 50000;
-
-            return (
-              <td key={idx}>
-                {finalVol
-                  ? //add comma separators for visibility
-                    finalVol.toLocaleString("en", { useGrouping: true })
-                  : ""}
-              </td>
-            );
-          })}
+          {this.generateCalculatedCells(kit, rowKey)}
         </tr>
       );
-      ++row;
+      row++;
     }
 
     return rows;
@@ -102,6 +112,7 @@ class Table extends Component {
             <div className="tables-container" key={speciesGroup[0]}>
               <div className="tables-header">
                 <div className="tables-header-spacer"></div>
+
                 <LinkButton
                   to="/kits"
                   className="species-name"
@@ -110,6 +121,7 @@ class Table extends Component {
                 >
                   {speciesGroup[0]}
                 </LinkButton>
+
                 <button
                   className="delete-button delete-species no-print-spacer"
                   onClick={() =>
@@ -141,6 +153,7 @@ class Table extends Component {
                           >
                             <i className="fas fa-pen"></i>
                           </LinkButton>
+
                           <div className="kit-table-header-text-container">
                             <div className="kit-table-header-name">
                               {kit.name}:{" "}
@@ -153,10 +166,12 @@ class Table extends Component {
                                 {kit.id}
                               </a>
                             </div>
+
                             <div className="kit-table-header-selection">
                               ({kit.type} Selection)
                             </div>
                           </div>
+
                           <button
                             className="delete-button delete-kit no-print-spacer"
                             onClick={() =>
@@ -168,6 +183,7 @@ class Table extends Component {
                         </div>
                       </th>
                     </tr>
+
                     <tr className="kit-multipliers-row no-print">
                       <th className="kit-constants-title" colSpan={2}>
                         Constants:
@@ -177,6 +193,7 @@ class Table extends Component {
                         <th key={idx}>{constant[2]}</th>
                       ))}
                     </tr>
+
                     <tr className="kit-constant-names-row">
                       <th className="medium-cell">Sample ID</th>
                       <th className="short-cell superscript-cell">
@@ -190,7 +207,9 @@ class Table extends Component {
                       ))}
                     </tr>
                   </thead>
-                  <tbody>{this.generateRows(kit)}</tbody>
+
+                  <tbody>{this.generateSampleRows(kit)}</tbody>
+
                   <tfoot className="no-print">
                     <tr>
                       <td colSpan={kit.constants.length + 2}>
@@ -201,6 +220,7 @@ class Table extends Component {
                           >
                             Add Sample
                           </button>
+
                           <button
                             className="kit-table-row-button subtract-button"
                             onClick={() =>
@@ -228,9 +248,11 @@ class Table extends Component {
           >
             Back
           </button>
+
           <LinkButton to="/" className="nav-button home-button">
             Home
           </LinkButton>
+
           <button
             className="nav-button clear-table-button"
             onClick={() => {
@@ -239,6 +261,7 @@ class Table extends Component {
           >
             Clear Table
           </button>
+
           <button
             className="nav-button print-button"
             onClick={() => {
