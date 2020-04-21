@@ -7,6 +7,7 @@ import apis from "../api";
 import "./CreateOrEdit.css";
 
 //THINGS TO DO
+//make 404 component that users are directed to for any bad URL requests
 
 class CreateOrEdit extends Component {
   constructor(props) {
@@ -27,7 +28,7 @@ class CreateOrEdit extends Component {
   }
 
   componentDidMount = async () => {
-    //if there is an ID in the URL, we are editing a kit
+    //if there is a kitID in the URL, we are editing a kit
     if (this.props.match.params.kitID) {
       this.loadKitToEdit();
     } else {
@@ -39,15 +40,9 @@ class CreateOrEdit extends Component {
   fetchKitByID = async (kitID) => {
     console.log("Finding kit data based on URL...");
     const res = await apis.getKitByID(kitID);
-    const kitFullData = res.data.data;
+    const kit = res.data.data;
 
-    if (!kitFullData) {
-      return false;
-    }
-
-    //do not need _id, createdAt, updatedAt
-    const { id, name, species, type, constants } = kitFullData;
-    return { id, name, species, type, constants };
+    return kit ? kit : false;
   };
 
   loadKitToEdit = async () => {

@@ -106,7 +106,17 @@ getKitByID = async (req, res) => {
     if (!kit) {
       return res.status(404).json({ success: false, error: `Kit not found` });
     }
-    return res.status(200).json({ success: true, data: kit });
+    //don't need _id, createdAt, updatedAt
+    return res.status(200).json({
+      success: true,
+      data: {
+        id: kit.id,
+        name: kit.name,
+        species: kit.species,
+        type: kit.type,
+        constants: kit.constants,
+      },
+    });
   });
 };
 
