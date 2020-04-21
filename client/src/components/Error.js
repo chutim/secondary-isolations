@@ -2,7 +2,7 @@ import React from "react";
 import LinkButton from "./LinkButton.jsx";
 import "./Error.css";
 
-const Error = props => {
+const Error = (props) => {
   return (
     <div className="page">
       <div className="error-container">
@@ -25,6 +25,7 @@ const Error = props => {
         >
           Back
         </button>
+
         <LinkButton to="/" className="nav-button home-button">
           Home
         </LinkButton>

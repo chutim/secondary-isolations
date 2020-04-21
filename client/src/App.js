@@ -164,6 +164,7 @@ class App extends Component {
 
     const allSpecies = this.extractAllSpecies(allKits).sort();
     const allKitIDs = this.createKitIDHash(allKits);
+
     await this.setState({ allKits, allSpecies, allKitIDs });
     console.log("All kits loaded.");
   };
