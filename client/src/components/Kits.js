@@ -16,19 +16,19 @@ const Kits = (props) => {
     });
   };
 
-  const generateKitSection = (generatePosKits) => {
-    const kitCollection = generatePosKits
+  const generatePosKitSection = (generatePosKitsBool) => {
+    const kitCollection = generatePosKitsBool
       ? props.currentPosKits
       : props.currentNegKits;
 
     return (
       <div
         className={`kit-section section-${
-          generatePosKits ? "positive" : "negative"
+          generatePosKitsBool ? "positive" : "negative"
         }-selection`}
       >
         <div className="kit-section-title">
-          {generatePosKits ? "Positive" : "Negative"} Selection
+          {generatePosKitsBool ? "Positive" : "Negative"} Selection
         </div>
         <div className="kit-section-list">
           {sortKitsByName(kitCollection).map((kit) => (
@@ -98,8 +98,8 @@ const Kits = (props) => {
         <div className="page-title">{props.currentSpecies} Kits</div>
       </header>
       <div className="kits-body scrollable-body">
-        {generateKitSection(true)}
-        {generateKitSection(false)}
+        {generatePosKitSection(true)}
+        {generatePosKitSection(false)}
       </div>
 
       <footer>

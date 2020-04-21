@@ -43,8 +43,10 @@
   background-color: #ffffff;
   padding: 10px;
   border-radius: 20px;
-  margin-top: 1%;
-  margin-bottom: 1%;
+}
+
+.kit-info-container + .kit-info-container {
+  margin-top: 2%;
 }
 
 .kit-name-container {

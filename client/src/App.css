@@ -91,15 +91,6 @@ header {
   overflow: auto;
 }
 
-footer {
-  position: absolute;
-  bottom: 10px;
-  background-color: #6d6fc2;
-  width: 100%;
-  border-radius: 0 0 10px 10px;
-  height: 80px;
-}
-
 /* ----------------TEXT---------------- */
 .page-title {
   font-size: 28px;

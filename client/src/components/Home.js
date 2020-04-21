@@ -1,6 +1,7 @@
 //the Home component contains button links to different species' kits, a button to create a new kit (CreateOrEdit component), and a button link to the Table component, which also displays how many current kits are in the Table.
 import React, { Component } from "react";
 import LinkButton from "./LinkButton.jsx";
+import Footer from "./Footer";
 import "./Home.css";
 
 //THINGS TO DO
@@ -38,7 +39,7 @@ class Home extends Component {
             </LinkButton>
           ))}
         </div>
-        <footer>
+        {/* <footer>
           <LinkButton
             to="/create"
             id={
@@ -49,11 +50,13 @@ class Home extends Component {
           >
             Create Kit
           </LinkButton>
+
           <LinkButton to="/table" className="nav-button table-button">
             Table &#40;{this.props.rowCount}{" "}
             {this.props.rowCount === 1 ? "Sample" : "Samples"}&#41;
           </LinkButton>
-        </footer>
+        </footer> */}
+        <Footer {...this.props} currComponent={"Home"} />
       </div>
     );
   }
