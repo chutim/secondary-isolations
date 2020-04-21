@@ -25,9 +25,9 @@ const Footer = (props) => {
       {props.currComponent === "Home" || props.currComponent === "Kits" ? (
         <LinkButton
           to="/create"
-          id={
+          className={
             props.loggedIn
-              ? "create-button-faded-in"
+              ? "nav-button create-button-faded-in"
               : "create-button-faded-out"
           }
         >
