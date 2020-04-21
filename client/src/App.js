@@ -8,7 +8,7 @@ import {
   Table,
   PrivateRoute,
   Login,
-  Error
+  Error,
 } from "./components";
 import apis from "./api";
 import "./App.css";
@@ -17,40 +17,46 @@ import "./App.css";
 //write a giant function for downloading from db, changing state, changing localstorage. use when C/U/D-ing. careful not to lose table data.
 //maybe set timer with each update, to clear localStorage in 24 hours. have button to stop auto-clear in case user wants to keep the table over the weekend or something.
 
-// DATA STRUCTURES EXAMPLES:
-// kit = {
-//   id: "130-096-537",
-//   name: "Pan Monocyte Isolation Kit",
-//   species: "Human",
-//   type: "Negative",
-//   constants: [
-//     ["Buffer (µL)", "40"],
-//     ["FcR Blocking Reagent (µL)", "10"],
-//     ["Biotin-Antibody Cocktail (µL)", "10"],
-//     ["Incubation (min)", "5"],
-//     ["Buffer (µL)", "30"],
-//     ["Anti-Biotin Microbeads (µL)", "20"],
-//     ["Incubation (min)", "10"],
-//     ["Washes (times x mL)", "3 x 3"]
-//   ]
-// };
-// tableKitIDs = { "192-050-201": 2, "190-229-501": 1, "130-096-537": 8 };
-// tableKitData = [{ kit1 }, { kit2 }, { kit3 }];
-// arrayedKitData = [
-//   ["Human", [{ kit1 }, { kit2 }]],
-//   ["Mouse", [{ kit1 }]]
-// ];
-// tableRowsHash = {
-//   Human: {
-//     "130-096-537 0": ["Human Sample 24", "45.3"],
-//     "130-096-537 1": ["Human Sample 25", "21.5"],
-//     "130-096-537 2": ["Human Sample 26", "39.2"],
-//     "142-829-339 0": ["Human Sample 3", "224.1"]
-//   },
-//   Mouse: {
-//     "120-332-192 0": ["Mouse Pool", "31"]
-//   }
-// };
+/*
+DATA STRUCTURES EXAMPLES:
+kit = {
+  id: "130-096-537",
+  name: "Pan Monocyte Isolation Kit",
+  species: "Human",
+  type: "Negative",
+  constants: [
+    ["Buffer (µL)", "40"],
+    ["FcR Blocking Reagent (µL)", "10"],
+    ["Biotin-Antibody Cocktail (µL)", "10"],
+    ["Incubation (min)", "5"],
+    ["Buffer (µL)", "30"],
+    ["Anti-Biotin Microbeads (µL)", "20"],
+    ["Incubation (min)", "10"],
+    ["Washes (times x mL)", "3 x 3"]
+  ]
+};
+
+tableKitIDs = { "192-050-201": 2, "190-229-501": 1, "130-096-537": 8 };
+
+tableKitData = [{ kit1 }, { kit2 }, { kit3 }];
+
+arrayedKitData = [
+  ["Human", [{ kit1 }, { kit2 }]],
+  ["Mouse", [{ kit1 }]]
+];
+
+tableRowsHash = {
+  Human: {
+    "130-096-537 0": ["Human Sample 24", "45.3"],
+    "130-096-537 1": ["Human Sample 25", "21.5"],
+    "130-096-537 2": ["Human Sample 26", "39.2"],
+    "142-829-339 0": ["Human Sample 3", "224.1"]
+  },
+  Mouse: {
+    "120-332-192 0": ["Mouse Pool", "31"]
+  }
+};
+*/
 
 class App extends Component {
   constructor() {
@@ -67,7 +73,7 @@ class App extends Component {
       arrayedKitData: [],
       tableRowsHash: {},
       allSpecies: [],
-      allKitIDs: {} //used for creating kit. checking if ID already exists
+      allKitIDs: {}, //used for creating kit. checking if ID already exists
     };
 
     this.selectSpecies = this.selectSpecies.bind(this);
@@ -87,22 +93,22 @@ class App extends Component {
   };
 
   getUser = () => {
-    apis.checkLoginStatus().then(response => {
+    apis.checkLoginStatus().then((response) => {
       if (response.data.user) {
         console.log("Existing session; logged in.");
         this.setState({
-          loggedIn: true
+          loggedIn: true,
         });
       } else {
         console.log("No existing session.");
         this.setState({
-          loggedIn: false
+          loggedIn: false,
         });
       }
     });
   };
 
-  setLoggedInStatus = bool => {
+  setLoggedInStatus = (bool) => {
     this.setState({ loggedIn: bool });
   };
 
@@ -120,7 +126,7 @@ class App extends Component {
         tableKitIDs,
         tableKitData,
         arrayedKitData,
-        tableRowsHash
+        tableRowsHash,
       } = localState;
       await this.setState({
         rowCount,
@@ -130,7 +136,7 @@ class App extends Component {
         tableKitIDs,
         tableKitData,
         arrayedKitData,
-        tableRowsHash
+        tableRowsHash,
       });
     }
     console.log("State loaded.");
@@ -152,7 +158,7 @@ class App extends Component {
         name,
         species,
         type,
-        constants
+        constants,
       });
     }
 
@@ -162,7 +168,7 @@ class App extends Component {
     console.log("All kits loaded.");
   };
 
-  createKitIDHash = allKits => {
+  createKitIDHash = (allKits) => {
     let allKitIDs = new Set();
     for (let kit of allKits) {
       allKitIDs.add(kit.id);
@@ -170,7 +176,7 @@ class App extends Component {
     return allKitIDs;
   };
 
-  extractAllSpecies = allKits => {
+  extractAllSpecies = (allKits) => {
     const speciesSet = new Set();
     for (let kit of allKits) {
       speciesSet.add(kit.species);
@@ -182,7 +188,7 @@ class App extends Component {
     localStorage.setItem("appState", JSON.stringify(this.state));
   };
 
-  modifyRowCount = modification => {
+  modifyRowCount = (modification) => {
     if (modification === "add")
       this.setState({ rowCount: this.state.rowCount + 1 });
     else if (modification === "subtract")
@@ -191,9 +197,9 @@ class App extends Component {
 
   //finds the current species' kits in allKits. calls this.sortKits to separate into positive and negative kit arrays
   //sets currentSpecies, currentPosKits, currentNegKits on state
-  selectSpecies = async currentSpecies => {
+  selectSpecies = async (currentSpecies) => {
     const currentKits = this.state.allKits.filter(
-      kit => kit.species === currentSpecies
+      (kit) => kit.species === currentSpecies
     );
     const { currentPosKits, currentNegKits } = this.sortKits(currentKits);
     await this.setState({ currentSpecies, currentPosKits, currentNegKits });
@@ -201,7 +207,7 @@ class App extends Component {
     this.updateLocalStorage();
   };
 
-  sortKits = currentKits => {
+  sortKits = (currentKits) => {
     const positiveKits = [];
     const negativeKits = [];
 
@@ -248,7 +254,7 @@ class App extends Component {
     this.updateLocalStorage();
   };
 
-  addKitData = async kitID => {
+  addKitData = async (kitID) => {
     //find the correct kit from allKits and add to the table
     for (let kit of this.state.allKits) {
       if (kit.id === kitID) {
@@ -256,7 +262,7 @@ class App extends Component {
         const arrayedKitData = this.hashifyKitData(tableKitData);
         await this.setState({
           tableKitData,
-          arrayedKitData
+          arrayedKitData,
         });
         return;
       }
@@ -265,9 +271,9 @@ class App extends Component {
     return;
   };
 
-  removeKitData = kitID => {
+  removeKitData = (kitID) => {
     const tableKitData = this.state.tableKitData;
-    const filteredKitData = tableKitData.filter(kit => kit.id !== kitID);
+    const filteredKitData = tableKitData.filter((kit) => kit.id !== kitID);
     const arrayedKitData = this.hashifyKitData(filteredKitData);
     this.setState({ tableKitData: filteredKitData, arrayedKitData });
   };
@@ -291,7 +297,7 @@ class App extends Component {
     this.updateLocalStorage();
   };
 
-  hashifyKitData = tableKitData => {
+  hashifyKitData = (tableKitData) => {
     const kitDataHash = {};
     for (let kit of tableKitData) {
       kitDataHash[kit.species] = (kitDataHash[kit.species] || []).concat(kit);
@@ -299,7 +305,7 @@ class App extends Component {
     return this.arrayifyKitData(kitDataHash);
   };
 
-  arrayifyKitData = kitDataHash => {
+  arrayifyKitData = (kitDataHash) => {
     let arrayedKitData = [];
     for (let groupSpecies in kitDataHash) {
       const groupArray = [groupSpecies, kitDataHash[groupSpecies]];
@@ -335,14 +341,14 @@ class App extends Component {
     this.updateLocalStorage();
   };
 
-  deleteSpeciesFromTable = async species => {
+  deleteSpeciesFromTable = async (species) => {
     let clone = cloneDeep(this.state);
     let {
       rowCount,
       tableKitIDs,
       tableKitData,
       arrayedKitData,
-      tableRowsHash
+      tableRowsHash,
     } = clone;
 
     //grab the number of rows that will be deleted, subtract from tableRows
@@ -353,7 +359,7 @@ class App extends Component {
     delete tableRowsHash[species];
     //delete kits from the species, from tableKitData array. at the same time, store the IDs of any kits deleted
     let IDs = [];
-    tableKitData = tableKitData.filter(kit => {
+    tableKitData = tableKitData.filter((kit) => {
       if (kit.species !== species) return true;
       IDs.push(kit.id);
       return false;
@@ -361,14 +367,14 @@ class App extends Component {
     //delete kits from tableKitIDs using the IDs grabbed during the modification of tableKitData
     for (let ID of IDs) delete tableKitIDs[ID];
     //delete species from arrayedKitData
-    arrayedKitData = arrayedKitData.filter(group => group[0] !== species);
+    arrayedKitData = arrayedKitData.filter((group) => group[0] !== species);
 
     await this.setState({
       rowCount,
       tableKitIDs,
       tableKitData,
       arrayedKitData,
-      tableRowsHash
+      tableRowsHash,
     });
 
     this.updateLocalStorage();
@@ -394,7 +400,7 @@ class App extends Component {
     }
 
     //delete kit from tableKitData
-    tableKitData = tableKitData.filter(kit => kit.id !== kitID);
+    tableKitData = tableKitData.filter((kit) => kit.id !== kitID);
 
     //delete species from arrayedKitData
     const arrayedKitData = this.hashifyKitData(tableKitData);
@@ -404,7 +410,7 @@ class App extends Component {
       tableKitIDs,
       tableKitData,
       arrayedKitData,
-      tableRowsHash
+      tableRowsHash,
     });
 
     this.updateLocalStorage();
@@ -416,7 +422,7 @@ class App extends Component {
       tableKitIDs: {},
       tableKitData: [],
       arrayedKitData: [],
-      tableRowsHash: {}
+      tableRowsHash: {},
     });
     this.updateLocalStorage();
   };
@@ -431,7 +437,7 @@ class App extends Component {
         <Switch>
           <Route
             path="/kits"
-            render={props => (
+            render={(props) => (
               <Kits
                 {...props}
                 loggedIn={this.state.loggedIn}
@@ -474,7 +480,7 @@ class App extends Component {
 
           <Route
             path="/table"
-            render={props => (
+            render={(props) => (
               <Table
                 {...props}
                 loggedIn={this.state.loggedIn}
@@ -495,7 +501,7 @@ class App extends Component {
           <Route
             path="/"
             exact={true}
-            render={props => (
+            render={(props) => (
               <Home
                 {...props}
                 loggedIn={this.state.loggedIn}
@@ -508,7 +514,7 @@ class App extends Component {
 
           <Route
             path="/error"
-            render={props => (
+            render={(props) => (
               <Error {...props} rowCount={this.state.rowCount} />
             )}
           ></Route>

@@ -9,7 +9,8 @@ class Table extends Component {
   normalizeCellCount = (constantCellDivisor, cellCount) => {
     //grab the exponent from the kit cell divisor and convert into powers of 10 above 10^6
     const kitCellDivisor =
-      10 ** ((constantCellDivisor && constantCellDivisor.split("^")[1]) - 6); //6 corresponds to 10^6
+      10 ** ((constantCellDivisor && constantCellDivisor.split("^")[1]) - 6);
+    //6 corresponds to 10^6
 
     let normalizedCellCount = cellCount / kitCellDivisor;
 
@@ -17,6 +18,7 @@ class Table extends Component {
     if (constantCellDivisor.includes("up to")) {
       normalizedCellCount = Math.ceil(normalizedCellCount);
     }
+
     return normalizedCellCount;
   };
 
@@ -32,6 +34,7 @@ class Table extends Component {
     return kit.constants.map((constantArr, idx) => {
       const constantCellDivisor = constantArr[3];
       const kitConstant = constantArr[2];
+
       //if the constant is for time, a spin, or the final wash, just render it
       if (constantCellDivisor === "n/a") {
         return <td key={idx}>{constantArr[2]}</td>;
