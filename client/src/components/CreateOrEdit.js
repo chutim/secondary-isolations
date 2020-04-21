@@ -22,22 +22,14 @@ class CreateOrEdit extends Component {
       constantUnits: [],
       constantCells: [],
     };
-    //ref for kit type HTML input. used to clear the input's value on click, to allow showing the user both options ("Positive" and "Negative") immediately, as opposed to only suggesting mastching options
+    //ref for kit type HTML input. used to clear the input's value on click, to allow showing the user both options ("Positive" and "Negative") immediately, as opposed to only suggesting matching options
     this.typeRef = React.createRef();
   }
 
   componentDidMount = async () => {
-    //if editing a kit, grab the kit data pushed into the history object (location.state). if the user just went to the url directly, i.e., didn't click in from a kit, there is no history so grab from localStorage
+    //if there is an ID in the URL, we are editing a kit
     if (this.props.match.params.kitID) {
-      if (this.props.location.state) {
-        await this.setState(this.props.location.state);
-      } else {
-        console.log("Fetching saved update kit data...");
-        const localForm = JSON.parse(localStorage.getItem("updateState"));
-        await this.setState(localForm);
-        console.log("Saved update kit data loaded.");
-      }
-      this.updateLocalStorage("update");
+      this.loadKitToEdit();
     } else {
       //otherwise, creating kit, grab any form data from localStorage
       console.log("Fetching saved create kit data...");
@@ -46,6 +38,30 @@ class CreateOrEdit extends Component {
       console.log("Saved create kit data loaded.");
     }
   };
+
+  loadKitToEdit = async () => {
+    //grab the kit data pushed into the history object (location.state). if the user just went to the url directly, e.g., didn't click in from a kit, there is no history so query the db
+    if (this.props.location.state) {
+      await this.setState(this.props.location.state);
+    } else {
+      console.log("Finding kit data based on URL...");
+
+      const res = await apis.getKitByID(this.props.match.params.kitID);
+      const kitFullData = res.data.data;
+
+      if (!kitFullData) {
+        //NEED TO REDIRECT TO 404 PAGE
+        return console.log("Kit not found based on URL.");
+      }
+
+      const { id, name, species, type, constants } = kitFullData;
+      await this.setState({ id, name, species, type, constants });
+      console.log("Kit data loaded based on URL.");
+    }
+    this.updateLocalStorage("update");
+  };
+
+  loadSavedCreateData = () => {};
 
   generateConstantsDatalists = memoize((allKits) => {
     if (!allKits) return;

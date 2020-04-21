@@ -4,10 +4,11 @@ const router = express.Router();
 //routes for kit manipulation
 const KitControl = require("../controllers/kit-control");
 
-router.post("/kit", KitControl.createKit); //in use
-router.put("/kit/:id", KitControl.updateKit); //in use
-router.delete("/kit/:id", KitControl.deleteKit); //in use
-router.get("/kits", KitControl.getAllKits); //in use
+router.post("/kit", KitControl.createKit);
+router.put("/kit/:id", KitControl.updateKit);
+router.delete("/kit/:id", KitControl.deleteKit);
+router.get("/kits", KitControl.getAllKits);
+router.get("/kits/:id", KitControl.getKitByID);
 
 //routes for logging in
 const PasscodeControl = require("../controllers/passcode-control");

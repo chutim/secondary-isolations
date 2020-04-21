@@ -6,7 +6,7 @@ createKit = (req, res) => {
   if (!body) {
     return res.status(400).json({
       success: false,
-      error: "You must provide a kit."
+      error: "You must provide a kit.",
     });
   }
 
@@ -22,13 +22,13 @@ createKit = (req, res) => {
       return res.status(201).json({
         success: true,
         id: kit._id,
-        message: "Kit created!"
+        message: "Kit created!",
       });
     })
-    .catch(error => {
+    .catch((error) => {
       return res.status(400).json({
         error,
-        message: "Kit not created!"
+        message: "Kit not created!",
       });
     });
 };
@@ -39,7 +39,7 @@ updateKit = async (req, res) => {
   if (!body) {
     return res.status(400).json({
       success: false,
-      error: "You must provide constants to update."
+      error: "You must provide constants to update.",
     });
   }
 
@@ -47,7 +47,7 @@ updateKit = async (req, res) => {
     if (err) {
       return res.status(404).json({
         err,
-        message: "Kit not found!"
+        message: "Kit not found!",
       });
     }
     kit.name = body.name;
@@ -60,13 +60,13 @@ updateKit = async (req, res) => {
         return res.status(200).json({
           success: true,
           id: kit._id,
-          message: "Kit updated!"
+          message: "Kit updated!",
         });
       })
-      .catch(error => {
+      .catch((error) => {
         return res.status(404).json({
           error,
-          message: "Kit not updated!"
+          message: "Kit not updated!",
         });
       });
   });
@@ -83,7 +83,7 @@ deleteKit = async (req, res) => {
     }
 
     return res.status(200).json({ success: true, data: kit });
-  }).catch(err => console.log(err));
+  }).catch((err) => console.log(err));
 };
 
 getAllKits = async (req, res) => {
@@ -95,12 +95,25 @@ getAllKits = async (req, res) => {
       return res.status(404).json({ success: false, error: `Kit not found` });
     }
     return res.status(200).json({ success: true, data: kits });
-  }).catch(err => console.log(err));
+  }).catch((err) => console.log(err));
+};
+
+getKitByID = async (req, res) => {
+  await Kit.findOne({ id: req.params.id }, (err, kit) => {
+    if (err) {
+      return res.status(400).json({ success: false, error: err });
+    }
+    if (!kit) {
+      return res.status(404).json({ success: false, error: `Kit not found` });
+    }
+    return res.status(200).json({ success: true, data: kit });
+  });
 };
 
 module.exports = {
   createKit,
   updateKit,
   deleteKit,
-  getAllKits
+  getAllKits,
+  getKitByID,
 };

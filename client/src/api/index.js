@@ -15,6 +15,8 @@ export const updateKitById = (id, kitData) =>
   api.put(`/api/kit/${id}`, kitData);
 export const deleteKitById = (id) => api.delete(`/api/kit/${id}`);
 export const getAllKits = () => api.get(`/api/kits`);
+export const getKitByID = (id) => api.get(`/api/kits/${id}`);
+
 export const logIn = (loginData) => api.post("/api/login", loginData);
 // export const updatePasscode = (userData) => api.put("/api/login", userData);
 export const checkLoginStatus = () => api.get("/api/login");
@@ -25,6 +27,7 @@ const apis = {
   updateKitById,
   deleteKitById,
   getAllKits,
+  getKitByID,
   logIn,
   // updatePasscode,
   checkLoginStatus,
