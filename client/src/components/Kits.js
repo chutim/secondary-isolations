@@ -16,137 +16,90 @@ const Kits = (props) => {
     });
   };
 
+  const generateKitSection = (generatePosKits) => {
+    const kitCollection = generatePosKits
+      ? props.currentPosKits
+      : props.currentNegKits;
+
+    return (
+      <div
+        className={`kit-section section-${
+          generatePosKits ? "positive" : "negative"
+        }-selection`}
+      >
+        <div className="kit-section-title">
+          {generatePosKits ? "Positive" : "Negative"} Selection
+        </div>
+        <div className="kit-section-list">
+          {sortKitsByName(kitCollection).map((kit) => (
+            <div className="kit-info-container" key={kit.id}>
+              <div className="kit-name-container">
+                <div className="kit-name">{kit.name}</div>
+
+                <div>
+                  <a
+                    className="kit-id"
+                    href={`https://www.miltenyibiotec.com/US-en/search.html?search=${kit.id}&options=on#globalSearchFamilies=%5B%5D`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {kit.id}
+                  </a>
+                </div>
+              </div>
+              <div className="kit-info-container-right">
+                <LinkButton
+                  to={`/edit/${kit.id}`}
+                  className={
+                    props.loggedIn
+                      ? "edit-button"
+                      : "edit-button logged-out-edit-button"
+                  }
+                  //attaches kit object to props.location.state, passing into CreateOrEdit
+                  kit={kit}
+                >
+                  <i className="fas fa-pen"></i>
+                </LinkButton>
+
+                <div className="kit-options-row">
+                  <button
+                    className="kit-options-button kit-remove-button subtract-button"
+                    onClick={() => {
+                      props.updateTable("subtract", kit);
+                    }}
+                  >
+                    -
+                  </button>
+
+                  <div className="kit-count">
+                    {props.tableKitIDs[kit.id] || 0}
+                  </div>
+
+                  <button
+                    className="kit-options-button kit-add-button add-button"
+                    onClick={() => {
+                      props.updateTable("add", kit);
+                    }}
+                  >
+                    +
+                  </button>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  };
+
   return (
     <div className="page">
       <header>
         <div className="page-title">{props.currentSpecies} Kits</div>
       </header>
       <div className="kits-body scrollable-body">
-        <div className="kit-section section-positive-selection">
-          <div className="kit-section-title">Positive Selection</div>
-          <div className="kit-section-list">
-            {props.currentPosKits &&
-              sortKitsByName(props.currentPosKits).map((kit) => (
-                <div className="kit-info-container" key={kit.id}>
-                  <div className="kit-name-container">
-                    <div className="kit-name">{kit.name}</div>
-
-                    <div>
-                      <a
-                        className="kit-id"
-                        href={`https://www.miltenyibiotec.com/US-en/search.html?search=${kit.id}&options=on#globalSearchFamilies=%5B%5D`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        {kit.id}
-                      </a>
-                    </div>
-                  </div>
-                  <div className="kit-info-container-right">
-                    <LinkButton
-                      to={`/edit/${kit.id}`}
-                      className={
-                        props.loggedIn
-                          ? "edit-button"
-                          : "edit-button logged-out-edit-button"
-                      }
-                      //attaches kit object to props.location.state, passing into CreateOrEdit
-                      kit={kit}
-                    >
-                      <i className="fas fa-pen"></i>
-                    </LinkButton>
-
-                    <div className="kit-options-row">
-                      <button
-                        className="kit-options-button kit-remove-button subtract-button"
-                        onClick={() => {
-                          props.updateTable("subtract", kit);
-                        }}
-                      >
-                        -
-                      </button>
-
-                      <div className="kit-count">
-                        {props.tableKitIDs[kit.id] || 0}
-                      </div>
-
-                      <button
-                        className="kit-options-button kit-add-button add-button"
-                        onClick={() => {
-                          props.updateTable("add", kit);
-                        }}
-                      >
-                        +
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              ))}
-          </div>
-        </div>
-        <div className="kit-section section-negative-selection">
-          <div className="kit-section-title">Negative Selection</div>
-          <div className="kit-section-list">
-            {props.currentNegKits &&
-              sortKitsByName(props.currentNegKits).map((kit) => (
-                <div className="kit-info-container" key={kit.id}>
-                  <div className="kit-name-container">
-                    <div className="kit-name">{kit.name}</div>
-
-                    <div>
-                      <a
-                        className="kit-id"
-                        href={`https://www.miltenyibiotec.com/US-en/search.html?search=${kit.id}&options=on#globalSearchFamilies=%5B%5D`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        {kit.id}
-                      </a>
-                    </div>
-                  </div>
-
-                  <div className="kit-info-container-right">
-                    <LinkButton
-                      to={`/edit/${kit.id}`}
-                      className={
-                        props.loggedIn
-                          ? "edit-button"
-                          : "edit-button logged-out-edit-button"
-                      }
-                      //attaches kit object to props.location.state, passing into CreateOrEdit
-                      kit={kit}
-                    >
-                      <i className="fas fa-pen"></i>
-                    </LinkButton>
-
-                    <div className="kit-options-row">
-                      <button
-                        className="kit-options-button kit-remove-button subtract-button"
-                        onClick={() => {
-                          props.updateTable("subtract", kit);
-                        }}
-                      >
-                        -
-                      </button>
-
-                      <div className="kit-count">
-                        {props.tableKitIDs[kit.id] || 0}
-                      </div>
-
-                      <button
-                        className="kit-options-button kit-add-button add-button"
-                        onClick={() => {
-                          props.updateTable("add", kit);
-                        }}
-                      >
-                        +
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              ))}
-          </div>
-        </div>
+        {generateKitSection(true)}
+        {generateKitSection(false)}
       </div>
 
       <footer>
