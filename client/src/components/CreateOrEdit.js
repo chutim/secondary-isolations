@@ -31,12 +31,23 @@ class CreateOrEdit extends Component {
     if (this.props.match.params.kitID) {
       this.loadKitToEdit();
     } else {
-      //otherwise, creating kit, grab any form data from localStorage
-      console.log("Fetching saved create kit data...");
-      const localForm = JSON.parse(localStorage.getItem("createState"));
-      await this.setState(localForm);
-      console.log("Saved create kit data loaded.");
+      //otherwise, we are creating a kit - grab any form data from localStorage
+      this.loadSavedCreateData();
     }
+  };
+
+  fetchKitByID = async (kitID) => {
+    console.log("Finding kit data based on URL...");
+    const res = await apis.getKitByID(kitID);
+    const kitFullData = res.data.data;
+
+    if (!kitFullData) {
+      return false;
+    }
+
+    //do not need _id, createdAt, updatedAt
+    const { id, name, species, type, constants } = kitFullData;
+    return { id, name, species, type, constants };
   };
 
   loadKitToEdit = async () => {
@@ -44,24 +55,25 @@ class CreateOrEdit extends Component {
     if (this.props.location.state) {
       await this.setState(this.props.location.state);
     } else {
-      console.log("Finding kit data based on URL...");
+      const kitFromDb = await this.fetchKitByID(this.props.match.params.kitID);
 
-      const res = await apis.getKitByID(this.props.match.params.kitID);
-      const kitFullData = res.data.data;
-
-      if (!kitFullData) {
+      if (!kitFromDb) {
+        console.log("Kit not found based on URL.");
         //NEED TO REDIRECT TO 404 PAGE
-        return console.log("Kit not found based on URL.");
       }
 
-      const { id, name, species, type, constants } = kitFullData;
-      await this.setState({ id, name, species, type, constants });
+      await this.setState(kitFromDb);
       console.log("Kit data loaded based on URL.");
     }
     this.updateLocalStorage("update");
   };
 
-  loadSavedCreateData = () => {};
+  loadSavedCreateData = async () => {
+    console.log("Fetching saved create kit data...");
+    const localForm = JSON.parse(localStorage.getItem("createState"));
+    await this.setState(localForm);
+    console.log("Saved create kit data loaded.");
+  };
 
   generateConstantsDatalists = memoize((allKits) => {
     if (!allKits) return;
