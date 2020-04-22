@@ -60,7 +60,7 @@ class CreateOrEdit extends Component {
 
       if (!kitFromDb) {
         console.log("Kit not found based on URL......");
-        this.props.history.push("/404");
+        this.props.history.push("/invalid");
         return;
       }
 

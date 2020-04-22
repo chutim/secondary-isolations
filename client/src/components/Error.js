@@ -14,7 +14,7 @@ const Error = (props) => {
           </div>
         </div>
 
-        <div className="error-text">Please log in for full site access.</div>
+        <div className="error-text">Please log in for full access.</div>
       </div>
 
       <Footer {...props} currComponent={"Error"} />

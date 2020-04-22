@@ -514,7 +514,7 @@ class App extends Component {
           ></Route>
 
           <Route
-            path="/404"
+            path="/invalid"
             render={(props) => (
               <Invalid {...props} rowCount={this.state.rowCount} />
             )}
