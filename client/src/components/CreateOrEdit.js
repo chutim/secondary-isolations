@@ -95,24 +95,32 @@ class CreateOrEdit extends Component {
 
     const set = new Set();
     //to be used if working on the constant names column
-    const units = [];
+    // const units = [];
+
+    // for (let constantGroup of allConstantGroups) {
+    //   let preAddSize;
+    //   if (appendUnits) preAddSize = set.size;
+    //   const newSet = set.add(constantGroup[indexToUse]);
+    //   //if working on the constant names column, and a unique name was added to the set, also store its corresponding units
+    //   if (appendUnits && newSet.size !== preAddSize)
+    //     units.push(constantGroup[1]);
+    // }
+    // let array = Array.from(set);
+
+    // //if working on the constant names column, include the units
+    // if (appendUnits) {
+    //   array = array.map((name, idx) => name + " (" + units[idx] + ")");
+    // }
 
     for (let constantGroup of allConstantGroups) {
-      let preAddSize;
-      if (appendUnits) preAddSize = set.size;
-      const newSet = set.add(constantGroup[indexToUse]);
-      //if working on the constant names column, and a unique name was added to the set, also store its corresponding units
-      if (appendUnits && newSet.size !== preAddSize)
-        units.push(constantGroup[1]);
-    }
-    let array = Array.from(set);
-
-    //if working on the constant names column, include the units
-    if (appendUnits) {
-      array = array.map((name, idx) => name + " (" + units[idx] + ")");
+      let constant = constantGroup[indexToUse];
+      if (appendUnits) {
+        constant += " (" + constantGroup[1] + ")";
+      }
+      set.add(constant);
     }
 
-    return array.sort();
+    return Array.from(set).sort();
   };
 
   updateLocalStorage = (createOrUpdate) => {
