@@ -94,23 +94,6 @@ class CreateOrEdit extends Component {
     }, []);
 
     const set = new Set();
-    //to be used if working on the constant names column
-    // const units = [];
-
-    // for (let constantGroup of allConstantGroups) {
-    //   let preAddSize;
-    //   if (appendUnits) preAddSize = set.size;
-    //   const newSet = set.add(constantGroup[indexToUse]);
-    //   //if working on the constant names column, and a unique name was added to the set, also store its corresponding units
-    //   if (appendUnits && newSet.size !== preAddSize)
-    //     units.push(constantGroup[1]);
-    // }
-    // let array = Array.from(set);
-
-    // //if working on the constant names column, include the units
-    // if (appendUnits) {
-    //   array = array.map((name, idx) => name + " (" + units[idx] + ")");
-    // }
 
     for (let constantGroup of allConstantGroups) {
       let constant = constantGroup[indexToUse];
@@ -130,38 +113,49 @@ class CreateOrEdit extends Component {
       localStorage.setItem("updateState", JSON.stringify(this.state));
   };
 
-  handleInput = async (e, constantRow, constantNameOrValue) => {
+  handleModifyConstant = async (e, constantRow, constantType) => {
     const constants = cloneDeep(this.state.constants);
-    //if we're modifying a constant, modify the corresponding sub-array on state
-    if (constantNameOrValue) {
-      if (constantNameOrValue === "constantName") {
-        //split the input value to see if the user selected a suggestion. note that user will not be able to type "(".
+    switch (constantType) {
+      case "constantName":
+        //note that user will not be able to type "(".
         const values = e.target.value.split("(");
-        //if there is something on the other side of the (, the user must have selected a suggestion. or copy and pasted, not likely.
+        //if there is something on the other side of the (, the user must have selected a suggestion.
         if (values[1]) {
           constants[constantRow][0] = values[0].trim();
           constants[constantRow][1] = values[1].slice(0, -1);
         } else {
           constants[constantRow][0] = values[0];
         }
-      } else if (constantNameOrValue === "constantUnit") {
+        break;
+      case "constantUnit":
         constants[constantRow][1] = e.target.value;
-      } else if (constantNameOrValue === "constantValue") {
+        break;
+      case "constantValue":
         constants[constantRow][2] = e.target.value;
-      } else if (constantNameOrValue === "constantCells") {
+        break;
+      case "constantCells":
         constants[constantRow][3] = e.target.value;
-      }
-      await this.setState({ constants });
+        break;
+      default:
+        console.log("Error modifying constants.");
+    }
+
+    await this.setState({ constants });
+  };
+
+  handleInput = async (e, constantRow, modifyingConstant) => {
+    //if we're modifying a constant, modify the corresponding sub-array on state
+    if (modifyingConstant) {
+      await this.handleModifyConstant(e, constantRow, modifyingConstant);
     }
     //otherwise we are not dealing with constants, just update the appropriate fields
     else {
-      await this.setState({ [e.target.name]: e.target.value });
       //check to see if the ID is already used. there should not be duplicate kits
-      if (this.props.allKitIDs.has(this.state.id)) {
-        this.setState({ duplicateID: true });
-      } else {
-        this.setState({ duplicateID: false });
-      }
+      e.target.name === "id" && this.props.allKitIDs.has(e.target.value)
+        ? this.setState({ duplicateID: true })
+        : this.setState({ duplicateID: false });
+
+      await this.setState({ [e.target.name]: e.target.value });
     }
     this.updateLocalStorage(
       this.props.match.params.kitID ? "update" : "create"
