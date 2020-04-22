@@ -93,19 +93,22 @@ class App extends Component {
   };
 
   getUser = () => {
-    apis.checkLoginStatus().then((response) => {
-      if (response.data.user) {
-        console.log("Existing session; logged in.");
-        this.setState({
-          loggedIn: true,
-        });
-      } else {
-        console.log("No existing session.");
-        this.setState({
-          loggedIn: false,
-        });
-      }
-    });
+    apis
+      .checkLoginStatus()
+      .then((response) => {
+        if (response.data.user) {
+          console.log("Existing session; logged in.");
+          this.setState({
+            loggedIn: true,
+          });
+        } else {
+          console.log("No existing session.");
+          this.setState({
+            loggedIn: false,
+          });
+        }
+      })
+      .catch((err) => console.error(err));
   };
 
   setLoggedInStatus = (bool) => {
@@ -146,8 +149,10 @@ class App extends Component {
   //sets allKits, allSpecies, allKitIDs on state
   fetchKitsFromDatabase = async () => {
     console.log("Fetching kits from database...");
-    const res = await apis.getAllKits();
-    const responseData = res.data.data;
+    const responseData = await apis
+      .getAllKits()
+      .then((res) => res.data.data)
+      .catch((err) => console.error(err));
 
     const allKits = [];
     for (let kit of responseData) {

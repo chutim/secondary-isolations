@@ -7,7 +7,6 @@ import apis from "../api";
 import "./CreateOrEdit.css";
 
 //THINGS TO DO
-//make 404 component that users are directed to for any bad URL requests
 
 class CreateOrEdit extends Component {
   constructor(props) {
@@ -39,11 +38,10 @@ class CreateOrEdit extends Component {
 
   fetchKitByID = async (kitID) => {
     console.log("Finding kit data based on URL...");
-    let kit;
-    await apis
+    let kit = await apis
       .getKitByID(kitID)
       .then((res) => {
-        kit = res.data.data;
+        return res.data.data;
       })
       .catch((err) => {
         console.error(err);
@@ -233,19 +231,23 @@ class CreateOrEdit extends Component {
     const { id, name, species, type, constants } = this.validateFields();
 
     updateOrCreate === "update"
-      ? await apis.updateKitById(id, {
-          name,
-          species,
-          type,
-          constants,
-        })
-      : await apis.createKit({
-          id,
-          name,
-          species,
-          type,
-          constants,
-        });
+      ? await apis
+          .updateKitById(id, {
+            name,
+            species,
+            type,
+            constants,
+          })
+          .catch((err) => console.error(err))
+      : await apis
+          .createKit({
+            id,
+            name,
+            species,
+            type,
+            constants,
+          })
+          .catch((err) => console.error(err));
     //if this was an update on a kit, make sure it gets updated in Table if present
     if (updateOrCreate === "update") {
       this.props.updateTableKitData(
@@ -301,7 +303,7 @@ class CreateOrEdit extends Component {
   deleteKit = async (kitID) => {
     const { id, name, species, type, constants } = cloneDeep(this.state);
     this.clearStateAndStorage();
-    await apis.deleteKitById(kitID);
+    await apis.deleteKitById(kitID).catch((err) => console.error(err));
     //update App state
     await this.props.fetchKitsFromDatabase();
     //update species' kits in Kits component if necessary
