@@ -8,7 +8,7 @@ import {
   Table,
   PrivateRoute,
   Login,
-  Error,
+  Invalid,
 } from "./components";
 import apis from "./api";
 import "./App.css";
@@ -514,9 +514,9 @@ class App extends Component {
           ></Route>
 
           <Route
-            path="/error"
+            path="/"
             render={(props) => (
-              <Error {...props} rowCount={this.state.rowCount} />
+              <Invalid {...props} rowCount={this.state.rowCount} />
             )}
           ></Route>
         </Switch>

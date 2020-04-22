@@ -5,4 +5,4 @@ export { default as Table } from "./Table";
 export { default as CreateOrEdit } from "./CreateOrEdit";
 export { default as PrivateRoute } from "./PrivateRoute";
 export { default as Login } from "./Login";
-export { default as Error } from "./Error";
+export { default as Invalid } from "./Invalid";
