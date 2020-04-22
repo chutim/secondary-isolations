@@ -113,7 +113,7 @@ class CreateOrEdit extends Component {
       localStorage.setItem("updateState", JSON.stringify(this.state));
   };
 
-  handleModifyConstant = async (e, constantRow, constantType) => {
+  handleInputConstant = async (e, constantRow, constantType) => {
     const constants = cloneDeep(this.state.constants);
     switch (constantType) {
       case "constantName":
@@ -141,31 +141,21 @@ class CreateOrEdit extends Component {
     }
 
     await this.setState({ constants });
-  };
-
-  handleInput = async (e, constantRow, modifyingConstant) => {
-    //if we're modifying a constant, modify the corresponding sub-array on state
-    if (modifyingConstant) {
-      await this.handleModifyConstant(e, constantRow, modifyingConstant);
-    }
-    //otherwise we are not dealing with constants, just update the appropriate fields
-    else {
-      //check to see if the ID is already used. there should not be duplicate kits
-      e.target.name === "id" && this.props.allKitIDs.has(e.target.value)
-        ? this.setState({ duplicateID: true })
-        : this.setState({ duplicateID: false });
-
-      await this.setState({ [e.target.name]: e.target.value });
-    }
     this.updateLocalStorage(
       this.props.match.params.kitID ? "update" : "create"
     );
   };
 
-  checkID = () => {
-    if (this.props.allKitIDs.has(this.state.id)) {
-      alert("This kit ID is already in use.");
-    }
+  handleInput = async (e) => {
+    //if modifying ID -> there should not be duplicate kit IDs
+    e.target.name === "id" && this.props.allKitIDs.has(e.target.value)
+      ? this.setState({ duplicateID: true })
+      : this.setState({ duplicateID: false });
+
+    await this.setState({ [e.target.name]: e.target.value });
+    this.updateLocalStorage(
+      this.props.match.params.kitID ? "update" : "create"
+    );
   };
 
   capitalizeWords = (string) => {
@@ -232,26 +222,15 @@ class CreateOrEdit extends Component {
     if (this.validateFields() === false) return;
     const { id, name, species, type, constants } = this.validateFields();
 
-    updateOrCreate === "update"
-      ? await apis
-          .updateKitById(id, {
-            name,
-            species,
-            type,
-            constants,
-          })
-          .catch((err) => console.error(err))
-      : await apis
-          .createKit({
-            id,
-            name,
-            species,
-            type,
-            constants,
-          })
-          .catch((err) => console.error(err));
-    //if this was an update on a kit, make sure it gets updated in Table if present
     if (updateOrCreate === "update") {
+      await apis
+        .updateKitById(id, {
+          name,
+          species,
+          type,
+          constants,
+        })
+        .catch((err) => console.error(err));
       this.props.updateTableKitData(
         {
           id,
@@ -264,7 +243,18 @@ class CreateOrEdit extends Component {
       );
       //bug: if user copy/pastes the edit kit URL in a new tab, it will update the kit in db but then send the user back to the default new tab page
       this.props.history.goBack();
+    } else if (updateOrCreate === "create") {
+      await apis
+        .createKit({
+          id,
+          name,
+          species,
+          type,
+          constants,
+        })
+        .catch((err) => console.error(err));
     }
+
     await this.clearStateAndStorage();
     alert(
       updateOrCreate === "update"
@@ -367,7 +357,6 @@ class CreateOrEdit extends Component {
                       name="id"
                       placeholder="000-000-000"
                       onChange={this.handleInput}
-                      onBlur={this.checkID}
                       className={
                         this.state.duplicateID && !this.props.match.params.kitID
                           ? "form-top-input error"
@@ -466,7 +455,7 @@ class CreateOrEdit extends Component {
                           type="text"
                           list="constants-names"
                           onChange={(e) => {
-                            this.handleInput(e, idx, "constantName");
+                            this.handleInputConstant(e, idx, "constantName");
                           }}
                           value={constantRow[0] || ""}
                           placeholder="Fireball Cocktail"
@@ -484,7 +473,7 @@ class CreateOrEdit extends Component {
                           type="text"
                           list="units"
                           onChange={(e) => {
-                            this.handleInput(e, idx, "constantUnit");
+                            this.handleInputConstant(e, idx, "constantUnit");
                           }}
                           value={constantRow[1] || ""}
                           placeholder="cups"
@@ -501,7 +490,7 @@ class CreateOrEdit extends Component {
                           className="form-bottom-input"
                           type="text"
                           onChange={(e) => {
-                            this.handleInput(e, idx, "constantValue");
+                            this.handleInputConstant(e, idx, "constantValue");
                           }}
                           value={constantRow[2] || ""}
                           placeholder="000"
@@ -513,7 +502,7 @@ class CreateOrEdit extends Component {
                           type="text"
                           list="cells"
                           onChange={(e) => {
-                            this.handleInput(e, idx, "constantCells");
+                            this.handleInputConstant(e, idx, "constantCells");
                           }}
                           value={constantRow[3] || ""}
                           placeholder="10^00"
