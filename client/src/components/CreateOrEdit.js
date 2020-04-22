@@ -1,7 +1,6 @@
 //the CreateOrEdit component allows the user to create a new kit or update/delete an existing kit, depending on where they navigated from. validation checks before submission ensure that all fields are filled, IDs are not re-used, appropriate fields are capitalized, and trailing/leading whitespace is deleted. submitting a new kit or an updated kit will update the App state as well as the database.
 import React, { Component } from "react";
 import Footer from "./Footer";
-import Invalid from "./Invalid";
 import { cloneDeep } from "lodash";
 import memoize from "memoize-one";
 import apis from "../api";
@@ -40,10 +39,16 @@ class CreateOrEdit extends Component {
 
   fetchKitByID = async (kitID) => {
     console.log("Finding kit data based on URL...");
-    const res = await apis.getKitByID(kitID);
-    const kit = res.data.data;
-
-    return kit ? kit : false;
+    let kit;
+    await apis
+      .getKitByID(kitID)
+      .then((res) => {
+        kit = res.data.data;
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+    return kit;
   };
 
   loadKitToEdit = async () => {
@@ -54,8 +59,9 @@ class CreateOrEdit extends Component {
       const kitFromDb = await this.fetchKitByID(this.props.match.params.kitID);
 
       if (!kitFromDb) {
-        console.log("Kit not found based on URL.");
-        //NEED TO REDIRECT TO 404 PAGE
+        console.log("Kit not found based on URL......");
+        this.props.history.push("/404");
+        return;
       }
 
       await this.setState(kitFromDb);
@@ -320,11 +326,11 @@ class CreateOrEdit extends Component {
                 Edit{" "}
                 <a
                   className="edit-kit-id"
-                  href={`https://www.miltenyibiotec.com/US-en/search.html?search=${this.props.match.params.kitID}&options=on#globalSearchFamilies=%5B%5D`}
+                  href={`https://www.miltenyibiotec.com/US-en/search.html?search=${this.state.id}&options=on#globalSearchFamilies=%5B%5D`}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  {this.props.match.params.kitID}
+                  {this.state.id}
                 </a>
               </>
             ) : (

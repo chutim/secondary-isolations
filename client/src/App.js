@@ -514,6 +514,13 @@ class App extends Component {
           ></Route>
 
           <Route
+            path="/404"
+            render={(props) => (
+              <Invalid {...props} rowCount={this.state.rowCount} />
+            )}
+          ></Route>
+
+          <Route
             path="/"
             render={(props) => (
               <Invalid {...props} rowCount={this.state.rowCount} />

@@ -14,7 +14,7 @@ const Invalid = (props) => {
           </div>
         </div>
 
-        <div className="error-text">PLEASE log in for full site access.</div>
+        <div className="error-text">Page not found.</div>
       </div>
 
       <Footer {...props} currComponent={"Error"} />
