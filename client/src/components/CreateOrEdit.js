@@ -18,9 +18,7 @@ class CreateOrEdit extends Component {
       type: "",
       constants: [[null, null, null, null]],
       duplicateID: false,
-      constantNames: [],
-      constantUnits: [],
-      constantCells: [],
+      showAlert: "create",
     };
     //ref for kit type HTML input. used to clear the input's value on click, to allow showing the user both options ("Positive" and "Negative") immediately, as opposed to only suggesting matching options
     this.typeRef = React.createRef();
@@ -570,6 +568,43 @@ class CreateOrEdit extends Component {
             ) : null}
           </div>
         </form>
+
+        {this.state.showAlert !== "delete" && this.state.showAlert !== "" ? (
+          <div className="alert-box">
+            <div className="alert-text">
+              {this.state.showAlert === "create"
+                ? "New isolation kit added."
+                : this.state.showAlert === "update"
+                ? "Isolation kit updated."
+                : "All fields must be filled."}
+            </div>
+            <button
+              className="alert-button alert-button-ok"
+              onClick={() => this.setState({ showAlert: "" })}
+            >
+              OK
+            </button>
+          </div>
+        ) : null}
+
+        {this.state.showAlert === "delete" ? (
+          <div className="alert-box alert-delete">
+            <div className="alert-text">
+              Confirm permanently deleting this isolation kit?
+            </div>
+            <div className="alert-button-container">
+              <button
+                className="alert-button alert-button-cancel"
+                onClick={() => this.setState({ showAlert: "" })}
+              >
+                Cancel
+              </button>
+              <button className="alert-button alert-button-delete">
+                Delete
+              </button>
+            </div>
+          </div>
+        ) : null}
 
         <Footer {...this.props} currComponent={"CreateOrEdit"} />
       </div>

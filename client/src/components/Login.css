@@ -64,19 +64,19 @@
 }
 
 .logged-in-button {
-  background-color: #ec9f10;
+  background-color: #fca542;
   text-shadow: 0 0 2px #f3d59c;
 }
 
 .logged-in-button:hover {
-  background-color: #fabe4f;
+  background-color: #fdc27d;
 }
 
 .logged-out-button {
-  background-color: #3d8b95;
+  background-color: #459da8;
   text-shadow: 0 0 2px #9ac6cc;
 }
 
 .logged-out-button:hover {
-  background-color: #58a8b3;
+  background-color: #5eb6c2;
 }
