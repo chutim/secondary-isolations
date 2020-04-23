@@ -123,10 +123,10 @@
 }
 
 .alert-box {
-  height: 115px;
-  width: 400px;
+  height: 110px;
+  width: 350px;
   border-radius: 20px;
-  background-color: #ffc788;
+  background-color: #ffcf98;
   position: absolute;
   top: 250px;
   box-shadow: 0 0 20px #a694d6;
@@ -148,10 +148,21 @@
 
 .alert-button {
   margin: 15px;
-  font-size: 20px;
+  font-size: 18px;
   padding: 7px;
   border-radius: 8px;
   letter-spacing: 1px;
+  background-color: #fff4e7;
+  border: none;
+}
+
+.alert-button:hover {
+  background-color: #ffffff;
+}
+
+.alert-button:focus {
+  outline: none;
+  box-shadow: 0 0 10px 1px #ffffff;
 }
 
 .alert-button-ok {

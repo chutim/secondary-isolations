@@ -18,7 +18,7 @@ class CreateOrEdit extends Component {
       type: "",
       constants: [[null, null, null, null]],
       duplicateID: false,
-      showAlert: "create",
+      showAlert: "",
     };
     //ref for kit type HTML input. used to clear the input's value on click, to allow showing the user both options ("Positive" and "Negative") immediately, as opposed to only suggesting matching options
     this.typeRef = React.createRef();
@@ -188,7 +188,7 @@ class CreateOrEdit extends Component {
       type === "" ||
       constantsEmpty
     ) {
-      alert("All fields must be filled.");
+      this.setState({ showAlert: "emptyFields" });
       return true;
     }
     return false;
@@ -239,8 +239,7 @@ class CreateOrEdit extends Component {
         },
         "update"
       );
-      //bug: if user copy/pastes the edit kit URL in a new tab, it will update the kit in db but then send the user back to the default new tab page
-      this.props.history.goBack();
+      this.setState({ showAlert: "update" });
     } else if (updateOrCreate === "create") {
       await apis
         .createKit({
@@ -251,14 +250,8 @@ class CreateOrEdit extends Component {
           constants,
         })
         .catch((err) => console.error(err));
+      this.setState({ showAlert: "create" });
     }
-
-    await this.clearStateAndStorage();
-    alert(
-      updateOrCreate === "update"
-        ? "Kit updated in database!"
-        : "New kit added to database!"
-    );
 
     await this.props.fetchKitsFromDatabase();
     //after App has finished grabbing the new set of kits, update the kits for the currentSpecies, in case the user goes back to the species Kits page, should see the new update
@@ -290,10 +283,9 @@ class CreateOrEdit extends Component {
     );
   };
 
-  deleteKit = async (kitID) => {
+  deleteKit = async () => {
     const { id, name, species, type, constants } = cloneDeep(this.state);
-    this.clearStateAndStorage();
-    await apis.deleteKitById(kitID).catch((err) => console.error(err));
+    await apis.deleteKitById(id).catch((err) => console.error(err));
     //update App state
     await this.props.fetchKitsFromDatabase();
     //update species' kits in Kits component if necessary
@@ -303,8 +295,29 @@ class CreateOrEdit extends Component {
       { id, name, species, type, constants },
       "delete"
     );
-    this.props.history.goBack();
     console.log("Kit deleted from database.");
+  };
+
+  handleAlert = async () => {
+    const action = this.state.showAlert;
+    //bug: if user copy/pastes the edit kit URL in a new tab, it will update the kit in db but then send the user back to the default new tab page
+    switch (action) {
+      case "delete":
+        await this.deleteKit();
+        this.props.history.goBack();
+        this.clearStateAndStorage();
+        break;
+      case "update":
+        this.props.history.goBack();
+        this.clearStateAndStorage();
+        break;
+      case "create":
+        this.clearStateAndStorage();
+        break;
+      default:
+        break;
+    }
+    this.setState({ showAlert: "" });
   };
 
   render() {
@@ -555,12 +568,7 @@ class CreateOrEdit extends Component {
                 className="create-master-button create-delete-button"
                 type="button"
                 onClick={() => {
-                  if (
-                    window.confirm(
-                      "Confirm permanently deleting this kit from the database?"
-                    )
-                  )
-                    this.deleteKit(this.state.id);
+                  this.setState({ showAlert: "delete" });
                 }}
               >
                 Delete Kit
@@ -573,14 +581,14 @@ class CreateOrEdit extends Component {
           <div className="alert-box">
             <div className="alert-text">
               {this.state.showAlert === "create"
-                ? "New isolation kit added."
+                ? "New isolation kit created."
                 : this.state.showAlert === "update"
                 ? "Isolation kit updated."
                 : "All fields must be filled."}
             </div>
             <button
               className="alert-button alert-button-ok"
-              onClick={() => this.setState({ showAlert: "" })}
+              onClick={this.handleAlert}
             >
               OK
             </button>
@@ -599,7 +607,10 @@ class CreateOrEdit extends Component {
               >
                 Cancel
               </button>
-              <button className="alert-button alert-button-delete">
+              <button
+                className="alert-button alert-button-delete"
+                onClick={this.handleAlert}
+              >
                 Delete
               </button>
             </div>
