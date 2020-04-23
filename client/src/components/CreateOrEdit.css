@@ -123,20 +123,23 @@
 }
 
 .alert-box {
-  height: 110px;
-  width: 350px;
   border-radius: 20px;
   background-color: #ffcf98;
   position: absolute;
   top: 250px;
   box-shadow: 0 0 20px #a694d6;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .alert-delete {
-  height: 200px;
+  width: 300px;
 }
 
 .alert-button-container {
+  display: flex;
+  flex-direction: row;
 }
 
 /* ----------------TEXT---------------- */
@@ -144,36 +147,8 @@
   margin-top: 20px;
   font-size: 20px;
   letter-spacing: 1px;
-}
-
-.alert-button {
-  margin: 15px;
-  font-size: 18px;
-  padding: 7px;
-  border-radius: 8px;
-  letter-spacing: 1px;
-  background-color: #fff4e7;
-  border: none;
-}
-
-.alert-button:hover {
-  background-color: #ffffff;
-}
-
-.alert-button:focus {
-  outline: none;
-  box-shadow: 0 0 10px 1px #ffffff;
-}
-
-.alert-button-ok {
-  padding-left: 20px;
-  padding-right: 20px;
-}
-
-.alert-button-cancel {
-}
-
-.alert-button-delete {
+  margin-left: 40px;
+  margin-right: 40px;
 }
 
 .edit-kit-id {
@@ -295,4 +270,42 @@
 .create-delete-button:focus {
   outline: none;
   box-shadow: 0px 0px 10px 1px #ff6449;
+}
+
+.alert-button {
+  margin: 17px;
+  font-size: 18px;
+  padding: 7px;
+  border-radius: 8px;
+  letter-spacing: 1px;
+  background-color: #fff4e7;
+  border: none;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.alert-button:hover {
+  background-color: #ffffff;
+}
+
+.alert-button:focus {
+  outline: none;
+  box-shadow: 0 0 10px 1px #ffffff;
+}
+
+.alert-button-cancel {
+  margin-right: 7px;
+}
+
+.alert-button-delete {
+  margin-left: 7px;
+  background-color: #ff6449;
+}
+
+.alert-button-delete:hover {
+  background-color: #ff8c77;
+}
+
+.alert-button-delete:focus {
+  box-shadow: 0 0 10px 1px #ff8c77;
 }

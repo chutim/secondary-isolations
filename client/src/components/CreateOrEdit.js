@@ -586,10 +586,7 @@ class CreateOrEdit extends Component {
                 ? "Isolation kit updated."
                 : "All fields must be filled."}
             </div>
-            <button
-              className="alert-button alert-button-ok"
-              onClick={this.handleAlert}
-            >
+            <button className="alert-button" onClick={this.handleAlert}>
               OK
             </button>
           </div>
@@ -598,7 +595,8 @@ class CreateOrEdit extends Component {
         {this.state.showAlert === "delete" ? (
           <div className="alert-box alert-delete">
             <div className="alert-text">
-              Confirm permanently deleting this isolation kit?
+              Permanently delete
+              <br /> this isolation kit?
             </div>
             <div className="alert-button-container">
               <button
