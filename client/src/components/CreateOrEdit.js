@@ -20,7 +20,7 @@ class CreateOrEdit extends Component {
       duplicateID: false,
       showAlert: "",
     };
-    //ref for kit type HTML input. used to clear the input's value on click, to allow showing the user both options ("Positive" and "Negative") immediately, as opposed to only suggesting matching options
+    //ref for kit type HTML input. helps clear the input's value on click, showing the user both options ("Positive" and "Negative") immediately, as opposed to only suggesting matching options
     this.typeRef = React.createRef();
   }
 
@@ -34,6 +34,7 @@ class CreateOrEdit extends Component {
     }
   };
 
+  /*--------------------------CDM functions------------------------------ */
   fetchKitByID = async (kitID) => {
     console.log("Finding kit data based on URL...");
     let kit = await apis
@@ -73,6 +74,7 @@ class CreateOrEdit extends Component {
     console.log("Saved create kit data loaded.");
   };
 
+  /*---------------------input field suggestions--------------------------- */
   generateConstantsDatalists = memoize((allKits) => {
     if (!allKits) return;
     const constantNames = this.createArrayOfNonRepeatingElements(
@@ -104,13 +106,7 @@ class CreateOrEdit extends Component {
     return Array.from(set).sort();
   };
 
-  updateLocalStorage = (createOrUpdate) => {
-    if (createOrUpdate === "create")
-      localStorage.setItem("createState", JSON.stringify(this.state));
-    else if (createOrUpdate === "update")
-      localStorage.setItem("updateState", JSON.stringify(this.state));
-  };
-
+  /*--------------------------input handlers------------------------------ */
   handleInputConstant = async (e, constantRow, constantType) => {
     const constants = cloneDeep(this.state.constants);
     switch (constantType) {
@@ -156,6 +152,7 @@ class CreateOrEdit extends Component {
     );
   };
 
+  /*-------------------------form validation------------------------------ */
   capitalizeWords = (string) => {
     const arrayOfWords = string.split(" ");
     const capitalizedArray = arrayOfWords.map((word) => {
@@ -215,6 +212,7 @@ class CreateOrEdit extends Component {
     };
   };
 
+  /*--------------------------form submission------------------------------ */
   handleSubmit = async (e, updateOrCreate) => {
     e.preventDefault();
     if (this.validateFields() === false) return;
@@ -258,31 +256,6 @@ class CreateOrEdit extends Component {
     await this.props.selectSpecies(this.props.currentSpecies);
   };
 
-  clearStateAndStorage = () => {
-    localStorage.removeItem(
-      this.props.match.params.kitID ? "updateState" : "createState"
-    );
-    this.setState({
-      id: "",
-      name: "",
-      species: "",
-      type: "",
-      constants: [[null, null, null, null]],
-    });
-  };
-
-  modifyConstantRows = async (modification) => {
-    if (modification === "add")
-      await this.setState({
-        constants: [...this.state.constants, [null, null, null, null]],
-      });
-    else if (modification === "subtract")
-      await this.setState({ constants: this.state.constants.slice(0, -1) });
-    this.updateLocalStorage(
-      this.props.match.params.kitID ? "update" : "create"
-    );
-  };
-
   deleteKit = async () => {
     const { id, name, species, type, constants } = cloneDeep(this.state);
     await apis.deleteKitById(id).catch((err) => console.error(err));
@@ -319,6 +292,40 @@ class CreateOrEdit extends Component {
     }
     this.setState({ showAlert: "" });
   };
+
+  /*---------------------------other functions----------------------------- */
+  updateLocalStorage = (createOrUpdate) => {
+    if (createOrUpdate === "create")
+      localStorage.setItem("createState", JSON.stringify(this.state));
+    else if (createOrUpdate === "update")
+      localStorage.setItem("updateState", JSON.stringify(this.state));
+  };
+
+  clearStateAndStorage = () => {
+    localStorage.removeItem(
+      this.props.match.params.kitID ? "updateState" : "createState"
+    );
+    this.setState({
+      id: "",
+      name: "",
+      species: "",
+      type: "",
+      constants: [[null, null, null, null]],
+    });
+  };
+
+  modifyConstantRows = async (modification) => {
+    if (modification === "add")
+      await this.setState({
+        constants: [...this.state.constants, [null, null, null, null]],
+      });
+    else if (modification === "subtract")
+      await this.setState({ constants: this.state.constants.slice(0, -1) });
+    this.updateLocalStorage(
+      this.props.match.params.kitID ? "update" : "create"
+    );
+  };
+  /*--------------------------------------------------------------------- */
 
   render() {
     const datalists = this.generateConstantsDatalists(this.props.allKits);

@@ -12,7 +12,7 @@ const Invalid = (props) => {
           <div className="search-handle"></div>
         </div>
 
-        <div className="error-text invalid-text">No such page exists.</div>
+        <div className="error-text invalid-text">Page could not be found.</div>
       </div>
 
       <Footer {...props} currComponent={"Error"} />
