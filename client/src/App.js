@@ -491,7 +491,6 @@ class App extends Component {
                 {...props}
                 loggedIn={this.state.loggedIn}
                 tableKitIDs={this.state.tableKitIDs}
-                tableKitData={this.state.tableKitData}
                 arrayedKitData={this.state.arrayedKitData}
                 tableRowsHash={this.state.tableRowsHash}
                 selectSpecies={this.selectSpecies}
