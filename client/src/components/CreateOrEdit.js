@@ -584,43 +584,51 @@ class CreateOrEdit extends Component {
           </div>
         </form>
 
-        {this.state.showAlert !== "delete" && this.state.showAlert !== "" ? (
-          <div className="alert-box">
-            <div className="alert-text">
-              {this.state.showAlert === "create"
-                ? "New isolation kit created."
-                : this.state.showAlert === "update"
-                ? "Isolation kit updated."
-                : "All fields must be filled."}
-            </div>
-            <button className="alert-button" onClick={this.handleAlert}>
-              OK
+        <div
+          className={
+            this.state.showAlert !== "delete" && this.state.showAlert !== ""
+              ? "alert-box"
+              : "alert-box-hidden"
+          }
+        >
+          <div className="alert-text">
+            {this.state.showAlert === "create"
+              ? "New isolation kit created."
+              : this.state.showAlert === "update"
+              ? "Isolation kit updated."
+              : "All fields must be filled."}
+          </div>
+          <button className="alert-button" onClick={this.handleAlert}>
+            OK
+          </button>
+        </div>
+
+        <div
+          className={
+            this.state.showAlert === "delete"
+              ? "alert-box alert-delete"
+              : "alert-box-hidden alert-delete"
+          }
+        >
+          <div className="alert-text">
+            Permanently delete
+            <br /> this isolation kit?
+          </div>
+          <div className="alert-button-container">
+            <button
+              className="alert-button alert-button-cancel"
+              onClick={() => this.setState({ showAlert: "" })}
+            >
+              Cancel
+            </button>
+            <button
+              className="alert-button alert-button-delete"
+              onClick={this.handleAlert}
+            >
+              DELETE
             </button>
           </div>
-        ) : null}
-
-        {this.state.showAlert === "delete" ? (
-          <div className="alert-box alert-delete">
-            <div className="alert-text">
-              Permanently delete
-              <br /> this isolation kit?
-            </div>
-            <div className="alert-button-container">
-              <button
-                className="alert-button alert-button-cancel"
-                onClick={() => this.setState({ showAlert: "" })}
-              >
-                Cancel
-              </button>
-              <button
-                className="alert-button alert-button-delete"
-                onClick={this.handleAlert}
-              >
-                Delete
-              </button>
-            </div>
-          </div>
-        ) : null}
+        </div>
 
         <Footer {...this.props} currComponent={"CreateOrEdit"} />
       </div>

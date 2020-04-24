@@ -123,6 +123,7 @@
 }
 
 .alert-box {
+  opacity: 1;
   border-radius: 20px;
   background-color: #ffcf98;
   position: absolute;
@@ -131,6 +132,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  transition: 0.2s;
+  z-index: 100;
 }
 
 .alert-delete {
@@ -140,6 +143,16 @@
 .alert-button-container {
   display: flex;
   flex-direction: row;
+}
+
+.alert-box-hidden {
+  border-radius: 20px;
+  opacity: 0;
+  background-color: #ffcf98;
+  position: absolute;
+  top: 250px;
+  transition: 0.3s;
+  z-index: -1;
 }
 
 /* ----------------TEXT---------------- */
