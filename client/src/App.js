@@ -25,14 +25,14 @@ kit = {
   species: "Human",
   type: "Negative",
   constants: [
-    ["Buffer (µL)", "40"],
-    ["FcR Blocking Reagent (µL)", "10"],
-    ["Biotin-Antibody Cocktail (µL)", "10"],
-    ["Incubation (min)", "5"],
-    ["Buffer (µL)", "30"],
-    ["Anti-Biotin Microbeads (µL)", "20"],
-    ["Incubation (min)", "10"],
-    ["Washes (times x mL)", "3 x 3"]
+    ["Buffer", "µL", "40", "10^7"],
+    ["FcR Blocking Reagent", "µL", "10", "10^7"],
+    ["Biotin-Antibody Cocktail", "µL", "10", "10^7"],
+    ["Incubation", "min", "5", "n/a"],
+    ["Buffer", "µL", "30", "10^7"],
+    ["Anti-Biotin Microbeads", "µL", "20", "10^7"],
+    ["Incubation", "min", "10", "n/a"],
+    ["Washes", "times x mL", "3 x 3", "n/a"]
   ]
 };
 
