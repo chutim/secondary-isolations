@@ -128,6 +128,7 @@ class App extends Component {
         currentPosKits,
         currentNegKits,
         tableKitIDs,
+        tableData,
         tableKitData,
         arrayedKitData,
         tableRowsHash,
@@ -138,6 +139,7 @@ class App extends Component {
         currentPosKits,
         currentNegKits,
         tableKitIDs,
+        tableData,
         tableKitData,
         arrayedKitData,
         tableRowsHash,
@@ -242,7 +244,7 @@ class App extends Component {
       }
 
       let kitSamples = speciesKit.samples;
-      const newSample = Array(kit.constants.length + 2).fill(null);
+      const newSample = Array(kit.constants.length + 2).fill("");
       kitSamples.push(newSample);
 
       await this.modifyRowCount(modification);
@@ -394,14 +396,80 @@ class App extends Component {
   //   this.updateLocalStorage();
   // };
 
-  updateRowCellCount = (inputType, kit, input) => {
-    const tableData = cloneDeep(this.state.tableData);
-    if (inputType === "sampleID") {
-      tableData[kit.species][kit.id].samples[0] = input;
-    } else if (inputType === "cellCount") {
-      tableData[kit.species][kit.id].samples[1] = input;
-      this.calculateCells();
+  normalizeCellCount = (constantCellDivisor, cellCount) => {
+    //grab the exponent from the kit cell divisor and convert into powers of 10 above 10^6
+    const kitCellDivisor =
+      10 ** ((constantCellDivisor && constantCellDivisor.split("^")[1]) - 6);
+    //6 corresponds to 10^6
+
+    let normalizedCellCount = cellCount / kitCellDivisor;
+
+    //if the constant is for a "up to 10^XX" kind of parameter, round up
+    if (constantCellDivisor.includes("up to")) {
+      normalizedCellCount = Math.ceil(normalizedCellCount);
     }
+
+    return normalizedCellCount;
+  };
+
+  calculateVolume = (constantCellDivisor, kitConstant, cellCount) => {
+    const normalizedCellCount = this.normalizeCellCount(
+      constantCellDivisor,
+      cellCount
+    );
+    let finalVol = kitConstant * normalizedCellCount;
+
+    //cap the volume at 50 mL -> lab protocol
+    if (finalVol > 50000) finalVol = 50000;
+
+    return finalVol;
+  };
+
+  calculateCells = (row, constants, cellCount) => {
+    for (let i = 2; i < row.length; i++) {
+      const currentConstant = constants[i - 2];
+      const constantCellDivisor = currentConstant[3];
+      const kitConstant = currentConstant[2];
+      console.log(kitConstant);
+
+      //if the constant is for an incubation, a spin, or the final washes, just render it
+      if (constantCellDivisor === "n/a") {
+        row[i] = kitConstant;
+        continue;
+      }
+
+      //otherwise, a calculation is needed
+      const calculatedVol = this.calculateVolume(
+        constantCellDivisor,
+        kitConstant,
+        cellCount
+      );
+
+      //add comma separators for visibility
+      row[i] = calculatedVol
+        ? calculatedVol.toLocaleString("en", { useGrouping: true })
+        : "";
+    }
+
+    return row;
+  };
+
+  updateRowCellCount = async (inputType, kit, sampleRow, input) => {
+    const tableData = cloneDeep(this.state.tableData);
+    let row = tableData[kit.species][kit.id].samples[sampleRow];
+
+    if (inputType === "sampleID") {
+      row[0] = input;
+    } else if (inputType === "cellCount") {
+      row[1] = input;
+
+      row = this.calculateCells(row, kit.constants, input);
+      console.log(row);
+    }
+    console.log(tableData);
+
+    await this.setState({ tableData });
+    this.updateLocalStorage();
   };
 
   deleteSpeciesFromTable = async (species) => {

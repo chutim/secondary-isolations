@@ -121,7 +121,7 @@ const Table = (props) => {
     return rows;
   };
 
-  const generateSampleCells = (sampleRow, kit) => {
+  const generateSampleCells = (sampleRow, kit, rowIdx) => {
     const cells = [];
     sampleRow.forEach((cell, idx) => {
       if (idx === 0) {
@@ -130,7 +130,12 @@ const Table = (props) => {
             <input
               className="user-input medium-cell"
               onChange={(e) =>
-                props.updateRowCellCount("sampleID", kit, e.target.value)
+                props.updateRowCellCount(
+                  "sampleID",
+                  kit,
+                  rowIdx,
+                  e.target.value
+                )
               }
               value={cell}
             ></input>
@@ -147,7 +152,12 @@ const Table = (props) => {
                   e.preventDefault();
               }}
               onChange={(e) =>
-                props.updateRowCellCount("cellCount", kit, e.target.value)
+                props.updateRowCellCount(
+                  "cellCount",
+                  kit,
+                  rowIdx,
+                  e.target.value
+                )
               }
               value={cell}
             ></input>
@@ -164,7 +174,7 @@ const Table = (props) => {
     const sampleRows = kit.samples;
     return sampleRows.map((row, idx) => (
       <tr className="table-variables-row" key={idx}>
-        {generateSampleCells(row, kit)}
+        {generateSampleCells(row, kit, idx)}
       </tr>
     ));
   };
