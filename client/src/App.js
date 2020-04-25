@@ -69,6 +69,7 @@ class App extends Component {
       currentPosKits: [],
       currentNegKits: [],
       tableKitIDs: {},
+      tableData: {},
       tableKitData: [],
       arrayedKitData: [],
       tableRowsHash: {},
@@ -225,20 +226,53 @@ class App extends Component {
   };
 
   updateTable = async (modification, kit) => {
-    let tableKitIDs = Object.assign({}, this.state.tableKitIDs);
-    if (modification === "add") {
-      tableKitIDs[kit.id] = (tableKitIDs[kit.id] || 0) + 1;
+    // let tableKitIDs = Object.assign({}, this.state.tableKitIDs);
+    const tableData = cloneDeep(this.state.tableData);
+    tableData[kit.species] = tableData[kit.species] || {};
+    let tableSpecies = tableData[kit.species];
 
-      let rowID = tableKitIDs[kit.id];
-      let rowKey = kit.id + " " + rowID;
-      await this.modifyTableRowsHash(modification, kit.species, rowKey);
+    if (modification === "add") {
+      tableSpecies[kit.id] = tableSpecies[kit.id] || {};
+      let speciesKit = tableSpecies[kit.id];
+      if (!Object.keys(speciesKit).length) {
+        Object.assign(speciesKit, kit);
+        speciesKit.samples = [];
+      }
+      let kitSamples = speciesKit.samples;
+      const newSample = Array(kit.constants.length + 2).fill(null);
+      kitSamples.push(newSample);
+      await this.modifyRowCount(modification);
+    } else if (modification === "subtract" && tableSpecies[kit.id]) {
+      let kitSamples = tableSpecies[kit.id].samples;
+      kitSamples.pop();
+      if (!kitSamples.length) {
+        delete tableSpecies[kit.id];
+      }
+      if (!Object.keys(tableSpecies).length) {
+        delete tableData[kit.species];
+      }
+      await this.modifyRowCount(modification);
+    }
+    await this.setState({ tableData });
+    console.log(this.state.tableData);
+    this.updateLocalStorage();
+
+    /*
+    if (modification === "add") {
+      // tableKitIDs[kit.id] = (tableKitIDs[kit.id] || 0) + 1;
+
+      // let rowID = tableKitIDs[kit.id];
+      // let rowKey = kit.id + " " + rowID;
+      // await this.modifyTableRowsHash(modification, kit.species, rowKey);
 
       await this.modifyRowCount(modification);
-      await this.setState({ tableKitIDs });
+      // await this.setState({ tableKitIDs });
       //if the kit quantity is increased to 1, add its data to the tableKitData array
-      if (tableKitIDs[kit.id] === 1) {
-        await this.addKitData(kit.id);
-      }
+      // if (tableKitIDs[kit.id] === 1) {
+      //   await this.addKitData(kit.id);
+      // }
+
+
     } else if (modification === "subtract") {
       if (tableKitIDs[kit.id]) {
         //remove from tableRowsHash first, before decrementing tableKitIDs. need the correct rowID
@@ -258,6 +292,7 @@ class App extends Component {
     }
 
     this.updateLocalStorage();
+    */
   };
 
   addKitData = async (kitID) => {
