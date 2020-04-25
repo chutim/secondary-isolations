@@ -227,17 +227,19 @@ class CreateOrEdit extends Component {
           constants,
         })
         .catch((err) => console.error(err));
-      //ONLY DO THE FOLLOWING IF THE KIT IS ON THE TABLE, check for species
-      this.props.updateTableData(
-        {
-          id,
-          name,
-          species,
-          type,
-          constants,
-        },
-        "update"
-      );
+      //need logic for if the user updates the species, then you need to dlete the existing kit with the old species. cant have the same id.
+      if (this.props.tableData[species][id]) {
+        this.props.updateTableData(
+          {
+            id,
+            name,
+            species,
+            type,
+            constants,
+          },
+          "update"
+        );
+      }
       this.setState({ showAlert: "update" });
     } else if (updateOrCreate === "create") {
       await apis

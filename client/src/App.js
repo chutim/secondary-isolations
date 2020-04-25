@@ -73,15 +73,6 @@ class App extends Component {
       allSpecies: [],
       allKitIDs: {}, //used for creating kit. checking if ID already exists
     };
-
-    this.selectSpecies = this.selectSpecies.bind(this);
-    this.updateTable = this.updateTable.bind(this);
-    this.clearTable = this.clearTable.bind(this);
-    this.deleteSpeciesFromTable = this.deleteSpeciesFromTable.bind(this);
-    this.deleteKitFromTable = this.deleteKitFromTable.bind(this);
-    this.fetchKitsFromDatabase = this.fetchKitsFromDatabase.bind(this);
-    this.updateTableData = this.updateTableData.bind(this);
-    this.setLoggedInStatus = this.setLoggedInStatus.bind(this);
   }
 
   componentDidMount = async () => {
@@ -296,23 +287,6 @@ class App extends Component {
     this.updateLocalStorage();
   };
 
-  hashifyKitData = (tableKitData) => {
-    const kitDataHash = {};
-    for (let kit of tableKitData) {
-      kitDataHash[kit.species] = (kitDataHash[kit.species] || []).concat(kit);
-    }
-    return this.arrayifyKitData(kitDataHash);
-  };
-
-  arrayifyKitData = (kitDataHash) => {
-    let arrayedKitData = [];
-    for (let groupSpecies in kitDataHash) {
-      const groupArray = [groupSpecies, kitDataHash[groupSpecies]];
-      arrayedKitData.push(groupArray);
-    }
-    return arrayedKitData;
-  };
-
   normalizeCellCount = (constantCellDivisor, cellCount) => {
     //grab the exponent from the kit cell divisor and convert into powers of 10 above 10^6
     const kitCellDivisor =
@@ -466,6 +440,7 @@ class App extends Component {
             allKitIDs={this.state.allKitIDs}
             currentSpecies={this.state.currentSpecies}
             allSpecies={this.state.allSpecies}
+            tableData={this.state.tableData}
             fetchKitsFromDatabase={this.fetchKitsFromDatabase}
             selectSpecies={this.selectSpecies}
             updateTableData={this.updateTableData}
@@ -480,6 +455,7 @@ class App extends Component {
             allKitIDs={this.state.allKitIDs}
             currentSpecies={this.state.currentSpecies}
             allSpecies={this.state.allSpecies}
+            tableData={this.state.tableData}
             fetchKitsFromDatabase={this.fetchKitsFromDatabase}
             selectSpecies={this.selectSpecies}
           ></PrivateRoute>
