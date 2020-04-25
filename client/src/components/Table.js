@@ -16,12 +16,7 @@ const Table = (props) => {
             <input
               className="user-input medium-cell"
               onChange={(e) =>
-                props.updateRowCellCount(
-                  "sampleID",
-                  kit,
-                  rowIdx,
-                  e.target.value
-                )
+                props.handleTableInput("sampleID", kit, rowIdx, e.target.value)
               }
               value={cell}
             ></input>
@@ -38,12 +33,7 @@ const Table = (props) => {
                   e.preventDefault();
               }}
               onChange={(e) =>
-                props.updateRowCellCount(
-                  "cellCount",
-                  kit,
-                  rowIdx,
-                  e.target.value
-                )
+                props.handleTableInput("cellCount", kit, rowIdx, e.target.value)
               }
               value={cell}
             ></input>

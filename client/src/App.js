@@ -396,7 +396,7 @@ class App extends Component {
     return row;
   };
 
-  updateRowCellCount = async (inputType, kit, sampleRow, input) => {
+  handleTableInput = async (inputType, kit, sampleRow, input) => {
     const tableData = cloneDeep(this.state.tableData);
     let row = tableData[kit.species][kit.id].samples[sampleRow];
 
@@ -453,9 +453,7 @@ class App extends Component {
   clearTable = async () => {
     await this.setState({
       rowCount: 0,
-      tableKitData: [],
-      arrayedKitData: [],
-      tableRowsHash: {},
+      tableData: {},
     });
     this.updateLocalStorage();
   };
@@ -517,12 +515,10 @@ class App extends Component {
               <Table
                 {...props}
                 loggedIn={this.state.loggedIn}
-                arrayedKitData={this.state.arrayedKitData}
                 tableData={this.state.tableData}
-                tableRowsHash={this.state.tableRowsHash}
                 selectSpecies={this.selectSpecies}
                 updateTable={this.updateTable}
-                updateRowCellCount={this.updateRowCellCount}
+                handleTableInput={this.handleTableInput}
                 deleteSpeciesFromTable={this.deleteSpeciesFromTable}
                 deleteKitFromTable={this.deleteKitFromTable}
                 clearTable={this.clearTable}
