@@ -227,7 +227,8 @@ class CreateOrEdit extends Component {
           constants,
         })
         .catch((err) => console.error(err));
-      this.props.updateTableKitData(
+      //ONLY DO THE FOLLOWING IF THE KIT IS ON THE TABLE, check for species
+      this.props.updateTableData(
         {
           id,
           name,
@@ -264,7 +265,7 @@ class CreateOrEdit extends Component {
     //update species' kits in Kits component if necessary
     await this.props.selectSpecies(this.props.currentSpecies);
 
-    await this.props.updateTableKitData(
+    await this.props.updateTableData(
       { id, name, species, type, constants },
       "delete"
     );

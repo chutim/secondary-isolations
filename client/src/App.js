@@ -80,7 +80,7 @@ class App extends Component {
     this.deleteSpeciesFromTable = this.deleteSpeciesFromTable.bind(this);
     this.deleteKitFromTable = this.deleteKitFromTable.bind(this);
     this.fetchKitsFromDatabase = this.fetchKitsFromDatabase.bind(this);
-    this.updateTableKitData = this.updateTableKitData.bind(this);
+    this.updateTableData = this.updateTableData.bind(this);
     this.setLoggedInStatus = this.setLoggedInStatus.bind(this);
   }
 
@@ -266,45 +266,32 @@ class App extends Component {
     this.updateLocalStorage();
   };
 
-  addKitData = async (kitID) => {
-    //find the correct kit from allKits and add to the table
-    for (let kit of this.state.allKits) {
-      if (kit.id === kitID) {
-        const tableKitData = [...this.state.tableKitData, kit];
-        const arrayedKitData = this.hashifyKitData(tableKitData);
-        await this.setState({
-          tableKitData,
-          arrayedKitData,
-        });
-        return;
-      }
-    }
-    console.log("Kit not found in allKits.");
-    return;
-  };
-
-  removeKitData = (kitID) => {
-    const tableKitData = this.state.tableKitData;
-    const filteredKitData = tableKitData.filter((kit) => kit.id !== kitID);
-    const arrayedKitData = this.hashifyKitData(filteredKitData);
-    this.setState({ tableKitData: filteredKitData, arrayedKitData });
-  };
-
-  updateTableKitData = async (updatedKit, mod) => {
-    //find the kit in tableKitData and replace or delete it
-    const tableKitData = cloneDeep(this.state.tableKitData);
+  updateTableData = async (updatedKit, mod) => {
+    const tableData = cloneDeep(this.state.tableData);
     if (mod === "update") {
-      for (let i = 0; i < tableKitData.length; i++) {
-        if (tableKitData[i].id === updatedKit.id) {
-          tableKitData[i] = updatedKit;
-          break;
-        }
+      const { id, name, species, type, constants } = updatedKit;
+      const kit = tableData[species][id];
+      kit.name = name;
+      kit.species = species;
+      kit.type = type;
+      kit.constants = constants;
+
+      for (let rowIdx in kit.samples) {
+        let row = kit.samples[rowIdx];
+        const sampleID = row[0];
+        const cellCount = row[1];
+        row = [sampleID, cellCount, ...Array(constants.length).fill("")];
+        this.calculateCells(row, constants, cellCount);
+        kit.samples[rowIdx] = row;
       }
-      //generate arrayedKitData for Table to use
-      const arrayedKitData = this.hashifyKitData(tableKitData);
-      await this.setState({ tableKitData, arrayedKitData });
+
+      await this.setState({ tableData });
     } else if (mod === "delete") {
-      await this.deleteKitFromTable(updatedKit.id, updatedKit.species);
+      await this.handleTableDeleteButton(
+        "kit",
+        updatedKit.species,
+        updatedKit.id
+      );
     }
     this.updateLocalStorage();
   };
@@ -324,19 +311,6 @@ class App extends Component {
       arrayedKitData.push(groupArray);
     }
     return arrayedKitData;
-  };
-
-  modifyTableRowsHash = async (modification, species, rowKey) => {
-    const tableRowsHash = cloneDeep(this.state.tableRowsHash);
-    if (modification === "add") {
-      if (!tableRowsHash[species]) tableRowsHash[species] = {};
-      tableRowsHash[species][rowKey] = [undefined, undefined];
-    } else if (modification === "subtract") {
-      delete tableRowsHash[species][rowKey];
-    }
-
-    await this.setState({ tableRowsHash });
-    this.updateLocalStorage();
   };
 
   normalizeCellCount = (constantCellDivisor, cellCount) => {
@@ -392,8 +366,6 @@ class App extends Component {
         ? calculatedVol.toLocaleString("en", { useGrouping: true })
         : "";
     }
-
-    return row;
   };
 
   handleTableInput = async (inputType, kit, sampleRow, input) => {
@@ -404,7 +376,7 @@ class App extends Component {
       row[0] = input;
     } else if (inputType === "cellCount") {
       row[1] = input;
-      row = this.calculateCells(row, kit.constants, input);
+      this.calculateCells(row, kit.constants, input);
     }
 
     await this.setState({ tableData });
@@ -496,7 +468,7 @@ class App extends Component {
             allSpecies={this.state.allSpecies}
             fetchKitsFromDatabase={this.fetchKitsFromDatabase}
             selectSpecies={this.selectSpecies}
-            updateTableKitData={this.updateTableKitData}
+            updateTableData={this.updateTableData}
           ></PrivateRoute>
 
           <PrivateRoute
