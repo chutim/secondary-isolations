@@ -228,33 +228,45 @@ class App extends Component {
   updateTable = async (modification, kit) => {
     // let tableKitIDs = Object.assign({}, this.state.tableKitIDs);
     const tableData = cloneDeep(this.state.tableData);
-    tableData[kit.species] = tableData[kit.species] || {};
-    let tableSpecies = tableData[kit.species];
-
+    const tableSpecies = tableData[kit.species];
     if (modification === "add") {
+      tableData[kit.species] = tableData[kit.species] || {};
+      const tableSpecies = tableData[kit.species];
+
       tableSpecies[kit.id] = tableSpecies[kit.id] || {};
-      let speciesKit = tableSpecies[kit.id];
+      const speciesKit = tableSpecies[kit.id];
+
       if (!Object.keys(speciesKit).length) {
         Object.assign(speciesKit, kit);
         speciesKit.samples = [];
       }
+
       let kitSamples = speciesKit.samples;
       const newSample = Array(kit.constants.length + 2).fill(null);
       kitSamples.push(newSample);
+
       await this.modifyRowCount(modification);
-    } else if (modification === "subtract" && tableSpecies[kit.id]) {
+    } else if (
+      modification === "subtract" &&
+      tableSpecies &&
+      tableSpecies[kit.id]
+    ) {
       let kitSamples = tableSpecies[kit.id].samples;
       kitSamples.pop();
+
       if (!kitSamples.length) {
         delete tableSpecies[kit.id];
       }
+
       if (!Object.keys(tableSpecies).length) {
         delete tableData[kit.species];
       }
+
       await this.modifyRowCount(modification);
     }
     await this.setState({ tableData });
     console.log(this.state.tableData);
+
     this.updateLocalStorage();
 
     /*
@@ -487,6 +499,7 @@ class App extends Component {
                 currentNegKits={this.state.currentNegKits}
                 rowCount={this.state.rowCount}
                 tableKitIDs={this.state.tableKitIDs}
+                tableData={this.state.tableData}
                 updateTable={this.updateTable}
               />
             )}

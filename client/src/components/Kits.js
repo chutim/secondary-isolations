@@ -73,7 +73,10 @@ const Kits = (props) => {
                   </button>
 
                   <div className="kit-count">
-                    {props.tableKitIDs[kit.id] || 0}
+                    {(props.tableData[kit.species] &&
+                      props.tableData[kit.species][kit.id] &&
+                      props.tableData[kit.species][kit.id].samples.length) ||
+                      0}
                   </div>
 
                   <button
