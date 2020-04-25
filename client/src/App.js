@@ -19,6 +19,7 @@ import "./App.css";
 
 /*
 DATA STRUCTURES EXAMPLES:
+
 kit = {
   id: "130-096-537",
   name: "Pan Monocyte Isolation Kit",
@@ -29,30 +30,30 @@ kit = {
     ["FcR Blocking Reagent", "µL", "10", "10^7"],
     ["Biotin-Antibody Cocktail", "µL", "10", "10^7"],
     ["Incubation", "min", "5", "n/a"],
-    ["Buffer", "µL", "30", "10^7"],
-    ["Anti-Biotin Microbeads", "µL", "20", "10^7"],
-    ["Incubation", "min", "10", "n/a"],
-    ["Washes", "times x mL", "3 x 3", "n/a"]
-  ]
+    etc...
+  ],
 };
 
-tableKitData = [{ kit1 }, { kit2 }, { kit3 }];
-
-arrayedKitData = [
-  ["Human", [{ kit1 }, { kit2 }]],
-  ["Mouse", [{ kit1 }]]
-];
-
-tableRowsHash = {
+tableData = {
   Human: {
-    "130-096-537 0": ["Human Sample 24", "45.3"],
-    "130-096-537 1": ["Human Sample 25", "21.5"],
-    "130-096-537 2": ["Human Sample 26", "39.2"],
-    "142-829-339 0": ["Human Sample 3", "224.1"]
+    "130-096-537": {
+      id: "130-096-537",
+      name: "Pan Monocyte Isolation Kit",
+      species: "Human",
+      type: "Negative",
+      constants: [
+        ["Buffer", "µL", "40", "10^7"],
+        ["FcR Blocking Reagent", "µL", "10", "10^7"],
+        ["Biotin-Antibody Cocktail", "µL", "10", "10^7"],
+        ["Incubation", "min", "5", "n/a"],
+        etc...
+      ],
+      samples: [
+        ["sample1", "25.2", "100.8", "25.2", "25.2", "5", etc...],
+        ["sample2", "10", "40", "10", "10", "5", etc...],
+      ],
+    },
   },
-  Mouse: {
-    "120-332-192 0": ["Mouse Pool", "31"]
-  }
 };
 */
 
@@ -67,9 +68,6 @@ class App extends Component {
       currentPosKits: [],
       currentNegKits: [],
       tableData: {},
-      tableKitData: [],
-      arrayedKitData: [],
-      tableRowsHash: {},
       allSpecies: [],
       allKitIDs: {}, //used for creating kit. checking if ID already exists
     };
@@ -116,9 +114,6 @@ class App extends Component {
         currentPosKits,
         currentNegKits,
         tableData,
-        tableKitData,
-        arrayedKitData,
-        tableRowsHash,
       } = localState;
       await this.setState({
         rowCount,
@@ -126,9 +121,6 @@ class App extends Component {
         currentPosKits,
         currentNegKits,
         tableData,
-        tableKitData,
-        arrayedKitData,
-        tableRowsHash,
       });
     }
     console.log("State loaded.");
