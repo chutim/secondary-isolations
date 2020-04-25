@@ -380,18 +380,28 @@ class App extends Component {
     this.updateLocalStorage();
   };
 
-  updateRowCellCount = async (inputType, species, rowKey, input) => {
-    const tableRowsHash = cloneDeep(this.state.tableRowsHash);
+  // updateRowCellCount = async (inputType, species, rowKey, input) => {
+  //   const tableRowsHash = cloneDeep(this.state.tableRowsHash);
 
-    if (inputType === "cellCount") {
-      tableRowsHash[species][rowKey][1] = input;
-    } else if (inputType === "sampleID") {
-      tableRowsHash[species][rowKey][0] = input;
+  //   if (inputType === "cellCount") {
+  //     tableRowsHash[species][rowKey][1] = input;
+  //   } else if (inputType === "sampleID") {
+  //     tableRowsHash[species][rowKey][0] = input;
+  //   }
+
+  //   await this.setState({ tableRowsHash });
+
+  //   this.updateLocalStorage();
+  // };
+
+  updateRowCellCount = (inputType, kit, input) => {
+    const tableData = cloneDeep(this.state.tableData);
+    if (inputType === "sampleID") {
+      tableData[kit.species][kit.id].samples[0] = input;
+    } else if (inputType === "cellCount") {
+      tableData[kit.species][kit.id].samples[1] = input;
+      this.calculateCells();
     }
-
-    await this.setState({ tableRowsHash });
-
-    this.updateLocalStorage();
   };
 
   deleteSpeciesFromTable = async (species) => {
@@ -540,6 +550,7 @@ class App extends Component {
                 loggedIn={this.state.loggedIn}
                 tableKitIDs={this.state.tableKitIDs}
                 arrayedKitData={this.state.arrayedKitData}
+                tableData={this.state.tableData}
                 tableRowsHash={this.state.tableRowsHash}
                 selectSpecies={this.selectSpecies}
                 updateTable={this.updateTable}
