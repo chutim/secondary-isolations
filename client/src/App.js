@@ -411,10 +411,7 @@ class App extends Component {
     this.updateLocalStorage();
   };
 
-  deleteSpeciesFromTable = async (species) => {
-    let rowCount = this.state.rowCount;
-    const tableData = cloneDeep(this.state.tableData);
-
+  deleteSpeciesFromTable = (rowCount, tableData, species) => {
     //deduct the numbers of samples per kit
     const kits = tableData[species];
     for (let kitID in kits) {
@@ -423,17 +420,10 @@ class App extends Component {
 
     delete tableData[species];
 
-    await this.setState({
-      rowCount,
-      tableData,
-    });
-    this.updateLocalStorage();
+    return rowCount;
   };
 
-  deleteKitFromTable = async (kitID, species) => {
-    let rowCount = this.state.rowCount;
-    const tableData = cloneDeep(this.state.tableData);
-
+  deleteKitFromTable = (rowCount, tableData, species, kitID) => {
     rowCount -= tableData[species][kitID].samples.length;
 
     delete tableData[species][kitID];
@@ -441,6 +431,19 @@ class App extends Component {
     //if there are no more kits for a species, delete species
     if (!Object.keys(tableData[species]).length) {
       delete tableData[species];
+    }
+
+    return rowCount;
+  };
+
+  handleTableDeleteButton = async (speciesOrKit, species, kitID) => {
+    let rowCount = this.state.rowCount;
+    let tableData = cloneDeep(this.state.tableData);
+
+    if (speciesOrKit === "kit") {
+      rowCount = this.deleteKitFromTable(rowCount, tableData, species, kitID);
+    } else if (speciesOrKit === "species") {
+      rowCount = this.deleteSpeciesFromTable(rowCount, tableData, species);
     }
 
     await this.setState({
@@ -519,8 +522,7 @@ class App extends Component {
                 selectSpecies={this.selectSpecies}
                 updateTable={this.updateTable}
                 handleTableInput={this.handleTableInput}
-                deleteSpeciesFromTable={this.deleteSpeciesFromTable}
-                deleteKitFromTable={this.deleteKitFromTable}
+                handleTableDeleteButton={this.handleTableDeleteButton}
                 clearTable={this.clearTable}
               />
             )}

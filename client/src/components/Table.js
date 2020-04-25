@@ -12,7 +12,7 @@ const Table = (props) => {
     sampleRow.forEach((cell, idx) => {
       if (idx === 0) {
         cells.push(
-          <td className="medium-cell">
+          <td className="medium-cell" key={idx}>
             <input
               className="user-input medium-cell"
               onChange={(e) =>
@@ -24,7 +24,7 @@ const Table = (props) => {
         );
       } else if (idx === 1) {
         cells.push(
-          <td className="short-cell">
+          <td className="short-cell" key={idx}>
             <input
               className="user-input short-cell"
               // only allow numbers and decimals
@@ -40,7 +40,7 @@ const Table = (props) => {
           </td>
         );
       } else {
-        cells.push(<td>{cell}</td>);
+        cells.push(<td key={idx}>{cell}</td>);
       }
     });
     return cells;
@@ -60,7 +60,7 @@ const Table = (props) => {
     for (let kitID in speciesKits) {
       const kit = speciesKits[kitID];
       kitsTables.push(
-        <table className="kit-table">
+        <table className="kit-table" key={kitID}>
           <thead>
             <tr>
               <th
@@ -102,7 +102,7 @@ const Table = (props) => {
                   <button
                     className="delete-button delete-kit no-print-spacer"
                     onClick={() =>
-                      props.deleteKitFromTable(kit.id, kit.species)
+                      props.handleTableDeleteButton("kit", kit.species, kit.id)
                     }
                   >
                     <i className="fas fa-trash-alt"></i>
@@ -167,7 +167,7 @@ const Table = (props) => {
     const tableData = props.tableData;
     for (let speciesGroup in tableData) {
       speciesTables.push(
-        <div className="tables-container">
+        <div className="tables-container" key={speciesGroup}>
           <div className="tables-header">
             <div className="tables-header-spacer"></div>
 
@@ -181,7 +181,9 @@ const Table = (props) => {
 
             <button
               className="delete-button delete-species no-print-spacer"
-              onClick={() => props.deleteSpeciesFromTable(speciesGroup)}
+              onClick={() =>
+                props.handleTableDeleteButton("species", speciesGroup)
+              }
             >
               <i className="fas fa-trash-alt"></i>
             </button>
