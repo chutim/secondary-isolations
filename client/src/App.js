@@ -36,8 +36,6 @@ kit = {
   ]
 };
 
-tableKitIDs = { "192-050-201": 2, "190-229-501": 1, "130-096-537": 8 };
-
 tableKitData = [{ kit1 }, { kit2 }, { kit3 }];
 
 arrayedKitData = [
@@ -68,7 +66,6 @@ class App extends Component {
       currentSpecies: "No Species Selected",
       currentPosKits: [],
       currentNegKits: [],
-      tableKitIDs: {},
       tableData: {},
       tableKitData: [],
       arrayedKitData: [],
@@ -127,7 +124,6 @@ class App extends Component {
         currentSpecies,
         currentPosKits,
         currentNegKits,
-        tableKitIDs,
         tableData,
         tableKitData,
         arrayedKitData,
@@ -138,7 +134,6 @@ class App extends Component {
         currentSpecies,
         currentPosKits,
         currentNegKits,
-        tableKitIDs,
         tableData,
         tableKitData,
         arrayedKitData,
@@ -228,7 +223,6 @@ class App extends Component {
   };
 
   updateTable = async (modification, kit) => {
-    // let tableKitIDs = Object.assign({}, this.state.tableKitIDs);
     const tableData = cloneDeep(this.state.tableData);
     const tableSpecies = tableData[kit.species];
     if (modification === "add") {
@@ -270,43 +264,6 @@ class App extends Component {
     console.log(this.state.tableData);
 
     this.updateLocalStorage();
-
-    /*
-    if (modification === "add") {
-      // tableKitIDs[kit.id] = (tableKitIDs[kit.id] || 0) + 1;
-
-      // let rowID = tableKitIDs[kit.id];
-      // let rowKey = kit.id + " " + rowID;
-      // await this.modifyTableRowsHash(modification, kit.species, rowKey);
-
-      await this.modifyRowCount(modification);
-      // await this.setState({ tableKitIDs });
-      //if the kit quantity is increased to 1, add its data to the tableKitData array
-      // if (tableKitIDs[kit.id] === 1) {
-      //   await this.addKitData(kit.id);
-      // }
-
-
-    } else if (modification === "subtract") {
-      if (tableKitIDs[kit.id]) {
-        //remove from tableRowsHash first, before decrementing tableKitIDs. need the correct rowID
-        let rowID = tableKitIDs[kit.id];
-        let rowKey = kit.id + " " + rowID;
-        --tableKitIDs[kit.id];
-        await this.setState({ tableKitIDs });
-        await this.modifyTableRowsHash(modification, kit.species, rowKey);
-
-        await this.modifyRowCount(modification);
-      }
-
-      //if the kit quantity is zero, remove its data from the tableKitData array
-      if (!tableKitIDs[kit.id]) {
-        await this.removeKitData(kit.id);
-      }
-    }
-
-    this.updateLocalStorage();
-    */
   };
 
   addKitData = async (kitID) => {
@@ -382,20 +339,6 @@ class App extends Component {
     this.updateLocalStorage();
   };
 
-  // updateRowCellCount = async (inputType, species, rowKey, input) => {
-  //   const tableRowsHash = cloneDeep(this.state.tableRowsHash);
-
-  //   if (inputType === "cellCount") {
-  //     tableRowsHash[species][rowKey][1] = input;
-  //   } else if (inputType === "sampleID") {
-  //     tableRowsHash[species][rowKey][0] = input;
-  //   }
-
-  //   await this.setState({ tableRowsHash });
-
-  //   this.updateLocalStorage();
-  // };
-
   normalizeCellCount = (constantCellDivisor, cellCount) => {
     //grab the exponent from the kit cell divisor and convert into powers of 10 above 10^6
     const kitCellDivisor =
@@ -430,9 +373,8 @@ class App extends Component {
       const currentConstant = constants[i - 2];
       const constantCellDivisor = currentConstant[3];
       const kitConstant = currentConstant[2];
-      console.log(kitConstant);
 
-      //if the constant is for an incubation, a spin, or the final washes, just render it
+      //if the constant is for an incubation, a spin, or column washes, just render it
       if (constantCellDivisor === "n/a") {
         row[i] = kitConstant;
         continue;
@@ -462,95 +404,55 @@ class App extends Component {
       row[0] = input;
     } else if (inputType === "cellCount") {
       row[1] = input;
-
       row = this.calculateCells(row, kit.constants, input);
-      console.log(row);
     }
-    console.log(tableData);
 
     await this.setState({ tableData });
     this.updateLocalStorage();
   };
 
   deleteSpeciesFromTable = async (species) => {
-    let clone = cloneDeep(this.state);
-    let {
-      rowCount,
-      tableKitIDs,
-      tableKitData,
-      arrayedKitData,
-      tableRowsHash,
-    } = clone;
+    let rowCount = this.state.rowCount;
+    const tableData = cloneDeep(this.state.tableData);
 
-    //grab the number of rows that will be deleted, subtract from tableRows
-    const speciesRows = tableRowsHash[species];
-    const numRows = Object.keys(speciesRows).length;
-    rowCount -= numRows;
-    //delete the entire species and its rows from the hash table
-    delete tableRowsHash[species];
-    //delete kits from the species, from tableKitData array. at the same time, store the IDs of any kits deleted
-    let IDs = [];
-    tableKitData = tableKitData.filter((kit) => {
-      if (kit.species !== species) return true;
-      IDs.push(kit.id);
-      return false;
-    });
-    //delete kits from tableKitIDs using the IDs grabbed during the modification of tableKitData
-    for (let ID of IDs) delete tableKitIDs[ID];
-    //delete species from arrayedKitData
-    arrayedKitData = arrayedKitData.filter((group) => group[0] !== species);
+    //deduct the numbers of samples per kit
+    const kits = tableData[species];
+    for (let kitID in kits) {
+      rowCount -= kits[kitID].samples.length;
+    }
+
+    delete tableData[species];
 
     await this.setState({
       rowCount,
-      tableKitIDs,
-      tableKitData,
-      arrayedKitData,
-      tableRowsHash,
+      tableData,
     });
-
     this.updateLocalStorage();
   };
 
-  deleteKitFromTable = async (kitID, kitSpecies) => {
-    let clone = cloneDeep(this.state);
-    let { rowCount, tableKitIDs, tableKitData, tableRowsHash } = clone;
+  deleteKitFromTable = async (kitID, species) => {
+    let rowCount = this.state.rowCount;
+    const tableData = cloneDeep(this.state.tableData);
 
-    //grab the number of rows that will be deleted, subtract from rowCount
-    let numRows = 0;
-    const kitsHash = tableRowsHash[kitSpecies];
-    for (let kit in kitsHash) {
-      if (kit.slice(0, -2) === kitID) {
-        ++numRows;
-        delete kitsHash[kit];
-      }
+    rowCount -= tableData[species][kitID].samples.length;
+
+    delete tableData[species][kitID];
+
+    //if there are no more kits for a species, delete species
+    if (!Object.keys(tableData[species]).length) {
+      delete tableData[species];
     }
-    rowCount -= numRows;
-    //delete kits from tableKitIDs
-    for (let kit in tableKitIDs) {
-      if (kit === kitID) delete tableKitIDs[kit];
-    }
-
-    //delete kit from tableKitData
-    tableKitData = tableKitData.filter((kit) => kit.id !== kitID);
-
-    //delete species from arrayedKitData
-    const arrayedKitData = this.hashifyKitData(tableKitData);
 
     await this.setState({
       rowCount,
-      tableKitIDs,
-      tableKitData,
-      arrayedKitData,
-      tableRowsHash,
+      tableData,
     });
-
     this.updateLocalStorage();
   };
 
   clearTable = async () => {
     await this.setState({
       rowCount: 0,
-      tableKitIDs: {},
       tableKitData: [],
       arrayedKitData: [],
       tableRowsHash: {},
@@ -576,7 +478,6 @@ class App extends Component {
                 currentPosKits={this.state.currentPosKits}
                 currentNegKits={this.state.currentNegKits}
                 rowCount={this.state.rowCount}
-                tableKitIDs={this.state.tableKitIDs}
                 tableData={this.state.tableData}
                 updateTable={this.updateTable}
               />
@@ -616,7 +517,6 @@ class App extends Component {
               <Table
                 {...props}
                 loggedIn={this.state.loggedIn}
-                tableKitIDs={this.state.tableKitIDs}
                 arrayedKitData={this.state.arrayedKitData}
                 tableData={this.state.tableData}
                 tableRowsHash={this.state.tableRowsHash}
