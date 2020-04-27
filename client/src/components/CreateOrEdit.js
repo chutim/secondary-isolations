@@ -227,7 +227,7 @@ class CreateOrEdit extends Component {
           constants,
         })
         .catch((err) => console.error(err));
-      //need logic for if the user updates the species, then you need to dlete the existing kit with the old species. cant have the same id.
+
       if (this.props.tableData[species][id]) {
         this.props.updateTableData(
           {
@@ -267,10 +267,13 @@ class CreateOrEdit extends Component {
     //update species' kits in Kits component if necessary
     await this.props.selectSpecies(this.props.currentSpecies);
 
-    await this.props.updateTableData(
-      { id, name, species, type, constants },
-      "delete"
-    );
+    if (this.props.tableData[species][id]) {
+      await this.props.updateTableData(
+        { id, name, species, type, constants },
+        "delete"
+      );
+    }
+
     console.log("Kit deleted from database.");
   };
 
@@ -409,6 +412,7 @@ class CreateOrEdit extends Component {
                     <input
                       className="form-top-input"
                       type="text"
+                      disabled={this.props.match.params.kitID ? true : false}
                       list="species-choices"
                       name="species"
                       onChange={this.handleInput}
