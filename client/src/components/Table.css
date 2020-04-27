@@ -199,17 +199,17 @@ td {
 .delete-button {
   border: none;
   color: white;
-  background-color: #ff7158;
+  background-color: #ff7f68;
   padding: 10px 16px;
 }
 
 .delete-button:hover {
-  background-color: #f5462f;
+  background-color: #fa6552;
 }
 
 .delete-button:focus {
   outline: none;
-  box-shadow: 0px 0px 7px #f5462f;
+  box-shadow: 0px 0px 7px #fa6552;
 }
 
 .delete-species {
@@ -218,7 +218,7 @@ td {
 }
 
 .delete-kit {
-  background-color: #ff7f68;
+  background-color: #ff8f7b;
   margin-left: 8px;
   font-size: 20px;
   border-radius: 5px;

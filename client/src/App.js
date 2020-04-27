@@ -325,7 +325,7 @@ class App extends Component {
     //cap the volume at 50 mL -> lab protocol
     if (finalVol > 50000) finalVol = 50000;
 
-    return finalVol;
+    return finalVol < 200 ? finalVol.toFixed(1) : Math.ceil(finalVol);
   };
 
   normalizeCellCount = (constantCellDivisor, cellCount) => {

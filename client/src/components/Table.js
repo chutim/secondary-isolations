@@ -68,13 +68,13 @@ const Table = (props) => {
                 <div className="kit-table-header">
                   <div>
                     <button
-                      className="kit-table-row-button add-button"
+                      className="kit-table-row-button add-button no-print"
                       onClick={() => props.updateTable("add", kit)}
                     >
                       <i className="fas fa-plus"></i>
                     </button>
                     <button
-                      className="kit-table-row-button subtract-button"
+                      className="kit-table-row-button subtract-button no-print"
                       onClick={() => props.updateTable("subtract", kit)}
                     >
                       <i className="fas fa-minus"></i>
@@ -103,7 +103,7 @@ const Table = (props) => {
                       to={`/edit/${kit.id}`}
                       className={
                         props.loggedIn
-                          ? "edit-button no-print-spacer"
+                          ? "edit-button no-print"
                           : "edit-button logged-out-edit-button"
                       }
                       //attaches kit object to props.location.state
@@ -112,7 +112,7 @@ const Table = (props) => {
                       <i className="fas fa-pen"></i>
                     </LinkButton>
                     <button
-                      className="delete-button delete-kit no-print-spacer"
+                      className="delete-button delete-kit no-print"
                       onClick={() =>
                         props.handleTableDeleteButton(
                           "kit",
