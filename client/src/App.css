@@ -146,27 +146,27 @@ button:hover {
 }
 
 .add-button {
-  background-color: #a1f2f8;
+  background-color: #93e4e7;
 }
 
 .add-button:hover {
-  background-color: #7ce6e6;
+  background-color: #51d5da;
 }
 
 .add-button:focus {
   outline: none;
-  box-shadow: 0px 0px 6px #7ce6e6;
+  box-shadow: 0px 0px 6px #51d5da;
 }
 
 .subtract-button {
-  background-color: #ffe798;
+  background-color: #fce084;
 }
 
 .subtract-button:hover {
-  background-color: #fcd75d;
+  background-color: #ffd034;
 }
 
 .subtract-button:focus {
   outline: none;
-  box-shadow: 0px 0px 6px #fcd75d;
+  box-shadow: 0px 0px 6px #ffd034;
 }

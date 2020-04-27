@@ -67,8 +67,18 @@ const Table = (props) => {
               >
                 <div className="kit-table-header">
                   <div>
-                    <button>-</button>
-                    <button>+</button>
+                    <button
+                      className="kit-table-row-button add-button"
+                      onClick={() => props.updateTable("add", kit)}
+                    >
+                      <i className="fas fa-plus"></i>
+                    </button>
+                    <button
+                      className="kit-table-row-button subtract-button"
+                      onClick={() => props.updateTable("subtract", kit)}
+                    >
+                      <i className="fas fa-minus"></i>
+                    </button>
                   </div>
 
                   <div className="kit-table-header-text-container">
