@@ -152,9 +152,8 @@
 }
 
 input:disabled {
-  color: black;
-  background-color: #ebebeb;
-  border-color: #ebebeb;
+  background-color: #f0f0f0;
+  border-color: #f0f0f0;
 }
 
 input:disabled:hover {

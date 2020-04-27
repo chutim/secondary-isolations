@@ -14,8 +14,6 @@ import apis from "./api";
 import "./App.css";
 
 //THINGS TO DO
-//write a giant function for downloading from db, changing state, changing localstorage. use when C/U/D-ing. careful not to lose table data.
-//maybe set timer with each update, to clear localStorage in 24 hours. have button to stop auto-clear in case user wants to keep the table over the weekend or something.
 
 /*
 DATA STRUCTURES EXAMPLES:
@@ -79,6 +77,76 @@ class App extends Component {
     this.getUser();
   };
 
+  /**************
+   CDM functions
+  ****************/
+  fetchLocalStorage = async () => {
+    console.log("Fetching state from local storage...");
+
+    const localState = JSON.parse(localStorage.getItem("appState"));
+    if (localState) {
+      // do not need to store/fetch allKits or allSpecies, those can change in db
+      const {
+        rowCount,
+        currentSpecies,
+        currentPosKits,
+        currentNegKits,
+        tableData,
+      } = localState;
+      await this.setState({
+        rowCount,
+        currentSpecies,
+        currentPosKits,
+        currentNegKits,
+        tableData,
+      });
+    }
+    console.log("State loaded.");
+  };
+
+  fetchKitsFromDatabase = async () => {
+    console.log("Fetching kits from database...");
+    const responseData = await apis
+      .getAllKits()
+      .then((res) => res.data.data)
+      .catch((err) => console.error(err));
+
+    const allKits = [];
+    for (let kit of responseData) {
+      //only grab the fields needed, excluding timestamps and db indices
+      const { id, name, species, type, constants } = kit;
+      allKits.push({
+        id,
+        name,
+        species,
+        type,
+        constants,
+      });
+    }
+
+    const allSpecies = this.extractAllSpecies(allKits).sort();
+    const allKitIDs = this.createKitIDHash(allKits);
+
+    await this.setState({ allKits, allSpecies, allKitIDs });
+    console.log("All kits loaded.");
+  };
+
+  extractAllSpecies = (allKits) => {
+    const speciesSet = new Set();
+    for (let kit of allKits) {
+      speciesSet.add(kit.species);
+    }
+    return Array.from(speciesSet);
+  };
+
+  createKitIDHash = (allKits) => {
+    let allKitIDs = new Set();
+    for (let kit of allKits) {
+      allKitIDs.add(kit.id);
+    }
+    return allKitIDs;
+  };
+
   getUser = () => {
     apis
       .checkLoginStatus()
@@ -98,92 +166,9 @@ class App extends Component {
       .catch((err) => console.error(err));
   };
 
-  setLoggedInStatus = (bool) => {
-    this.setState({ loggedIn: bool });
-  };
-
-  fetchLocalStorage = async () => {
-    console.log("Fetching state from local storage...");
-
-    const localState = JSON.parse(localStorage.getItem("appState"));
-    if (localState) {
-      // do not need to store/fetch allKits or allSpecies, as those can change in the database and we want to always grab the newest update on loading app
-      const {
-        rowCount,
-        currentSpecies,
-        currentPosKits,
-        currentNegKits,
-        tableData,
-      } = localState;
-      await this.setState({
-        rowCount,
-        currentSpecies,
-        currentPosKits,
-        currentNegKits,
-        tableData,
-      });
-    }
-    console.log("State loaded.");
-  };
-
-  //grabs all kits from db, generates array of allSpecies, generates hash of allKitIDs
-  //sets allKits, allSpecies, allKitIDs on state
-  fetchKitsFromDatabase = async () => {
-    console.log("Fetching kits from database...");
-    const responseData = await apis
-      .getAllKits()
-      .then((res) => res.data.data)
-      .catch((err) => console.error(err));
-
-    const allKits = [];
-    for (let kit of responseData) {
-      //only grab the fields needed, excluding timestamps and database indices
-      const { id, name, species, type, constants } = kit;
-      allKits.push({
-        id,
-        name,
-        species,
-        type,
-        constants,
-      });
-    }
-
-    const allSpecies = this.extractAllSpecies(allKits).sort();
-    const allKitIDs = this.createKitIDHash(allKits);
-
-    await this.setState({ allKits, allSpecies, allKitIDs });
-    console.log("All kits loaded.");
-  };
-
-  createKitIDHash = (allKits) => {
-    let allKitIDs = new Set();
-    for (let kit of allKits) {
-      allKitIDs.add(kit.id);
-    }
-    return allKitIDs;
-  };
-
-  extractAllSpecies = (allKits) => {
-    const speciesSet = new Set();
-    for (let kit of allKits) {
-      speciesSet.add(kit.species);
-    }
-    return Array.from(speciesSet);
-  };
-
-  updateLocalStorage = () => {
-    localStorage.setItem("appState", JSON.stringify(this.state));
-  };
-
-  modifyRowCount = (modification) => {
-    if (modification === "add")
-      this.setState({ rowCount: this.state.rowCount + 1 });
-    else if (modification === "subtract")
-      this.setState({ rowCount: this.state.rowCount - 1 });
-  };
-
-  //finds the current species' kits in allKits. calls this.sortKits to separate into positive and negative kit arrays
-  //sets currentSpecies, currentPosKits, currentNegKits on state
+  /**************
+   Kits component
+  ***************/
   selectSpecies = async (currentSpecies) => {
     const currentKits = this.state.allKits.filter(
       (kit) => kit.species === currentSpecies
@@ -205,25 +190,15 @@ class App extends Component {
     return { currentPosKits: positiveKits, currentNegKits: negativeKits };
   };
 
+  /******************
+   table modification
+  *******************/
   updateTable = async (modification, kit) => {
-    const tableData = cloneDeep(this.state.tableData);
+    let tableData = cloneDeep(this.state.tableData);
     const tableSpecies = tableData[kit.species];
+
     if (modification === "add") {
-      tableData[kit.species] = tableData[kit.species] || {};
-      const tableSpecies = tableData[kit.species];
-
-      tableSpecies[kit.id] = tableSpecies[kit.id] || {};
-      const speciesKit = tableSpecies[kit.id];
-
-      if (!Object.keys(speciesKit).length) {
-        Object.assign(speciesKit, kit);
-        speciesKit.samples = [];
-      }
-
-      let kitSamples = speciesKit.samples;
-      const newSample = Array(kit.constants.length + 2).fill("");
-      kitSamples.push(newSample);
-
+      tableData = this.addRowToTable(kit, tableData);
       await this.modifyRowCount(modification);
     } else if (
       modification === "subtract" &&
@@ -244,10 +219,33 @@ class App extends Component {
       await this.modifyRowCount(modification);
     }
     await this.setState({ tableData });
-    console.log(this.state.tableData);
 
     this.updateLocalStorage();
   };
+
+  addRowToTable = (kit, tableData) => {
+    //consecutively move deeper into table, assigning empty obj if needed
+    tableData[kit.species] = tableData[kit.species] || {};
+    const tableSpecies = tableData[kit.species];
+
+    tableSpecies[kit.id] = tableSpecies[kit.id] || {};
+    const speciesKit = tableSpecies[kit.id];
+
+    //if the kit is not in table, add it
+    if (!Object.keys(speciesKit).length) {
+      Object.assign(speciesKit, kit);
+      speciesKit.samples = [];
+    }
+
+    //add new sample row of empty strings
+    let kitSamples = speciesKit.samples;
+    const newSample = Array(kit.constants.length + 2).fill("");
+    kitSamples.push(newSample);
+
+    return tableData;
+  };
+
+  subtractRowFromTable = (kit, tableData) => {};
 
   updateTableData = async (updatedKit, mod) => {
     const tableData = cloneDeep(this.state.tableData);
@@ -279,33 +277,22 @@ class App extends Component {
     this.updateLocalStorage();
   };
 
-  normalizeCellCount = (constantCellDivisor, cellCount) => {
-    //grab the exponent from the kit cell divisor and convert into powers of 10 above 10^6
-    const kitCellDivisor =
-      10 ** ((constantCellDivisor && constantCellDivisor.split("^")[1]) - 6);
-    //6 corresponds to 10^6
+  /***********
+   table input
+  ************/
+  handleTableInput = async (inputType, kit, sampleRow, input) => {
+    const tableData = cloneDeep(this.state.tableData);
+    let row = tableData[kit.species][kit.id].samples[sampleRow];
 
-    let normalizedCellCount = cellCount / kitCellDivisor;
-
-    //if the constant is for a "up to 10^XX" kind of parameter, round up
-    if (constantCellDivisor.includes("up to")) {
-      normalizedCellCount = Math.ceil(normalizedCellCount);
+    if (inputType === "sampleID") {
+      row[0] = input;
+    } else if (inputType === "cellCount") {
+      row[1] = input;
+      this.calculateCells(row, kit.constants, input);
     }
 
-    return normalizedCellCount;
-  };
-
-  calculateVolume = (constantCellDivisor, kitConstant, cellCount) => {
-    const normalizedCellCount = this.normalizeCellCount(
-      constantCellDivisor,
-      cellCount
-    );
-    let finalVol = kitConstant * normalizedCellCount;
-
-    //cap the volume at 50 mL -> lab protocol
-    if (finalVol > 50000) finalVol = 50000;
-
-    return finalVol;
+    await this.setState({ tableData });
+    this.updateLocalStorage();
   };
 
   calculateCells = (row, constants, cellCount) => {
@@ -334,18 +321,52 @@ class App extends Component {
     }
   };
 
-  handleTableInput = async (inputType, kit, sampleRow, input) => {
-    const tableData = cloneDeep(this.state.tableData);
-    let row = tableData[kit.species][kit.id].samples[sampleRow];
+  calculateVolume = (constantCellDivisor, kitConstant, cellCount) => {
+    const normalizedCellCount = this.normalizeCellCount(
+      constantCellDivisor,
+      cellCount
+    );
+    let finalVol = kitConstant * normalizedCellCount;
 
-    if (inputType === "sampleID") {
-      row[0] = input;
-    } else if (inputType === "cellCount") {
-      row[1] = input;
-      this.calculateCells(row, kit.constants, input);
+    //cap the volume at 50 mL -> lab protocol
+    if (finalVol > 50000) finalVol = 50000;
+
+    return finalVol;
+  };
+
+  normalizeCellCount = (constantCellDivisor, cellCount) => {
+    //grab the exponent from the kit cell divisor and convert into powers of 10 above 10^6
+    const kitCellDivisor =
+      10 ** ((constantCellDivisor && constantCellDivisor.split("^")[1]) - 6);
+    //6 corresponds to 10^6
+
+    let normalizedCellCount = cellCount / kitCellDivisor;
+
+    //if the constant is for a "up to 10^XX" kind of parameter, round up
+    if (constantCellDivisor.includes("up to")) {
+      normalizedCellCount = Math.ceil(normalizedCellCount);
     }
 
-    await this.setState({ tableData });
+    return normalizedCellCount;
+  };
+
+  /**************
+   table deleting
+  ***************/
+  handleTableDeleteButton = async (speciesOrKit, species, kitID) => {
+    let rowCount = this.state.rowCount;
+    let tableData = cloneDeep(this.state.tableData);
+
+    if (speciesOrKit === "kit") {
+      rowCount = this.deleteKitFromTable(rowCount, tableData, species, kitID);
+    } else if (speciesOrKit === "species") {
+      rowCount = this.deleteSpeciesFromTable(rowCount, tableData, species);
+    }
+
+    await this.setState({
+      rowCount,
+      tableData,
+    });
     this.updateLocalStorage();
   };
 
@@ -374,29 +395,30 @@ class App extends Component {
     return rowCount;
   };
 
-  handleTableDeleteButton = async (speciesOrKit, species, kitID) => {
-    let rowCount = this.state.rowCount;
-    let tableData = cloneDeep(this.state.tableData);
-
-    if (speciesOrKit === "kit") {
-      rowCount = this.deleteKitFromTable(rowCount, tableData, species, kitID);
-    } else if (speciesOrKit === "species") {
-      rowCount = this.deleteSpeciesFromTable(rowCount, tableData, species);
-    }
-
-    await this.setState({
-      rowCount,
-      tableData,
-    });
-    this.updateLocalStorage();
-  };
-
   clearTable = async () => {
     await this.setState({
       rowCount: 0,
       tableData: {},
     });
     this.updateLocalStorage();
+  };
+
+  /***************
+   other functions
+   ***************/
+  setLoggedInStatus = (bool) => {
+    this.setState({ loggedIn: bool });
+  };
+
+  updateLocalStorage = () => {
+    localStorage.setItem("appState", JSON.stringify(this.state));
+  };
+
+  modifyRowCount = (modification) => {
+    if (modification === "add")
+      this.setState({ rowCount: this.state.rowCount + 1 });
+    else if (modification === "subtract")
+      this.setState({ rowCount: this.state.rowCount - 1 });
   };
 
   render() {

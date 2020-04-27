@@ -4,8 +4,6 @@ import LinkButton from "./LinkButton.jsx";
 import Footer from "./Footer";
 import "./Table.css";
 
-//THINGS TO DO:
-
 const Table = (props) => {
   const generateSampleCells = (sampleRow, kit, rowIdx) => {
     const cells = [];
@@ -206,4 +204,5 @@ const Table = (props) => {
     </div>
   );
 };
+
 export default Table;

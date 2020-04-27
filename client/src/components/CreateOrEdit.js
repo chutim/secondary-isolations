@@ -6,8 +6,6 @@ import memoize from "memoize-one";
 import apis from "../api";
 import "./CreateOrEdit.css";
 
-//THINGS TO DO
-
 class CreateOrEdit extends Component {
   constructor(props) {
     super(props);
@@ -34,7 +32,9 @@ class CreateOrEdit extends Component {
     }
   };
 
-  /*--------------------------CDM functions------------------------------ */
+  /**************
+   CDM functions
+  ****************/
   fetchKitByID = async (kitID) => {
     console.log("Finding kit data based on URL...");
     let kit = await apis
@@ -49,7 +49,8 @@ class CreateOrEdit extends Component {
   };
 
   loadKitToEdit = async () => {
-    //grab the kit data pushed into the history object (location.state). if the user just went to the url directly, e.g., didn't click in from a kit, there is no history so query the db
+    //grab the kit data pushed into the history object (location.state)
+    //if the user just went to the url directly, e.g., didn't click in from a kit, there is no history so query the db
     if (this.props.location.state) {
       await this.setState(this.props.location.state);
     } else {
@@ -74,7 +75,9 @@ class CreateOrEdit extends Component {
     console.log("Saved create kit data loaded.");
   };
 
-  /*---------------------input field suggestions--------------------------- */
+  /**********************
+   input suggestion lists
+  ************************/
   generateConstantsDatalists = memoize((allKits) => {
     if (!allKits) return;
     const constantNames = this.createArrayOfNonRepeatingElements(
@@ -106,7 +109,9 @@ class CreateOrEdit extends Component {
     return Array.from(set).sort();
   };
 
-  /*--------------------------input handlers------------------------------ */
+  /***************
+   input handlers
+   ***************/
   handleInputConstant = async (e, constantRow, constantType) => {
     const constants = cloneDeep(this.state.constants);
     switch (constantType) {
@@ -152,7 +157,9 @@ class CreateOrEdit extends Component {
     );
   };
 
-  /*-------------------------form validation------------------------------ */
+  /***************
+   form validation
+   ***************/
   capitalizeWords = (string) => {
     const arrayOfWords = string.split(" ");
     const capitalizedArray = arrayOfWords.map((word) => {
@@ -212,7 +219,9 @@ class CreateOrEdit extends Component {
     };
   };
 
-  /*--------------------------form submission------------------------------ */
+  /***************
+   form submission
+   ***************/
   handleSubmit = async (e, updateOrCreate) => {
     e.preventDefault();
     if (this.validateFields() === false) return;
@@ -255,16 +264,16 @@ class CreateOrEdit extends Component {
     }
 
     await this.props.fetchKitsFromDatabase();
-    //after App has finished grabbing the new set of kits, update the kits for the currentSpecies, in case the user goes back to the species Kits page, should see the new update
+    //update species' kits in Kits component, in case user goes back
     await this.props.selectSpecies(this.props.currentSpecies);
   };
 
   deleteKit = async () => {
     const { id, name, species, type, constants } = cloneDeep(this.state);
     await apis.deleteKitById(id).catch((err) => console.error(err));
-    //update App state
+
     await this.props.fetchKitsFromDatabase();
-    //update species' kits in Kits component if necessary
+    //update species' kits in Kits component, in case user goes back
     await this.props.selectSpecies(this.props.currentSpecies);
 
     if (this.props.tableData[species][id]) {
@@ -299,7 +308,9 @@ class CreateOrEdit extends Component {
     this.setState({ showAlert: "" });
   };
 
-  /*---------------------------other functions----------------------------- */
+  /***************
+   other functions
+   ***************/
   updateLocalStorage = (createOrUpdate) => {
     if (createOrUpdate === "create")
       localStorage.setItem("createState", JSON.stringify(this.state));
@@ -331,7 +342,6 @@ class CreateOrEdit extends Component {
       this.props.match.params.kitID ? "update" : "create"
     );
   };
-  /*--------------------------------------------------------------------- */
 
   render() {
     const datalists = this.generateConstantsDatalists(this.props.allKits);
