@@ -66,18 +66,10 @@ const Table = (props) => {
                 colSpan={kit.constants.length + 2}
               >
                 <div className="kit-table-header">
-                  <LinkButton
-                    to={`/edit/${kit.id}`}
-                    className={
-                      props.loggedIn
-                        ? "edit-button no-print-spacer"
-                        : "edit-button logged-out-edit-button"
-                    }
-                    //attaches kit object to props.location.state
-                    kit={kit}
-                  >
-                    <i className="fas fa-pen"></i>
-                  </LinkButton>
+                  <div>
+                    <button>-</button>
+                    <button>+</button>
+                  </div>
 
                   <div className="kit-table-header-text-container">
                     <div className="kit-table-header-name">
@@ -96,15 +88,32 @@ const Table = (props) => {
                       ({kit.type} Selection)
                     </div>
                   </div>
-
-                  <button
-                    className="delete-button delete-kit no-print-spacer"
-                    onClick={() =>
-                      props.handleTableDeleteButton("kit", kit.species, kit.id)
-                    }
-                  >
-                    <i className="fas fa-trash-alt"></i>
-                  </button>
+                  <div>
+                    <LinkButton
+                      to={`/edit/${kit.id}`}
+                      className={
+                        props.loggedIn
+                          ? "edit-button no-print-spacer"
+                          : "edit-button logged-out-edit-button"
+                      }
+                      //attaches kit object to props.location.state
+                      kit={kit}
+                    >
+                      <i className="fas fa-pen"></i>
+                    </LinkButton>
+                    <button
+                      className="delete-button delete-kit no-print-spacer"
+                      onClick={() =>
+                        props.handleTableDeleteButton(
+                          "kit",
+                          kit.species,
+                          kit.id
+                        )
+                      }
+                    >
+                      <i className="fas fa-trash-alt"></i>
+                    </button>
+                  </div>
                 </div>
               </th>
             </tr>
@@ -133,7 +142,7 @@ const Table = (props) => {
 
           <tbody>{generateSampleRows(kit)}</tbody>
 
-          <tfoot className="no-print">
+          {/* <tfoot className="no-print">
             <tr>
               <td colSpan={kit.constants.length + 2}>
                 <div className="kit-table-footer">
@@ -153,7 +162,7 @@ const Table = (props) => {
                 </div>
               </td>
             </tr>
-          </tfoot>
+          </tfoot> */}
         </table>
       );
     }
