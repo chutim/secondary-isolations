@@ -37,8 +37,12 @@
     margin-left: 0.5in;
     margin-right: 0.5in;
   }
+  .kit-table + .kit-table {
+    margin-top: 20px;
+  }
   .kit-table-header {
     padding: 0px;
+    margin-bottom: 7px;
   }
   .kit-table-header-text-container {
     display: flex;
