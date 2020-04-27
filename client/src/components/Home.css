@@ -52,8 +52,6 @@
 .species-button:hover {
   background-color: #fff0d3;
   border: 1px solid #f1ddb5;
-
-  cursor: pointer;
 }
 
 .species-button:focus {

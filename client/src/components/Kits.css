@@ -115,10 +115,6 @@
   padding-bottom: 6px;
 }
 
-.kit-options-button:hover {
-  cursor: pointer;
-}
-
 .kit-add-button {
   border-radius: 5px 20px 20px 5px;
   padding-right: 10px;

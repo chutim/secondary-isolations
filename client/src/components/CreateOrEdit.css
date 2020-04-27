@@ -110,10 +110,6 @@
   caret-color: transparent;
 }
 
-.select-type option {
-  cursor: pointer;
-}
-
 .error {
   background-color: #ffdca7;
 }
@@ -153,6 +149,16 @@
   top: 250px;
   transition: 0.3s;
   z-index: -1;
+}
+
+input:disabled {
+  color: black;
+  background-color: #ebebeb;
+  border-color: #ebebeb;
+}
+
+input:disabled:hover {
+  cursor: not-allowed;
 }
 
 /* ----------------TEXT---------------- */

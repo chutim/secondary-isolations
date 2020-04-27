@@ -100,9 +100,21 @@ header {
   padding: 30px;
 }
 
+div:hover {
+  cursor: default;
+}
+
 /* --------------BUTTONS--------------- */
 button {
   transition: 0.3s;
+}
+
+button:hover {
+  cursor: pointer;
+}
+
+.hover-pointer:hover {
+  cursor: pointer;
 }
 
 .edit-button {
@@ -116,7 +128,6 @@ button {
 
 .edit-button:hover {
   background-color: #ffb223;
-  cursor: pointer;
 }
 
 .edit-button:focus {

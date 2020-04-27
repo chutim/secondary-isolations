@@ -27,10 +27,6 @@
   margin-bottom: 10px;
 }
 
-.nav-button:hover {
-  cursor: pointer;
-}
-
 .nav-button:focus {
   outline: none;
   box-shadow: 0px 0px 10px 2px #8e8cff;

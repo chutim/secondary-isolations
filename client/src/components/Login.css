@@ -54,10 +54,6 @@
   text-transform: uppercase;
 }
 
-.login-button:hover {
-  cursor: pointer;
-}
-
 .login-button:focus {
   outline: none;
   box-shadow: 0px 0px 7px 2px #8e8cff;

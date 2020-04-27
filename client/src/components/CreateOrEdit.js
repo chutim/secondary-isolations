@@ -570,7 +570,7 @@ class CreateOrEdit extends Component {
               Clear All
             </button>
             <input
-              className="create-master-button create-create-update-button"
+              className="create-master-button create-create-update-button hover-pointer"
               type="submit"
               value={
                 this.props.match.params.kitID ? "Update Kit" : "Create Kit"
