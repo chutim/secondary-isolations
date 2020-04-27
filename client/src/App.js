@@ -62,7 +62,7 @@ class App extends Component {
       loggedIn: false,
       allKits: [],
       rowCount: 0,
-      currentSpecies: "No Species Selected",
+      currentSpecies: "",
       currentPosKits: [],
       currentNegKits: [],
       tableData: {},
@@ -140,7 +140,7 @@ class App extends Component {
   };
 
   createKitIDHash = (allKits) => {
-    let allKitIDs = new Set();
+    const allKitIDs = new Set();
     for (let kit of allKits) {
       allKitIDs.add(kit.id);
     }
@@ -239,13 +239,8 @@ class App extends Component {
     let kitSamples = tableSpecies[kit.id].samples;
     kitSamples.pop();
 
-    //if kit has no more samples, get rid of it
     if (!kitSamples.length) {
-      delete tableSpecies[kit.id];
-    }
-    //if species has no more kits, get rid of it
-    if (!Object.keys(tableSpecies).length) {
-      delete tableData[kit.species];
+      this.deleteKitFromTable(tableData, kit.species, kit.id);
     }
   };
 
@@ -363,10 +358,10 @@ class App extends Component {
     let rowCount = this.state.rowCount;
     let tableData = cloneDeep(this.state.tableData);
 
-    if (speciesOrKit === "kit") {
-      rowCount = this.deleteKitFromTable(rowCount, tableData, species, kitID);
-    } else if (speciesOrKit === "species") {
-      rowCount = this.deleteSpeciesFromTable(rowCount, tableData, species);
+    if (speciesOrKit === "species") {
+      rowCount = this.deleteSpeciesFromTable(tableData, species, rowCount);
+    } else if (speciesOrKit === "kit") {
+      rowCount = this.deleteKitFromTable(tableData, species, kitID, rowCount);
     }
 
     await this.setState({
@@ -376,8 +371,7 @@ class App extends Component {
     this.updateLocalStorage();
   };
 
-  deleteSpeciesFromTable = (rowCount, tableData, species) => {
-    //deduct the numbers of samples per kit
+  deleteSpeciesFromTable = (tableData, species, rowCount) => {
     const kits = tableData[species];
     for (let kitID in kits) {
       rowCount -= kits[kitID].samples.length;
@@ -388,8 +382,10 @@ class App extends Component {
     return rowCount;
   };
 
-  deleteKitFromTable = (rowCount, tableData, species, kitID) => {
-    rowCount -= tableData[species][kitID].samples.length;
+  deleteKitFromTable = (tableData, species, kitID, rowCount) => {
+    if (rowCount) {
+      rowCount -= tableData[species][kitID].samples.length;
+    }
 
     delete tableData[species][kitID];
 
@@ -417,7 +413,23 @@ class App extends Component {
   };
 
   updateLocalStorage = () => {
-    localStorage.setItem("appState", JSON.stringify(this.state));
+    const {
+      rowCount,
+      currentSpecies,
+      currentPosKits,
+      currentNegKits,
+      tableData,
+    } = this.state;
+    localStorage.setItem(
+      "appState",
+      JSON.stringify({
+        rowCount,
+        currentSpecies,
+        currentPosKits,
+        currentNegKits,
+        tableData,
+      })
+    );
   };
 
   modifyRowCount = (modification) => {

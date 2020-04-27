@@ -99,7 +99,11 @@ const Kits = (props) => {
   return (
     <div className="page">
       <header>
-        <div className="page-title">{props.currentSpecies} Kits</div>
+        <div className="page-title">
+          {props.currentSpecies
+            ? `${props.currentSpecies} Kits`
+            : "No Species Selected"}
+        </div>
       </header>
       <div className="kits-body scrollable-body">
         {generatePosKitSection(true)}
