@@ -35,6 +35,7 @@
   margin-left: 7%;
   margin-right: 7%;
   margin-top: 3%;
+  box-shadow: none;
 }
 
 .table-of-constants-container {
@@ -48,6 +49,7 @@
   width: 100%;
   table-layout: fixed;
   background-color: inherit;
+  box-shadow: none;
 }
 
 .toc-head {

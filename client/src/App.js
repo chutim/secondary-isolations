@@ -297,7 +297,7 @@ class App extends Component {
 
       //if the constant is for an incubation, a spin, or column washes, just render it
       if (constantCellDivisor === "n/a") {
-        row[i] = kitConstant;
+        row[i] = cellCount !== "" ? kitConstant : "";
         continue;
       }
 

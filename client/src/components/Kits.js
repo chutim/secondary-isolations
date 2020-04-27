@@ -69,7 +69,7 @@ const Kits = (props) => {
                       props.updateTable("subtract", kit);
                     }}
                   >
-                    -
+                    <i className="fas fa-minus"></i>
                   </button>
 
                   <div className="kit-count">
@@ -85,7 +85,7 @@ const Kits = (props) => {
                       props.updateTable("add", kit);
                     }}
                   >
-                    +
+                    <i className="fas fa-plus"></i>
                   </button>
                 </div>
               </div>

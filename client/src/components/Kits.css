@@ -42,7 +42,7 @@
   justify-content: space-between;
   background-color: #ffffff;
   padding: 10px;
-  border-radius: 20px;
+  border-radius: 16px;
 }
 
 .kit-info-container + .kit-info-container {
@@ -106,21 +106,20 @@
 
 /* --------------BUTTONS--------------- */
 .kit-options-button {
+  color: white;
   border: none;
   height: 43px;
   width: 43px;
-  font-size: 33px;
-  font-weight: 200;
-  line-height: 0px;
-  padding-bottom: 6px;
+  font-size: 22px;
+  padding: 1px;
 }
 
 .kit-add-button {
   border-radius: 5px 20px 20px 5px;
-  padding-right: 10px;
+  padding-right: 4px;
 }
 
 .kit-remove-button {
   border-radius: 20px 5px 5px 20px;
-  padding-left: 11px;
+  padding-left: 4px;
 }
