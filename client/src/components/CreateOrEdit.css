@@ -142,6 +142,9 @@
 }
 
 .alert-box-hidden {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   border-radius: 20px;
   opacity: 0;
   background-color: #ffcf98;

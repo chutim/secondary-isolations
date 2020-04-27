@@ -124,27 +124,20 @@ class App extends Component {
       });
     }
 
-    const allSpecies = this.extractAllSpecies(allKits).sort();
-    const allKitIDs = this.createKitIDHash(allKits);
+    const allSpeciesSet = this.extractUniqueProps(allKits, "species");
+    const allSpecies = Array.from(allSpeciesSet).sort();
+    const allKitIDs = this.extractUniqueProps(allKits, "id");
 
     await this.setState({ allKits, allSpecies, allKitIDs });
     console.log("All kits loaded.");
   };
 
-  extractAllSpecies = (allKits) => {
-    const speciesSet = new Set();
+  extractUniqueProps = (allKits, prop) => {
+    const set = new Set();
     for (let kit of allKits) {
-      speciesSet.add(kit.species);
+      set.add(kit[prop]);
     }
-    return Array.from(speciesSet);
-  };
-
-  createKitIDHash = (allKits) => {
-    const allKitIDs = new Set();
-    for (let kit of allKits) {
-      allKitIDs.add(kit.id);
-    }
-    return allKitIDs;
+    return set;
   };
 
   getUser = () => {

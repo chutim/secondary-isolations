@@ -80,17 +80,13 @@ class CreateOrEdit extends Component {
   ************************/
   generateConstantsDatalists = memoize((allKits) => {
     if (!allKits) return;
-    const constantNames = this.createArrayOfNonRepeatingElements(
-      allKits,
-      0,
-      true
-    );
-    const constantUnits = this.createArrayOfNonRepeatingElements(allKits, 1);
-    const constantCells = this.createArrayOfNonRepeatingElements(allKits, 3);
+    const constantNames = this.createUniqueElArr(allKits, 0, true);
+    const constantUnits = this.createUniqueElArr(allKits, 1);
+    const constantCells = this.createUniqueElArr(allKits, 3);
     return { constantNames, constantUnits, constantCells };
   });
 
-  createArrayOfNonRepeatingElements = (allKits, indexToUse, appendUnits) => {
+  createUniqueElArr = (allKits, indexToUse, appendUnits) => {
     const allConstantGroups = allKits.reduce((finalArray, kit) => {
       finalArray.push(...kit.constants);
       return finalArray;
@@ -236,7 +232,7 @@ class CreateOrEdit extends Component {
         })
         .catch((err) => console.error(err));
 
-      if (this.props.tableData[species][id]) {
+      if (this.props.tableData[species] && this.props.tableData[species][id]) {
         this.props.updateTableData(
           {
             id,
@@ -275,7 +271,7 @@ class CreateOrEdit extends Component {
     //update species' kits in Kits component, in case user goes back
     await this.props.selectSpecies(this.props.currentSpecies);
 
-    if (this.props.tableData[species][id]) {
+    if (this.props.tableData[species] && this.props.tableData[species][id]) {
       await this.props.updateTableData(
         { id, name, species, type, constants },
         "delete"
