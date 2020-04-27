@@ -194,14 +194,14 @@ class App extends Component {
    table modification
   *******************/
   updateTable = async (modification, kit) => {
-    let tableData = cloneDeep(this.state.tableData);
+    const tableData = cloneDeep(this.state.tableData);
 
     if (modification === "add") {
-      tableData = this.addRowToTable(kit, tableData);
+      this.addRowToTable(kit, tableData);
       await this.modifyRowCount(modification);
     } else if (modification === "subtract") {
-      tableData = this.subtractRowFromTable(kit, tableData);
-      if (!tableData) return;
+      const noKitInTable = this.subtractRowFromTable(kit, tableData);
+      if (noKitInTable) return;
       await this.modifyRowCount(modification);
     }
 
@@ -227,15 +227,13 @@ class App extends Component {
     let kitSamples = speciesKit.samples;
     const newSample = Array(kit.constants.length + 2).fill("");
     kitSamples.push(newSample);
-
-    return tableData;
   };
 
   subtractRowFromTable = (kit, tableData) => {
     const tableSpecies = tableData[kit.species];
     //if the kit is not in the table, nothing to subtract
     if (!tableSpecies || !tableSpecies[kit.id]) {
-      return false;
+      return true;
     }
 
     let kitSamples = tableSpecies[kit.id].samples;
@@ -249,28 +247,12 @@ class App extends Component {
     if (!Object.keys(tableSpecies).length) {
       delete tableData[kit.species];
     }
-
-    return tableData;
   };
 
   updateTableData = async (updatedKit, mod) => {
     const tableData = cloneDeep(this.state.tableData);
     if (mod === "update") {
-      const { id, name, species, type, constants } = updatedKit;
-      const kit = tableData[species][id];
-      kit.name = name;
-      kit.type = type;
-      kit.constants = constants;
-
-      for (let rowIdx in kit.samples) {
-        let row = kit.samples[rowIdx];
-        const sampleID = row[0];
-        const cellCount = row[1];
-        row = [sampleID, cellCount, ...Array(constants.length).fill("")];
-        this.calculateCells(row, constants, cellCount);
-        kit.samples[rowIdx] = row;
-      }
-
+      this.updateKitInTable(updatedKit, tableData);
       await this.setState({ tableData });
     } else if (mod === "delete") {
       await this.handleTableDeleteButton(
@@ -280,6 +262,25 @@ class App extends Component {
       );
     }
     this.updateLocalStorage();
+  };
+
+  updateKitInTable = (updatedKit, tableData) => {
+    const { id, name, species, type, constants } = updatedKit;
+    const kit = tableData[species][id];
+    kit.name = name;
+    kit.type = type;
+    kit.constants = constants;
+
+    //ADD LOGIC SO THAT IT ONLY RECALCULATES IF THE CONSTANT HAS CHANGED
+    //recalculate the sample rows
+    for (let rowIdx in kit.samples) {
+      let row = kit.samples[rowIdx];
+      const sampleID = row[0];
+      const cellCount = row[1];
+      row = [sampleID, cellCount, ...Array(constants.length).fill("")];
+      this.calculateCells(row, constants, cellCount);
+      kit.samples[rowIdx] = row;
+    }
   };
 
   /***********
