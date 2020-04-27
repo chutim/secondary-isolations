@@ -51,7 +51,6 @@ updateKit = async (req, res) => {
       });
     }
     kit.name = body.name;
-    kit.species = body.species;
     kit.type = body.type;
     kit.constants = body.constants;
     kit

@@ -231,7 +231,6 @@ class CreateOrEdit extends Component {
       await apis
         .updateKitById(id, {
           name,
-          species,
           type,
           constants,
         })

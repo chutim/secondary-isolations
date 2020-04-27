@@ -259,7 +259,6 @@ class App extends Component {
       const { id, name, species, type, constants } = updatedKit;
       const kit = tableData[species][id];
       kit.name = name;
-      kit.species = species;
       kit.type = type;
       kit.constants = constants;
 
