@@ -13,48 +13,6 @@ import {
 import apis from "./api";
 import "./App.css";
 
-//THINGS TO DO
-
-/*
-DATA STRUCTURES EXAMPLES:
-
-kit = {
-  id: "130-096-537",
-  name: "Pan Monocyte Isolation Kit",
-  species: "Human",
-  type: "Negative",
-  constants: [
-    ["Buffer", "µL", "40", "10^7"],
-    ["FcR Blocking Reagent", "µL", "10", "10^7"],
-    ["Biotin-Antibody Cocktail", "µL", "10", "10^7"],
-    ["Incubation", "min", "5", "n/a"],
-    etc...
-  ],
-};
-
-tableData = {
-  Human: {
-    "130-096-537": {
-      id: "130-096-537",
-      name: "Pan Monocyte Isolation Kit",
-      species: "Human",
-      type: "Negative",
-      constants: [
-        ["Buffer", "µL", "40", "10^7"],
-        ["FcR Blocking Reagent", "µL", "10", "10^7"],
-        ["Biotin-Antibody Cocktail", "µL", "10", "10^7"],
-        ["Incubation", "min", "5", "n/a"],
-        etc...
-      ],
-      samples: [
-        ["sample1", "25.2", "100.8", "25.2", "25.2", "5", etc...],
-        ["sample2", "10", "40", "10", "10", "5", etc...],
-      ],
-    },
-  },
-};
-*/
-
 class App extends Component {
   constructor() {
     super();
@@ -522,3 +480,43 @@ class App extends Component {
 }
 
 export default App;
+
+/*
+DATA STRUCTURES EXAMPLES:
+
+kit = {
+  id: "130-096-537",
+  name: "Pan Monocyte Isolation Kit",
+  species: "Human",
+  type: "Negative",
+  constants: [
+    ["Buffer", "µL", "40", "10^7"],
+    ["FcR Blocking Reagent", "µL", "10", "10^7"],
+    ["Biotin-Antibody Cocktail", "µL", "10", "10^7"],
+    ["Incubation", "min", "5", "n/a"],
+    etc...
+  ],
+};
+
+tableData = {
+  Human: {
+    "130-096-537": {
+      id: "130-096-537",
+      name: "Pan Monocyte Isolation Kit",
+      species: "Human",
+      type: "Negative",
+      constants: [
+        ["Buffer", "µL", "40", "10^7"],
+        ["FcR Blocking Reagent", "µL", "10", "10^7"],
+        ["Biotin-Antibody Cocktail", "µL", "10", "10^7"],
+        ["Incubation", "min", "5", "n/a"],
+        etc...
+      ],
+      samples: [
+        ["sample1", "25.2", "100.8", "25.2", "25.2", "5", etc...],
+        ["sample2", "10", "40", "10", "10", "5", etc...],
+      ],
+    },
+  },
+};
+*/
