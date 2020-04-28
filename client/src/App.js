@@ -66,7 +66,6 @@ class App extends Component {
         tableData,
       });
     }
-    console.log(this.state);
     console.log("State loaded.");
   };
 
