@@ -1,3 +1,4 @@
+//the Invalid component is shown whenever an invalid URL is accessed, or when the user types in the URL to edit a kit that doesn't exist.
 import React from "react";
 import Footer from "./Footer";
 import "./Invalid.css";

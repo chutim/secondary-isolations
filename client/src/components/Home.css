@@ -9,7 +9,8 @@
 
 /* ----------------TEXT---------------- */
 #home-title {
-  font-size: 32px;
+  margin-top: 30px;
+  font-size: 34px;
   font-weight: 600;
   text-transform: uppercase;
 }

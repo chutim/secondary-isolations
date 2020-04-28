@@ -66,8 +66,8 @@ class App extends Component {
       currentPosKits: [],
       currentNegKits: [],
       tableData: {},
-      allSpecies: [],
-      allKitIDs: {}, //used for creating kit. checking if ID already exists
+      allSpecies: [], //for listing species on Home, & creating kit datalist
+      allKitIDs: {}, //for creating kit, checking if ID already exists
     };
   }
 
@@ -126,6 +126,7 @@ class App extends Component {
 
     const allSpeciesSet = this.extractUniqueProps(allKits, "species");
     const allSpecies = Array.from(allSpeciesSet).sort();
+
     const allKitIDs = this.extractUniqueProps(allKits, "id");
 
     await this.setState({ allKits, allSpecies, allKitIDs });
@@ -173,8 +174,8 @@ class App extends Component {
   };
 
   sortKits = (currentKits) => {
-    const positiveKits = [];
-    const negativeKits = [];
+    const positiveKits = [],
+      negativeKits = [];
 
     for (let kit of currentKits) {
       if (kit.type === "Positive") positiveKits.push(kit);
@@ -217,9 +218,8 @@ class App extends Component {
     }
 
     //add new sample row of empty strings
-    let kitSamples = speciesKit.samples;
     const newSample = Array(kit.constants.length + 2).fill("");
-    kitSamples.push(newSample);
+    speciesKit.samples.push(newSample);
   };
 
   subtractRowFromTable = (kit, tableData) => {
@@ -229,7 +229,7 @@ class App extends Component {
       return true;
     }
 
-    let kitSamples = tableSpecies[kit.id].samples;
+    const kitSamples = tableSpecies[kit.id].samples;
     kitSamples.pop();
 
     if (!kitSamples.length) {
@@ -237,6 +237,7 @@ class App extends Component {
     }
   };
 
+  //called after updating/deleting a kit
   updateTableData = async (updatedKit, mod) => {
     const tableData = cloneDeep(this.state.tableData);
     if (mod === "update") {
@@ -259,12 +260,11 @@ class App extends Component {
     kit.type = type;
     kit.constants = constants;
 
-    //ADD LOGIC SO THAT IT ONLY RECALCULATES IF THE CONSTANT HAS CHANGED
     //recalculate the sample rows
     for (let rowIdx in kit.samples) {
       let row = kit.samples[rowIdx];
-      const sampleID = row[0];
-      const cellCount = row[1];
+      const sampleID = row[0],
+        cellCount = row[1];
       row = [sampleID, cellCount, ...Array(constants.length).fill("")];
       this.calculateCells(row, constants, cellCount);
       kit.samples[rowIdx] = row;
@@ -291,9 +291,9 @@ class App extends Component {
 
   calculateCells = (row, constants, cellCount) => {
     for (let i = 2; i < row.length; i++) {
-      const currentConstant = constants[i - 2];
-      const constantCellDivisor = currentConstant[3];
-      const kitConstant = currentConstant[2];
+      const currentConstant = constants[i - 2],
+        constantCellDivisor = currentConstant[3],
+        kitConstant = currentConstant[2];
 
       //if the constant is for an incubation, a spin, or column washes, just render it
       if (constantCellDivisor === "n/a") {
@@ -325,6 +325,7 @@ class App extends Component {
     //cap the volume at 50 mL -> lab protocol
     if (finalVol > 50000) finalVol = 50000;
 
+    //>200 uL micropipette increments are integers
     return finalVol < 200 ? finalVol.toFixed(1) : Math.ceil(finalVol);
   };
 
@@ -349,7 +350,7 @@ class App extends Component {
   ***************/
   handleTableDeleteButton = async (speciesOrKit, species, kitID) => {
     let rowCount = this.state.rowCount;
-    let tableData = cloneDeep(this.state.tableData);
+    const tableData = cloneDeep(this.state.tableData);
 
     if (speciesOrKit === "species") {
       rowCount = this.deleteSpeciesFromTable(tableData, species, rowCount);

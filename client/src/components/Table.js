@@ -1,4 +1,4 @@
-//the Table component displays all of the kits selected and allows the user to input sample IDs and cell counts to generate the corresponding constants. the Table can then be printed. a "clear table" button is provided to clear the Table. if the user is logged in, 'edit' buttons are rendered on each kit.
+//the Table component displays all of the kits selected and allows the user to input sample IDs, cell counts to generate the corresponding constants, and modify the amount of samples. the Table can then be printed. if the user is logged in, 'edit' buttons are rendered on each kit.
 import React from "react";
 import LinkButton from "./LinkButton.jsx";
 import Footer from "./Footer";
@@ -151,28 +151,6 @@ const Table = (props) => {
           </thead>
 
           <tbody>{generateSampleRows(kit)}</tbody>
-
-          {/* <tfoot className="no-print">
-            <tr>
-              <td colSpan={kit.constants.length + 2}>
-                <div className="kit-table-footer">
-                  <button
-                    className="kit-table-row-button add-button"
-                    onClick={() => props.updateTable("add", kit)}
-                  >
-                    Add Sample
-                  </button>
-
-                  <button
-                    className="kit-table-row-button subtract-button"
-                    onClick={() => props.updateTable("subtract", kit)}
-                  >
-                    Remove Sample
-                  </button>
-                </div>
-              </td>
-            </tr>
-          </tfoot> */}
         </table>
       );
     }

@@ -1,9 +1,7 @@
-//the Login component persists at the top of the app to allow the user to see their login status and change it if needed. the user can enter the lab password and change access from 'visitor' to 'full access', which will allow rendering/use of 'edit' and 'create' kit buttons.
+//the Login component persists at the top of the app. the user can enter the lab password and change access from 'visitor' to 'full access', which will allow rendering/use of 'edit' and 'create' kit buttons.
 import React, { Component } from "react";
 import apis from "../api";
 import "./Login.css";
-
-//THINGS TO DO
 
 class Login extends Component {
   constructor(props) {

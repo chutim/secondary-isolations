@@ -1,3 +1,4 @@
+//the Footer component is rendered at the bottom of each page, and renders buttons appropriate for the component.
 import React from "react";
 import LinkButton from "./LinkButton.jsx";
 import "./Footer.css";

@@ -16,7 +16,8 @@ class CreateOrEdit extends Component {
       type: "",
       constants: [[null, null, null, null]],
       duplicateID: false,
-      showAlert: "",
+      showAlert: false,
+      alertMsg: "",
     };
     //ref for kit type HTML input. helps clear the input's value on click, showing the user both options ("Positive" and "Negative") immediately, as opposed to only suggesting matching options
     this.typeRef = React.createRef();
@@ -80,9 +81,9 @@ class CreateOrEdit extends Component {
   ************************/
   generateConstantsDatalists = memoize((allKits) => {
     if (!allKits) return;
-    const constantNames = this.createUniqueElArr(allKits, 0, true);
-    const constantUnits = this.createUniqueElArr(allKits, 1);
-    const constantCells = this.createUniqueElArr(allKits, 3);
+    const constantNames = this.createUniqueElArr(allKits, 0, true),
+      constantUnits = this.createUniqueElArr(allKits, 1),
+      constantCells = this.createUniqueElArr(allKits, 3);
     return { constantNames, constantUnits, constantCells };
   });
 
@@ -188,7 +189,8 @@ class CreateOrEdit extends Component {
       type === "" ||
       constantsEmpty
     ) {
-      this.setState({ showAlert: "emptyFields" });
+      this.setState({ alertMsg: "emptyFields", showAlert: true });
+      // await this.setState({ showAlert: true });
       return true;
     }
     return false;
@@ -244,7 +246,7 @@ class CreateOrEdit extends Component {
           "update"
         );
       }
-      this.setState({ showAlert: "update" });
+      this.setState({ alertMsg: "update", showAlert: true });
     } else if (updateOrCreate === "create") {
       await apis
         .createKit({
@@ -255,11 +257,11 @@ class CreateOrEdit extends Component {
           constants,
         })
         .catch((err) => console.error(err));
-      this.setState({ showAlert: "create" });
+      this.setState({ alertMsg: "create", showAlert: true });
     }
 
     await this.props.fetchKitsFromDatabase();
-    //update species' kits in Kits component, in case user goes back
+    //update species' kits in Kits component, in case user directly goes back to Kits
     await this.props.selectSpecies(this.props.currentSpecies);
   };
 
@@ -282,7 +284,7 @@ class CreateOrEdit extends Component {
   };
 
   handleAlert = async () => {
-    const action = this.state.showAlert;
+    const action = this.state.alertMsg;
     //bug: if user copy/pastes the edit kit URL in a new tab, it will update the kit in db but then send the user back to the default new tab page
     switch (action) {
       case "delete":
@@ -300,7 +302,7 @@ class CreateOrEdit extends Component {
       default:
         break;
     }
-    this.setState({ showAlert: "" });
+    this.setState({ showAlert: false });
   };
 
   /***************
@@ -587,7 +589,7 @@ class CreateOrEdit extends Component {
                 className="create-master-button create-delete-button"
                 type="button"
                 onClick={() => {
-                  this.setState({ showAlert: "delete" });
+                  this.setState({ alertMsg: "delete", showAlert: true });
                 }}
               >
                 Delete Kit
@@ -598,17 +600,17 @@ class CreateOrEdit extends Component {
 
         <div
           className={
-            this.state.showAlert !== "delete" && this.state.showAlert !== ""
+            this.state.alertMsg !== "delete" && this.state.showAlert
               ? "alert-box"
               : "alert-box-hidden"
           }
         >
           <div className="alert-text">
-            {this.state.showAlert === "create"
-              ? "New isolation kit created."
-              : this.state.showAlert === "update"
+            {this.state.alertMsg === "emptyFields"
+              ? "All fields must be filled."
+              : this.state.alertMsg === "update"
               ? "Isolation kit updated."
-              : "All fields must be filled."}
+              : "New isolation kit created."}
           </div>
           <button className="alert-button" onClick={this.handleAlert}>
             OK
@@ -617,7 +619,7 @@ class CreateOrEdit extends Component {
 
         <div
           className={
-            this.state.showAlert === "delete"
+            this.state.alertMsg === "delete" && this.state.showAlert
               ? "alert-box alert-delete"
               : "alert-box-hidden alert-delete"
           }
@@ -629,7 +631,7 @@ class CreateOrEdit extends Component {
           <div className="alert-button-container">
             <button
               className="alert-button alert-button-cancel"
-              onClick={() => this.setState({ showAlert: "" })}
+              onClick={() => this.setState({ showAlert: false })}
             >
               Cancel
             </button>

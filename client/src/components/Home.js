@@ -1,10 +1,8 @@
-//the Home component contains button links to different species' kits, a button to create a new kit (CreateOrEdit component), and a button link to the Table component, which also displays how many current kits are in the Table.
+//the Home component contains button links to different species' kits, a button to create a new kit, and a button link to the Table component, which also displays how many current kits are in the Table.
 import React from "react";
 import LinkButton from "./LinkButton.jsx";
 import Footer from "./Footer";
 import "./Home.css";
-
-//THINGS TO DO
 
 const Home = (props) => {
   return (

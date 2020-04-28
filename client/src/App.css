@@ -89,6 +89,7 @@
   flex-direction: column;
   text-align: center;
   align-items: center;
+  align-content: center;
   width: 100%;
   /* height = root height (670px) - root top (10px) - header height (55px) - footer height (80px) */
   height: 525px;

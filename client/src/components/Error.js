@@ -1,3 +1,4 @@
+//the Error component renders whenever the logged-out user tries to access CreateOrEdit.
 import React from "react";
 import Footer from "./Footer";
 import "./Error.css";

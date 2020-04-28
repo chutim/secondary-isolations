@@ -112,26 +112,43 @@
   caret-color: transparent;
 }
 
-.error {
-  background-color: #ffdca7;
-}
-
 .create-section-left input {
   border: 2px solid white;
 }
 
+input.error {
+  background-color: #ffdca7;
+  border: 2px solid #ffdca7;
+}
+
 .alert-box {
+  width: 330px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   opacity: 1;
   border-radius: 20px;
   background-color: #ffcf98;
   position: absolute;
   top: 250px;
+  transition: 0.2s;
+  z-index: 100;
   box-shadow: 0 0 20px #a694d6;
+}
+
+.alert-box-hidden {
+  width: 330px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  transition: 0.2s;
-  z-index: 100;
+  opacity: 0;
+  border-radius: 20px;
+  background-color: #ffcf98;
+  position: absolute;
+  top: 250px;
+  transition: 0.3s;
+  align-self: center;
+  z-index: -1;
 }
 
 .alert-delete {
@@ -141,19 +158,6 @@
 .alert-button-container {
   display: flex;
   flex-direction: row;
-}
-
-.alert-box-hidden {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  border-radius: 20px;
-  opacity: 0;
-  background-color: #ffcf98;
-  position: absolute;
-  top: 250px;
-  transition: 0.3s;
-  z-index: -1;
 }
 
 input:disabled {
