@@ -2,6 +2,10 @@
   body {
     visibility: hidden;
   }
+  #divToPrint {
+    overflow: visible;
+    visibility: visible;
+  }
   button.edit-button {
     padding: 3px;
   }
@@ -14,10 +18,6 @@
   }
   .no-print {
     display: none;
-  }
-  #divToPrint {
-    overflow: visible;
-    visibility: visible;
   }
   .tables-header {
     margin: 0px;

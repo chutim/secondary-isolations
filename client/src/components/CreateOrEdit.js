@@ -190,7 +190,6 @@ class CreateOrEdit extends Component {
       constantsEmpty
     ) {
       this.setState({ alertMsg: "emptyFields", showAlert: true });
-      // await this.setState({ showAlert: true });
       return true;
     }
     return false;

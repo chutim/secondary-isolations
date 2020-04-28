@@ -458,7 +458,7 @@ class App extends Component {
           ></Route>
 
           <PrivateRoute
-            path="/edit/:kitID"
+            path={["/edit/:kitID", "/create"]}
             component={CreateOrEdit}
             loggedIn={this.state.loggedIn}
             allKits={this.state.allKits}
@@ -470,20 +470,6 @@ class App extends Component {
             fetchKitsFromDatabase={this.fetchKitsFromDatabase}
             selectSpecies={this.selectSpecies}
             updateTableData={this.updateTableData}
-          ></PrivateRoute>
-
-          <PrivateRoute
-            path="/create"
-            component={CreateOrEdit}
-            loggedIn={this.state.loggedIn}
-            allKits={this.state.allKits}
-            rowCount={this.state.rowCount}
-            allKitIDs={this.state.allKitIDs}
-            currentSpecies={this.state.currentSpecies}
-            allSpecies={this.state.allSpecies}
-            tableData={this.state.tableData}
-            fetchKitsFromDatabase={this.fetchKitsFromDatabase}
-            selectSpecies={this.selectSpecies}
           ></PrivateRoute>
 
           <Route
