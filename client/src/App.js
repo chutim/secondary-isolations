@@ -44,13 +44,20 @@ class App extends Component {
     const localState = JSON.parse(localStorage.getItem("appState"));
     if (localState) {
       // do not need to store/fetch allKits or allSpecies, those can change in db
-      const {
+      let {
         rowCount,
         currentSpecies,
         currentPosKits,
         currentNegKits,
         tableData,
       } = localState;
+
+      rowCount = rowCount || 0;
+      currentSpecies = currentSpecies || "";
+      currentPosKits = currentPosKits || [];
+      currentNegKits = currentNegKits || [];
+      tableData = tableData || {};
+
       await this.setState({
         rowCount,
         currentSpecies,
@@ -59,6 +66,7 @@ class App extends Component {
         tableData,
       });
     }
+    console.log(this.state);
     console.log("State loaded.");
   };
 
